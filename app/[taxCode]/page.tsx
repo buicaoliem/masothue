@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
-import { getCompany } from "@/lib/company";
+import Link from "next/link";
+import { getCompany, getNearbyCompanies } from "@/lib/company";
+import { CopyButton } from "./CopyButton";
 import styles from "./company.module.css";
 
 type Props = { params: Promise<{ taxCode: string }> };
+type Company = NonNullable<Awaited<ReturnType<typeof getCompany>>>;
 
 function statusTone(status: string): "active" | "stopped" | "neutral" {
   const s = status.toLowerCase();
@@ -10,6 +13,51 @@ function statusTone(status: string): "active" | "stopped" | "neutral" {
   if (s.includes("đang hoạt động")) return "active";
   return "neutral";
 }
+
+function formatDate(d: Date): string {
+  const dd = String(d.getUTCDate()).padStart(2, "0");
+  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+  return `${dd}/${mm}/${d.getUTCFullYear()}`;
+}
+
+/** Prose summary built only from fields that have data. */
+function buildSummary(c: Company): string {
+  let first = `${c.name} có mã số thuế ${c.taxCode}`;
+  if (c.activeDate) first += `, được cấp ngày ${formatDate(c.activeDate)}`;
+  const parts = [`${first}.`];
+  // The address already ends with the province, in varying spellings; don't append the catalog name.
+  parts.push(`Trụ sở đặt tại ${c.address}.`);
+  if (c.representativeName) parts.push(`Người đại diện theo pháp luật là ${c.representativeName}.`);
+  if (c.status) parts.push(`Tình trạng hiện tại: ${c.status}.`);
+  return parts.join(" ");
+}
+
+/** FAQ entries built only from fields that have data. */
+function buildFaq(c: Company): { q: string; a: string }[] {
+  const faq = [
+    { q: `Mã số thuế của ${c.name} là gì?`, a: `Mã số thuế của ${c.name} là ${c.taxCode}.` },
+    { q: `${c.name} ở đâu?`, a: `${c.name} có địa chỉ tại ${c.address}.` },
+  ];
+  if (c.representativeName) {
+    faq.push({
+      q: `Ai là người đại diện của ${c.name}?`,
+      a: `Người đại diện theo pháp luật của ${c.name} là ${c.representativeName}.`,
+    });
+  }
+  if (c.status) {
+    const tone = statusTone(c.status);
+    const lead = tone === "active" ? "Có. " : tone === "stopped" ? "Không. " : "";
+    faq.push({ q: `${c.name} còn hoạt động không?`, a: `${lead}Tình trạng theo dữ liệu thuế: ${c.status}.` });
+  }
+  return faq;
+}
+
+// Static service strip; hrefs are placeholders for affiliate links.
+const SERVICES = [
+  { title: "Chữ ký số", desc: "Ký số tờ khai thuế, hóa đơn và hợp đồng điện tử.", href: "#" },
+  { title: "Hóa đơn điện tử", desc: "Phát hành hóa đơn điện tử đúng quy định.", href: "#" },
+  { title: "Thiết kế website", desc: "Website giới thiệu doanh nghiệp chuẩn di động.", href: "#" },
+];
 
 export default async function CompanyPage({ params }: Props) {
   const { taxCode } = await params;
@@ -24,6 +72,25 @@ export default async function CompanyPage({ params }: Props) {
     ["Người đại diện", company.representativeName],
     ["Ngành nghề chính", company.mainIndustry],
   ].filter((r): r is [string, string] => Boolean(r[1]));
+
+  const invoiceRows: [string, string][] = [
+    ["Tên công ty", company.name],
+    ["Mã số thuế", company.taxCode],
+    ["Địa chỉ", company.address],
+  ];
+
+  const faq = buildFaq(company);
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+
+  const nearby = await getNearbyCompanies(company.provinceSlug, company.taxCode);
 
   return (
     <main className={styles.page}>
@@ -45,6 +112,78 @@ export default async function CompanyPage({ params }: Props) {
           </div>
         ))}
       </dl>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Thông tin xuất hóa đơn</h2>
+        <ul className={styles.invoice}>
+          {invoiceRows.map(([label, value]) => (
+            <li key={label} className={styles.invoiceRow}>
+              <div className={styles.invoiceText}>
+                <span className={styles.invoiceLabel}>{label}</span>
+                <span className={styles.invoiceValue}>{value}</span>
+              </div>
+              <CopyButton value={value} />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Tóm tắt</h2>
+        <p className={styles.summary}>{buildSummary(company)}</p>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Câu hỏi thường gặp</h2>
+        <div className={styles.faq}>
+          {faq.map(({ q, a }) => (
+            <details key={q} className={styles.faqItem}>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
+        />
+      </section>
+
+      {nearby.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>
+            Doanh nghiệp lân cận{company.province ? ` tại ${company.province}` : ""}
+          </h2>
+          <ul className={styles.nearby}>
+            {nearby.map((n) => (
+              <li key={n.taxCode}>
+                <Link href={`/${n.taxCode}`} className={styles.nearbyCard}>
+                  <span className={styles.nearbyName}>{n.name}</span>
+                  <span className={styles.nearbyMeta}>MST {n.taxCode}</span>
+                  <span className={styles.nearbyMeta}>{n.address}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Dịch vụ cho doanh nghiệp</h2>
+        <ul className={styles.services}>
+          {SERVICES.map((s) => (
+            <li key={s.title} className={styles.serviceCard}>
+              <h3 className={styles.serviceTitle}>{s.title}</h3>
+              <p className={styles.serviceDesc}>{s.desc}</p>
+              <div className={styles.actions}>
+                <a href={s.href} className={styles.quoteBtn}>
+                  Nhận báo giá
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

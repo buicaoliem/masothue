@@ -10,7 +10,9 @@ const PUBLIC_SELECT = {
   name: true,
   address: true,
   province: true,
+  provinceSlug: true,
   status: true,
+  activeDate: true,
   representativeName: true,
   mainIndustry: true,
   enrichStatus: true,
@@ -78,3 +80,20 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
   });
   return showable(updated);
 });
+
+/** Up to `limit` other enriched companies in the same province, for the "nearby" block. */
+export async function getNearbyCompanies(provinceSlug: string | null, excludeTaxCode: string, limit = 5) {
+  if (!provinceSlug) return [];
+  return prisma.company.findMany({
+    where: {
+      provinceSlug,
+      enrichStatus: "OK",
+      name: { not: null },
+      address: { not: null },
+      taxCode: { not: excludeTaxCode },
+    },
+    select: { taxCode: true, name: true, address: true },
+    orderBy: { updatedAt: "desc" },
+    take: limit,
+  }) as Promise<{ taxCode: string; name: string; address: string }[]>;
+}
