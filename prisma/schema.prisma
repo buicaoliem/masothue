@@ -11,18 +11,19 @@ datasource db {
 }
 
 model Company {
-  id                 String    @id @default(cuid())
-  taxCode            String    @unique
+  id                 String       @id @default(cuid())
+  taxCode            String       @unique
   name               String? // null for tax codes not yet enriched
   nameForeign        String?
   nameShort          String?
   address            String?
   provinceCode       String?
-  province           String?
+  province           String? // display name from pipeline/province.ts catalog, e.g. "TP. Hà Nội"
+  provinceSlug       String? // catalog slug, e.g. "ha-noi"
   district           String?
   ward               String?
   status             String? // null when the source does not report it
-  activeDate         DateTime? @db.Date
+  activeDate         DateTime?    @db.Date
   legalType          String?
   taxOffice          String?
   representativeName String?
@@ -30,16 +31,17 @@ model Company {
   mainIndustry       String?
   latitude           Float?
   longitude          Float?
-  capital            Decimal?  @db.Decimal(20, 0)
+  capital            Decimal?     @db.Decimal(20, 0)
   enrichStatus       EnrichStatus @default(PENDING)
   lastEnrichedAt     DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
 
   industries CompanyIndustry[]
   changes    CompanyChange[]
 
   @@index([provinceCode])
+  @@index([provinceSlug])
   @@index([status])
   @@index([enrichStatus])
 }

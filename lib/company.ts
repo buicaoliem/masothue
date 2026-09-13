@@ -62,8 +62,8 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
     name: company.name ?? fetched?.name ?? null,
     address,
     status: company.status ?? fetched?.status ?? null,
-    province: province?.name ?? null,
-    provinceCode: province?.code ?? null,
+    province: province?.displayName ?? null,
+    provinceSlug: province?.slug ?? null,
   };
   const fill = Object.fromEntries(Object.entries(candidate).filter(([, v]) => v !== null));
 

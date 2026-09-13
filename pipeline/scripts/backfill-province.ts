@@ -1,4 +1,4 @@
-// Normalize `province` + `provinceCode` for every company with an address, against the
+// Normalize `province` (display name) + `provinceSlug` for every company with an address, against the
 // 34-province catalog. Unmatched tails are stored as null (no raw values kept).
 // Logs counts and unmatched address TAILS only (province-level text), never full addresses.
 import { prisma } from "../db";
@@ -16,7 +16,7 @@ async function main() {
   for (;;) {
     const rows = await prisma.company.findMany({
       where: { address: { not: null } },
-      select: { id: true, address: true, province: true, provinceCode: true },
+      select: { id: true, address: true, province: true, provinceSlug: true, provinceCode: true },
       orderBy: { id: "asc" },
       take: BATCH,
       ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
@@ -29,15 +29,16 @@ async function main() {
       const p = provinceFromAddress(r.address);
       if (p) {
         matched++;
-        byProvince.set(p.name, (byProvince.get(p.name) ?? 0) + 1);
+        byProvince.set(p.displayName, (byProvince.get(p.displayName) ?? 0) + 1);
       } else {
         const tail = addressTail(r.address) ?? "(không có dấu phẩy)";
         unmatched.set(tail, (unmatched.get(tail) ?? 0) + 1);
       }
-      const province = p?.name ?? null;
-      const provinceCode = p?.code ?? null;
-      if (r.province !== province || r.provinceCode !== provinceCode) {
-        await prisma.company.update({ where: { id: r.id }, data: { province, provinceCode } });
+      const province = p?.displayName ?? null;
+      const provinceSlug = p?.slug ?? null;
+      // provinceCode held codes from the earlier self-authored catalog; the approved catalog has none.
+      if (r.province !== province || r.provinceSlug !== provinceSlug || r.provinceCode !== null) {
+        await prisma.company.update({ where: { id: r.id }, data: { province, provinceSlug, provinceCode: null } });
       }
     }
   }

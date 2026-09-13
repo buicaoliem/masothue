@@ -1,60 +1,71 @@
-// Province catalog after the 2025 merger (Nghị quyết 202/2025/QH15, effective 2025-07-01): 34 units.
-// `code` = 2-digit administrative code of the merged unit; `formerNames` = provinces merged into it.
+// Province catalog after the 2025 merger: 34 units (6 centrally-run cities + 28 provinces).
+// Source of truth: table approved by the product owner (session MST-2a-fix3). Do not edit by guesswork.
+
+export type ProvinceKind = "city" | "province";
 
 export interface Province {
-  code: string;
+  slug: string;
+  /** Base name used for matching, e.g. "Hà Nội". */
   name: string;
-  formerNames: string[];
+  kind: ProvinceKind;
+  /** Display name: "TP. Hà Nội" for cities, plain name for provinces. */
+  displayName: string;
 }
 
-export const PROVINCES: readonly Province[] = [
-  { code: "01", name: "Hà Nội", formerNames: [] },
-  { code: "04", name: "Cao Bằng", formerNames: [] },
-  { code: "08", name: "Tuyên Quang", formerNames: ["Hà Giang"] },
-  { code: "11", name: "Điện Biên", formerNames: [] },
-  { code: "12", name: "Lai Châu", formerNames: [] },
-  { code: "14", name: "Sơn La", formerNames: [] },
-  { code: "15", name: "Lào Cai", formerNames: ["Yên Bái"] },
-  { code: "19", name: "Thái Nguyên", formerNames: ["Bắc Kạn"] },
-  { code: "20", name: "Lạng Sơn", formerNames: [] },
-  { code: "22", name: "Quảng Ninh", formerNames: [] },
-  { code: "24", name: "Bắc Ninh", formerNames: ["Bắc Giang"] },
-  { code: "25", name: "Phú Thọ", formerNames: ["Vĩnh Phúc", "Hòa Bình"] },
-  { code: "31", name: "Hải Phòng", formerNames: ["Hải Dương"] },
-  { code: "33", name: "Hưng Yên", formerNames: ["Thái Bình"] },
-  { code: "37", name: "Ninh Bình", formerNames: ["Hà Nam", "Nam Định"] },
-  { code: "38", name: "Thanh Hóa", formerNames: [] },
-  { code: "40", name: "Nghệ An", formerNames: [] },
-  { code: "42", name: "Hà Tĩnh", formerNames: [] },
-  { code: "44", name: "Quảng Trị", formerNames: ["Quảng Bình"] },
-  { code: "46", name: "Huế", formerNames: ["Thừa Thiên Huế"] },
-  { code: "48", name: "Đà Nẵng", formerNames: ["Quảng Nam"] },
-  { code: "51", name: "Quảng Ngãi", formerNames: ["Kon Tum"] },
-  { code: "52", name: "Gia Lai", formerNames: ["Bình Định"] },
-  { code: "56", name: "Khánh Hòa", formerNames: ["Ninh Thuận"] },
-  { code: "66", name: "Đắk Lắk", formerNames: ["Phú Yên"] },
-  { code: "68", name: "Lâm Đồng", formerNames: ["Đắk Nông", "Bình Thuận"] },
-  { code: "75", name: "Đồng Nai", formerNames: ["Bình Phước"] },
-  { code: "79", name: "Hồ Chí Minh", formerNames: ["Bình Dương", "Bà Rịa - Vũng Tàu"] },
-  { code: "80", name: "Tây Ninh", formerNames: ["Long An"] },
-  { code: "82", name: "Đồng Tháp", formerNames: ["Tiền Giang"] },
-  { code: "86", name: "Vĩnh Long", formerNames: ["Bến Tre", "Trà Vinh"] },
-  { code: "91", name: "An Giang", formerNames: ["Kiên Giang"] },
-  { code: "92", name: "Cần Thơ", formerNames: ["Sóc Trăng", "Hậu Giang"] },
-  { code: "96", name: "Cà Mau", formerNames: ["Bạc Liêu"] },
+const CITIES: [string, string][] = [
+  ["Hà Nội", "ha-noi"], ["Hải Phòng", "hai-phong"], ["Huế", "hue"],
+  ["Đà Nẵng", "da-nang"], ["Hồ Chí Minh", "ho-chi-minh"], ["Cần Thơ", "can-tho"],
 ];
 
-// Extra spellings seen in addresses, keyed to the current province name.
-const ALIASES: Record<string, string[]> = {
-  "Hồ Chí Minh": ["HCM", "TPHCM", "HCMC", "Hồ Chí Minh City", "Ho Chi Minh City"],
-  "Bà Rịa - Vũng Tàu": ["BRVT", "Bà Rịa Vũng Tàu"],
-  "Thừa Thiên Huế": ["TT Huế", "Thừa Thiên"],
-  "Đắk Lắk": ["Đắc Lắc", "Daklak"],
-  "Đắk Nông": ["Đắc Nông", "Daknong"],
-  "Bắc Kạn": ["Bắc Cạn"],
-  "Kon Tum": ["Kontum"],
+const PROVINCE_LIST: [string, string][] = [
+  ["An Giang", "an-giang"], ["Bắc Ninh", "bac-ninh"], ["Cà Mau", "ca-mau"], ["Cao Bằng", "cao-bang"],
+  ["Đắk Lắk", "dak-lak"], ["Điện Biên", "dien-bien"], ["Đồng Nai", "dong-nai"], ["Đồng Tháp", "dong-thap"],
+  ["Gia Lai", "gia-lai"], ["Hà Tĩnh", "ha-tinh"], ["Hưng Yên", "hung-yen"], ["Khánh Hòa", "khanh-hoa"],
+  ["Lai Châu", "lai-chau"], ["Lâm Đồng", "lam-dong"], ["Lạng Sơn", "lang-son"], ["Lào Cai", "lao-cai"],
+  ["Nghệ An", "nghe-an"], ["Ninh Bình", "ninh-binh"], ["Phú Thọ", "phu-tho"], ["Quảng Ngãi", "quang-ngai"],
+  ["Quảng Ninh", "quang-ninh"], ["Quảng Trị", "quang-tri"], ["Sơn La", "son-la"], ["Tây Ninh", "tay-ninh"],
+  ["Thái Nguyên", "thai-nguyen"], ["Thanh Hóa", "thanh-hoa"], ["Tuyên Quang", "tuyen-quang"], ["Vĩnh Long", "vinh-long"],
+];
+
+export const PROVINCES: readonly Province[] = [
+  ...CITIES.map(([name, slug]) => ({ slug, name, kind: "city" as const, displayName: `TP. ${name}` })),
+  ...PROVINCE_LIST.map(([name, slug]) => ({ slug, name, kind: "province" as const, displayName: name })),
+];
+
+/** Former (pre-merger) province → slug of the current unit. Units not listed kept their name. */
+export const FORMER_PROVINCES: Record<string, string> = {
+  "Hà Giang": "tuyen-quang",
+  "Yên Bái": "lao-cai",
+  "Bắc Kạn": "thai-nguyen",
+  "Vĩnh Phúc": "phu-tho",
+  "Hòa Bình": "phu-tho",
+  "Bắc Giang": "bac-ninh",
+  "Thái Bình": "hung-yen",
+  "Hải Dương": "hai-phong",
+  "Hà Nam": "ninh-binh",
+  "Nam Định": "ninh-binh",
+  "Quảng Bình": "quang-tri",
+  "Quảng Nam": "da-nang",
+  "Kon Tum": "quang-ngai",
+  "Bình Định": "gia-lai",
+  "Ninh Thuận": "khanh-hoa",
+  "Đắk Nông": "lam-dong",
+  "Bình Thuận": "lam-dong",
+  "Phú Yên": "dak-lak",
+  "Bình Dương": "ho-chi-minh",
+  "Bà Rịa-Vũng Tàu": "ho-chi-minh",
+  "Bình Phước": "dong-nai",
+  "Long An": "tay-ninh",
+  "Sóc Trăng": "can-tho",
+  "Hậu Giang": "can-tho",
+  "Bến Tre": "vinh-long",
+  "Trà Vinh": "vinh-long",
+  "Tiền Giang": "dong-thap",
+  "Bạc Liêu": "ca-mau",
+  "Kiên Giang": "an-giang",
 };
 
+/** Lowercase, strip diacritics, đ→d, non-alphanumerics → single space. */
 function key(s: string): string {
   return s
     .normalize("NFD")
@@ -65,26 +76,22 @@ function key(s: string): string {
     .trim();
 }
 
-// "Tỉnh", "Thành phố", "TP", "TP." prefixes, compared on the de-accented key.
+// "Tỉnh", "Thành phố", "TP", "TP." / "T.P" prefixes, on the de-accented key.
 const PREFIX_RE = /^(tinh|thanh pho|tp|t p)\s+/;
-const COUNTRY_KEYS = new Set(["viet nam", "vietnam", "vn"]);
+const COUNTRY_KEYS = new Set(["viet nam", "vietnam"]);
 
+const BY_SLUG = new Map(PROVINCES.map((p) => [p.slug, p]));
 const LOOKUP = new Map<string, Province>();
-for (const p of PROVINCES) {
-  for (const n of [p.name, ...p.formerNames]) {
-    for (const spelling of [n, ...(ALIASES[n] ?? [])]) {
-      LOOKUP.set(key(spelling), p);
-      LOOKUP.set(key(spelling).replace(/ /g, ""), p); // "tphcm", "bariavungtau"
-    }
-  }
-}
+for (const p of PROVINCES) LOOKUP.set(key(p.name), p);
+for (const [former, slug] of Object.entries(FORMER_PROVINCES)) LOOKUP.set(key(former), BY_SLUG.get(slug)!);
+// Old official name of Huế before it became a centrally-run city.
+LOOKUP.set(key("Thừa Thiên Huế"), BY_SLUG.get("hue")!);
 
-/** Map a raw province string (e.g. "TP. Hồ Chí Minh", "Tỉnh Bình Dương") to a current province, or null. */
+/** Map a raw province string ("TP Hà Nội", "Tỉnh Bình Dương") to one of the 34 units, or null. */
 export function normalizeProvince(raw: string | null): Province | null {
   if (!raw) return null;
   const k = key(raw);
-  const bare = k.replace(PREFIX_RE, "");
-  return LOOKUP.get(k) ?? LOOKUP.get(bare) ?? LOOKUP.get(bare.replace(/ /g, "")) ?? null;
+  return LOOKUP.get(k) ?? LOOKUP.get(k.replace(PREFIX_RE, "")) ?? null;
 }
 
 /** Last comma-separated segment of an address, skipping a trailing country segment. */
