@@ -7,3 +7,6 @@ next-env.d.ts
 # secrets
 .env
 .env*.local
+
+# local Claude Code config
+.claude/
