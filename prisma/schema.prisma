@@ -79,20 +79,7 @@ model CompanyChange {
   @@index([companyId, changedAt])
 }
 
-model Province {
-  code      String     @id
-  name      String
-  districts District[]
-}
-
-model District {
-  code         String   @id
-  name         String
-  provinceCode String
-  province     Province @relation(fields: [provinceCode], references: [code])
-
-  @@index([provinceCode])
-}
+// Province catalog lives in code: pipeline/province.ts (34 units, slug-keyed).
 
 model IngestCheckpoint {
   id        String   @id @default(cuid())
