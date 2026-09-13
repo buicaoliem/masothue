@@ -10,7 +10,8 @@
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:generate": "prisma generate",
     "pipeline:probe-esgoo": "tsx pipeline/scripts/probe-esgoo.ts",
-    "pipeline:enrich-sample": "dotenv -e .env.local -- tsx pipeline/scripts/enrich-sample.ts"
+    "pipeline:enrich-sample": "dotenv -e .env.local -- tsx pipeline/scripts/enrich-sample.ts",
+    "pipeline:seed-sitemap": "dotenv -e .env.local -- tsx pipeline/scripts/seed-sitemap.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
