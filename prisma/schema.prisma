@@ -13,15 +13,15 @@ datasource db {
 model Company {
   id                 String    @id @default(cuid())
   taxCode            String    @unique
-  name               String
+  name               String? // null for tax codes not yet enriched
   nameForeign        String?
   nameShort          String?
-  address            String
+  address            String?
   provinceCode       String?
   province           String?
   district           String?
   ward               String?
-  status             String
+  status             String? // null when the source does not report it
   activeDate         DateTime? @db.Date
   legalType          String?
   taxOffice          String?
@@ -31,6 +31,7 @@ model Company {
   latitude           Float?
   longitude          Float?
   capital            Decimal?  @db.Decimal(20, 0)
+  enrichStatus       EnrichStatus @default(PENDING)
   lastEnrichedAt     DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -40,6 +41,15 @@ model Company {
 
   @@index([provinceCode])
   @@index([status])
+  @@index([enrichStatus])
+}
+
+// SOURCE_MISS = the queried source had no data for this tax code.
+// It does NOT mean the company doesn't exist; retry with another source.
+enum EnrichStatus {
+  PENDING
+  OK
+  SOURCE_MISS
 }
 
 model CompanyIndustry {
