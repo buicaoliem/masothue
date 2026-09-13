@@ -5,7 +5,6 @@ export interface CompanyData {
   nameForeign: string | null;
   nameShort: string | null;
   address: string | null;
-  provinceCode: string | null;
   province: string | null;
   district: string | null;
   ward: string | null;

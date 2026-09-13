@@ -84,8 +84,28 @@ const BY_SLUG = new Map(PROVINCES.map((p) => [p.slug, p]));
 const LOOKUP = new Map<string, Province>();
 for (const p of PROVINCES) LOOKUP.set(key(p.name), p);
 for (const [former, slug] of Object.entries(FORMER_PROVINCES)) LOOKUP.set(key(former), BY_SLUG.get(slug)!);
-// Old official name of Huế before it became a centrally-run city.
-LOOKUP.set(key("Thừa Thiên Huế"), BY_SLUG.get("hue")!);
+/**
+ * Unambiguous spellings/abbreviations → slug (matched after prefix stripping and de-accenting,
+ * so "TP.HCM", "TP HCM", "Thành phố HCM" all reduce to "hcm").
+ * Never add abbreviations that could mean more than one unit (e.g. "ĐN" = Đà Nẵng or Đồng Nai,
+ * "HP", "CT"): those must stay unmatched (null).
+ */
+export const PROVINCE_ALIASES: Record<string, string> = {
+  // Old official name of Huế before it became a centrally-run city.
+  "Thừa Thiên Huế": "hue",
+  "TT Huế": "hue",
+  "TPHCM": "ho-chi-minh",
+  "HCM": "ho-chi-minh",
+  "HCMC": "ho-chi-minh",
+  "Hồ Chí Minh City": "ho-chi-minh",
+  "Sài Gòn": "ho-chi-minh",
+  "Saigon": "ho-chi-minh",
+  "HN": "ha-noi",
+  "Hanoi": "ha-noi",
+  "Danang": "da-nang",
+  "Haiphong": "hai-phong",
+};
+for (const [alias, slug] of Object.entries(PROVINCE_ALIASES)) LOOKUP.set(key(alias), BY_SLUG.get(slug)!);
 
 /** Map a raw province string ("TP Hà Nội", "Tỉnh Bình Dương") to one of the 34 units, or null. */
 export function normalizeProvince(raw: string | null): Province | null {

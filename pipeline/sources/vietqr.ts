@@ -66,7 +66,6 @@ export class VietqrSource implements BusinessSource {
       nameForeign: str(raw.internationalName),
       nameShort: str(raw.shortName),
       address: str(raw.address),
-      provinceCode: null,
       province: null,
       district: null,
       ward: null,

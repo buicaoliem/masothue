@@ -16,7 +16,7 @@ async function main() {
   for (;;) {
     const rows = await prisma.company.findMany({
       where: { address: { not: null } },
-      select: { id: true, address: true, province: true, provinceSlug: true, provinceCode: true },
+      select: { id: true, address: true, province: true, provinceSlug: true },
       orderBy: { id: "asc" },
       take: BATCH,
       ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
@@ -36,9 +36,8 @@ async function main() {
       }
       const province = p?.displayName ?? null;
       const provinceSlug = p?.slug ?? null;
-      // provinceCode held codes from the earlier self-authored catalog; the approved catalog has none.
-      if (r.province !== province || r.provinceSlug !== provinceSlug || r.provinceCode !== null) {
-        await prisma.company.update({ where: { id: r.id }, data: { province, provinceSlug, provinceCode: null } });
+      if (r.province !== province || r.provinceSlug !== provinceSlug) {
+        await prisma.company.update({ where: { id: r.id }, data: { province, provinceSlug } });
       }
     }
   }

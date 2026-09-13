@@ -17,7 +17,6 @@ model Company {
   nameForeign        String?
   nameShort          String?
   address            String?
-  provinceCode       String?
   province           String? // display name from pipeline/province.ts catalog, e.g. "TP. Hà Nội"
   provinceSlug       String? // catalog slug, e.g. "ha-noi"
   district           String?
@@ -40,7 +39,6 @@ model Company {
   industries CompanyIndustry[]
   changes    CompanyChange[]
 
-  @@index([provinceCode])
   @@index([provinceSlug])
   @@index([status])
   @@index([enrichStatus])

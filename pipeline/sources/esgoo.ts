@@ -70,7 +70,6 @@ export class EsgooSource implements BusinessSource {
       nameForeign: null,
       nameShort: null,
       address: str(raw.dc),
-      provinceCode: null,
       province: null,
       district: null,
       ward: null,
