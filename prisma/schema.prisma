@@ -1,0 +1,94 @@
+// PUBLIC business data only.
+// Never add personal identifiers: phone, email, CCCD/CMND, etc.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                 String    @id @default(cuid())
+  taxCode            String    @unique
+  name               String
+  nameForeign        String?
+  nameShort          String?
+  address            String
+  provinceCode       String?
+  province           String?
+  district           String?
+  ward               String?
+  status             String
+  activeDate         DateTime? @db.Date
+  legalType          String?
+  taxOffice          String?
+  representativeName String?
+  mainIndustryCode   String?
+  mainIndustry       String?
+  latitude           Float?
+  longitude          Float?
+  capital            Decimal?  @db.Decimal(20, 0)
+  lastEnrichedAt     DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  industries CompanyIndustry[]
+  changes    CompanyChange[]
+
+  @@index([provinceCode])
+  @@index([status])
+}
+
+model CompanyIndustry {
+  id        String  @id @default(cuid())
+  companyId String
+  code      String
+  name      String
+  isPrimary Boolean @default(false)
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, code])
+  @@index([code])
+}
+
+model CompanyChange {
+  id        String   @id @default(cuid())
+  companyId String
+  field     String
+  oldValue  String?
+  newValue  String?
+  changedAt DateTime @default(now())
+  source    String
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, changedAt])
+}
+
+model Province {
+  code      String     @id
+  name      String
+  districts District[]
+}
+
+model District {
+  code         String   @id
+  name         String
+  provinceCode String
+  province     Province @relation(fields: [provinceCode], references: [code])
+
+  @@index([provinceCode])
+}
+
+model IngestCheckpoint {
+  id        String   @id @default(cuid())
+  scope     String   @unique // e.g. province code
+  cursor    String?
+  page      Int      @default(0)
+  status    String   @default("pending") // pending | running | done | failed
+  updatedAt DateTime @updatedAt
+}
