@@ -28,7 +28,7 @@ export default async function CompanyPage({ params }: Props) {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <h1 className={styles.name}>{company.name ?? `Mã số thuế ${company.taxCode}`}</h1>
+        <h1 className={styles.name}>{company.name}</h1>
         <p className={styles.taxCode}>
           Mã số thuế: <strong>{company.taxCode}</strong>
         </p>
@@ -37,18 +37,14 @@ export default async function CompanyPage({ params }: Props) {
         )}
       </header>
 
-      {company.name ? (
-        <dl className={styles.info}>
-          {rows.map(([label, value]) => (
-            <div key={label} className={styles.row}>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      ) : (
-        <p className={styles.empty}>Thông tin doanh nghiệp đang được cập nhật.</p>
-      )}
+      <dl className={styles.info}>
+        {rows.map(([label, value]) => (
+          <div key={label} className={styles.row}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
     </main>
   );
 }

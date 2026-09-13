@@ -58,11 +58,6 @@
   word-break: break-word;
 }
 
-.empty {
-  text-align: center;
-  color: #6b7280;
-}
-
 @media (min-width: 640px) {
   .page { padding-top: 40px; }
   .name { font-size: 1.75rem; }

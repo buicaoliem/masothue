@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { prisma } from "@/pipeline/db";
+import { provinceFromAddress } from "@/pipeline/province";
 import { VietqrSource } from "@/pipeline/sources/vietqr";
 import { SourceTransportError } from "@/pipeline/sources/types";
 
@@ -20,41 +21,58 @@ const TAX_CODE_RE = /^\d{10}(-\d{3})?$/;
 
 const vietqr = new VietqrSource();
 
+export class EnrichUnavailableError extends Error {}
+
+type PublicCompany = NonNullable<Awaited<ReturnType<typeof findCompany>>>;
+type ShowableCompany = PublicCompany & { name: string; address: string };
+
+function findCompany(taxCode: string) {
+  return prisma.company.findUnique({ where: { taxCode }, select: PUBLIC_SELECT });
+}
+
+/** A page is only worth rendering with at least a name and an address. */
+function showable(c: PublicCompany | null): ShowableCompany | null {
+  return c?.name && c.address ? (c as ShowableCompany) : null;
+}
+
 /**
- * Read a company by tax code. PENDING rows are enriched once from vietqr and
- * persisted; OK / SOURCE_MISS rows are served straight from the store.
- * Merge rule: only non-null source values are written, existing values are never blanked.
+ * Read a company by tax code; null means "render 404".
+ * PENDING rows are enriched once from vietqr and persisted; other rows are served from the store.
+ * Merge rule: only non-null values are written, existing values are never blanked.
+ * A transport failure throws EnrichUnavailableError and leaves the row PENDING for the next visit.
  */
-export const getCompany = cache(async (taxCode: string) => {
+export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany | null> => {
   if (!TAX_CODE_RE.test(taxCode)) return null;
 
-  const company = await prisma.company.findUnique({ where: { taxCode }, select: PUBLIC_SELECT });
-  if (!company || company.enrichStatus !== "PENDING") return company;
+  const company = await findCompany(taxCode);
+  if (!company || company.enrichStatus !== "PENDING") return showable(company);
 
   let result;
   try {
     result = await vietqr.fetchByTaxCode(taxCode);
   } catch (err) {
-    // Transient failure: keep PENDING so the next visit retries.
-    if (err instanceof SourceTransportError) return company;
+    if (err instanceof SourceTransportError) throw new EnrichUnavailableError(err.message);
     throw err;
   }
 
-  if (result.kind === "SOURCE_MISS") {
-    return prisma.company.update({
-      where: { taxCode },
-      data: { enrichStatus: "SOURCE_MISS", lastEnrichedAt: new Date() },
-      select: PUBLIC_SELECT,
-    });
-  }
+  const fetched = result.kind === "OK" ? result.data : null;
+  const address = company.address ?? fetched?.address ?? null;
+  const candidate = {
+    name: company.name ?? fetched?.name ?? null,
+    address,
+    status: company.status ?? fetched?.status ?? null,
+    province: company.province ?? fetched?.province ?? provinceFromAddress(address),
+  };
+  const fill = Object.fromEntries(Object.entries(candidate).filter(([, v]) => v !== null));
 
-  const { name, address, province, status } = result.data;
-  const fill = Object.fromEntries(
-    Object.entries({ name, address, province, status }).filter(([, v]) => v !== null),
-  );
-  return prisma.company.update({
+  const updated = await prisma.company.update({
     where: { taxCode },
-    data: { ...fill, enrichStatus: "OK", lastEnrichedAt: new Date() },
+    data: {
+      ...fill,
+      enrichStatus: candidate.name && candidate.address ? "OK" : "SOURCE_MISS",
+      lastEnrichedAt: new Date(),
+    },
     select: PUBLIC_SELECT,
   });
+  return showable(updated);
 });
