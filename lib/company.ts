@@ -57,11 +57,13 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
 
   const fetched = result.kind === "OK" ? result.data : null;
   const address = company.address ?? fetched?.address ?? null;
+  const province = provinceFromAddress(address);
   const candidate = {
     name: company.name ?? fetched?.name ?? null,
     address,
     status: company.status ?? fetched?.status ?? null,
-    province: company.province ?? fetched?.province ?? provinceFromAddress(address),
+    province: province?.name ?? null,
+    provinceCode: province?.code ?? null,
   };
   const fill = Object.fromEntries(Object.entries(candidate).filter(([, v]) => v !== null));
 
