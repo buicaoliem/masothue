@@ -29,6 +29,14 @@ export const TOOLS: Tool[] = [
     enabled: true,
   },
   {
+    slug: "tinh-luong",
+    name: "Tính lương Gross - Net",
+    summary: "Đổi lương Gross sang Net hoặc Net sang Gross, kèm diễn giải bảo hiểm và thuế TNCN.",
+    description:
+      "Tính lương Gross sang Net hoặc Net sang Gross theo giảm trừ gia cảnh, bảo hiểm bắt buộc (BHXH, BHYT, BHTN) và biểu thuế TNCN lũy tiến từng phần 2026. Diễn giải từng bước: bảo hiểm, giảm trừ, thu nhập tính thuế, thuế theo bậc.",
+    enabled: true,
+  },
+  {
     slug: "tao-vietqr",
     name: "Tạo mã VietQR",
     summary: "Tạo mã QR chuyển khoản ngân hàng theo chuẩn VietQR.",
