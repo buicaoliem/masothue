@@ -52,6 +52,15 @@ export async function getCompanyNameForRequest(taxCode: string): Promise<string 
   return c && !c.isHidden ? c.name : null;
 }
 
+export type MstLookupInfo = { name: string | null; enrichStatus: "PENDING" | "OK" | "SOURCE_MISS" };
+
+/** Existence check for the "kiểm tra mã số thuế" tool; store only, no enrichment triggered. Hidden rows read as not found. */
+export async function findCompanyForLookup(taxCode: string): Promise<MstLookupInfo | null> {
+  if (!TAX_CODE_RE.test(taxCode)) return null;
+  const c = await prisma.company.findUnique({ where: { taxCode }, select: { name: true, isHidden: true, enrichStatus: true } });
+  return c && !c.isHidden ? { name: c.name, enrichStatus: c.enrichStatus } : null;
+}
+
 /**
  * Read a company by tax code; null means "render 404".
  * PENDING rows are enriched once (see lib/enrich.ts); the middleware normally does this first

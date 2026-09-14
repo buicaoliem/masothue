@@ -98,6 +98,12 @@
 .backRow { display: flex; justify-content: flex-end; margin-top: 20px; }
 .backLink { color: #1d4ed8; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
 
+.faqSection { margin-top: 24px; }
+.faqTitle { text-align: center; font-size: 1.1rem; margin: 0 0 12px; }
+.faqSection details { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+.faqSection summary { cursor: pointer; font-weight: 600; color: #374151; }
+.faqSection p { margin: 8px 0 0; color: #4b5563; }
+
 @media (min-width: 640px) {
   .catalog { grid-template-columns: repeat(3, 1fr); }
   .panel { padding: 24px; }

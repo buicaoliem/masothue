@@ -8,6 +8,7 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test:congcu": "tsx --test lib/tools/mst.test.ts",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:generate": "prisma generate",
     "pipeline:probe-esgoo": "tsx pipeline/scripts/probe-esgoo.ts",
