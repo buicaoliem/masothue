@@ -13,6 +13,14 @@ export type Tool = {
 
 export const TOOLS: Tool[] = [
   {
+    slug: "tinh-thue-tncn",
+    name: "Tính thuế TNCN",
+    summary: "Tính thuế thu nhập cá nhân phải nộp mỗi tháng theo biểu thuế lũy tiến 5 bậc và giảm trừ gia cảnh.",
+    description:
+      "Tính thuế thu nhập cá nhân (TNCN) từ tiền lương, tiền công theo biểu thuế lũy tiến từng phần 5 bậc và mức giảm trừ gia cảnh 2026. Hiện thuế phải nộp/tháng và chi tiết từng bậc thuế.",
+    enabled: true,
+  },
+  {
     slug: "kiem-tra-ma-so-thue",
     name: "Kiểm tra mã số thuế",
     summary: "Kiểm tra mã số thuế 10 hoặc 13 số có hợp lệ không, tra cứu tên doanh nghiệp nếu có trong kho.",

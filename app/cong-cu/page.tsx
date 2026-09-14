@@ -8,7 +8,7 @@ import styles from "./tools.module.css";
 export const metadata: Metadata = {
   title: `Công cụ kế toán, thuế miễn phí | ${SITE_NAME}`,
   description:
-    "Công cụ miễn phí cho kế toán và doanh nghiệp: kiểm tra mã số thuế, đổi số tiền thành chữ, tính thuế GTGT (VAT), tính lương Gross - Net.",
+    "Công cụ miễn phí cho kế toán và doanh nghiệp: kiểm tra mã số thuế, tính thuế TNCN, đổi số tiền thành chữ, tính thuế GTGT (VAT), tính lương Gross - Net.",
   alternates: { canonical: `${SITE_URL}/cong-cu` },
 };
 
