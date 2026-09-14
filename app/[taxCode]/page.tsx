@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCompany, getNearbyCompanies } from "@/lib/company";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { CopyButton } from "./CopyButton";
 import styles from "./company.module.css";
 
@@ -52,6 +54,57 @@ function buildFaq(c: Company): { q: string; a: string }[] {
   return faq;
 }
 
+const DESCRIPTION_MAX = 160;
+
+/** Meta description from fields that have data, cut at a word boundary to ~160 chars. */
+function buildDescription(c: Company): string {
+  const parts = [`${c.name} - Mã số thuế ${c.taxCode}`, `Địa chỉ: ${c.address}`];
+  // Skip the province when the address already spells it out.
+  if (c.province && !c.address.toLowerCase().includes(c.province.replace(/^TP\.\s*/, "").toLowerCase())) {
+    parts.push(c.province);
+  }
+  if (c.status) parts.push(`Tình trạng: ${c.status}`);
+  const text = `${parts.join(". ")}.`;
+  if (text.length <= DESCRIPTION_MAX) return text;
+  const cut = text.slice(0, DESCRIPTION_MAX - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s.,:;-]+$/, "")}…`;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { taxCode } = await params;
+  const company = await getCompany(taxCode);
+  if (!company) return {};
+  const title = `${company.name} - Mã số thuế ${company.taxCode} | ${SITE_NAME}`;
+  const description = buildDescription(company);
+  const url = `${SITE_URL}/${company.taxCode}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "vi_VN" },
+  };
+}
+
+function buildOrganizationJsonLd(c: Company) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: c.name,
+    url: `${SITE_URL}/${c.taxCode}`,
+    taxID: c.taxCode,
+    identifier: { "@type": "PropertyValue", propertyID: "Mã số thuế", value: c.taxCode },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: c.address,
+      ...(c.province && { addressRegion: c.province }),
+      addressCountry: "VN",
+    },
+    ...(c.province && { areaServed: c.province }),
+  };
+}
+
+const jsonLd = (data: object) => JSON.stringify(data).replace(/</g, "\\u003c");
+
 // Static service strip; hrefs are placeholders for affiliate links.
 const SERVICES = [
   { title: "Chữ ký số", desc: "Ký số tờ khai thuế, hóa đơn và hợp đồng điện tử.", href: "#" },
@@ -94,6 +147,7 @@ export default async function CompanyPage({ params }: Props) {
 
   return (
     <main className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(buildOrganizationJsonLd(company)) }} />
       <header className={styles.header}>
         <h1 className={styles.name}>{company.name}</h1>
         <p className={styles.taxCode}>
@@ -145,7 +199,7 @@ export default async function CompanyPage({ params }: Props) {
         </div>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }}
         />
       </section>
 

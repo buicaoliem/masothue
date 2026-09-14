@@ -1,4 +1,7 @@
-export const metadata = { title: "masothue" };
+import type { Metadata } from "next";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
+
+export const metadata: Metadata = { metadataBase: new URL(SITE_URL), title: SITE_NAME };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
