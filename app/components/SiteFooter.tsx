@@ -6,7 +6,7 @@ const LINKS = [
   { label: "Trang chủ", href: "/" },
   { label: "Giới thiệu", href: "#" },
   { label: "Điều khoản", href: "#" },
-  { label: "Yêu cầu gỡ thông tin", href: "#" },
+  { label: "Yêu cầu gỡ thông tin", href: "/yeu-cau-go-thong-tin" },
 ];
 
 export function SiteFooter() {

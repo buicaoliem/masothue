@@ -1,0 +1,57 @@
+/* Removal-request form. Mobile-first, light only. */
+.intro { color: #4b5563; margin: 0 0 20px; text-align: center; }
+
+.form {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+}
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.label { font-weight: 600; font-size: 0.95rem; color: #374151; }
+.optional { font-weight: 400; color: #6b7280; font-size: 0.85rem; }
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font: inherit;
+  background: #fff;
+  color: inherit;
+}
+textarea.input { resize: vertical; }
+.input:focus { outline: 2px solid #93c5fd; border-color: #2563eb; }
+.readonly { margin: 0; padding: 10px 12px; background: #f9fafb; border-radius: 6px; color: #374151; word-break: break-word; }
+.error { margin: 0; color: #b91c1c; font-size: 0.85rem; }
+
+.honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+.actions { display: flex; justify-content: flex-end; }
+.submit {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.submit:hover { background: #1d4ed8; }
+.submit:disabled { opacity: 0.7; cursor: default; }
+
+.success {
+  margin: 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #065f46;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .form { padding: 24px; }
+}

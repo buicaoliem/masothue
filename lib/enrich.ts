@@ -65,9 +65,10 @@ async function startCooldown(seconds: number) {
 export async function ensureEnriched(taxCode: string): Promise<EnrichOutcome> {
   const company = await prisma.company.findUnique({
     where: { taxCode },
-    select: { enrichStatus: true, name: true, address: true, status: true, provinceSlug: true },
+    select: { enrichStatus: true, name: true, address: true, status: true, provinceSlug: true, isHidden: true },
   });
-  if (!company || company.enrichStatus !== "PENDING") return "ready";
+  // Hidden rows are served as 404; never spend a vietqr call on them.
+  if (!company || company.isHidden || company.enrichStatus !== "PENDING") return "ready";
 
   if (!(await waitForSlot())) return "unavailable";
 

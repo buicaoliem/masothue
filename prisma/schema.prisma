@@ -1,5 +1,6 @@
-// PUBLIC business data only.
+// Company data is PUBLIC business data only.
 // Never add personal identifiers: phone, email, CCCD/CMND, etc.
+// Exception: RemovalRequest keeps the requester's contact email; it is never shown on the site.
 
 generator client {
   provider = "prisma-client-js"
@@ -33,6 +34,7 @@ model Company {
   capital            Decimal?     @db.Decimal(20, 0)
   enrichStatus       EnrichStatus @default(PENDING)
   lastEnrichedAt     DateTime?
+  isHidden           Boolean      @default(false) // true = 404 and left out of every list/sitemap
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 
@@ -77,6 +79,33 @@ model CompanyChange {
   company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId, changedAt])
+}
+
+// Filed from /yeu-cau-go-thong-tin. Reviewed by hand; a request never hides a company by itself.
+model RemovalRequest {
+  id                String             @id @default(cuid())
+  taxCode           String
+  reason            String             @db.Text
+  contactEmail      String
+  requesterName     String?
+  requesterRelation RequesterRelation?
+  status            RemovalStatus      @default(PENDING)
+  createdAt         DateTime           @default(now())
+
+  @@index([status, createdAt])
+  @@index([taxCode])
+}
+
+enum RequesterRelation {
+  OWNER
+  REPRESENTATIVE
+  OTHER
+}
+
+enum RemovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 // Province catalog lives in code: pipeline/province.ts (34 units, slug-keyed).

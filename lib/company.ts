@@ -14,13 +14,16 @@ const PUBLIC_SELECT = {
   representativeName: true,
   mainIndustry: true,
   enrichStatus: true,
+  isHidden: true,
 } as const;
 
 // 10 digits, optionally a 3-digit branch suffix (0100111948-001).
 export const TAX_CODE_RE = /^\d{10}(-\d{3})?$/;
 
-// Rows worth linking to or listing: enriched, with at least a name and an address.
+// Rows worth linking to or listing: enriched, not hidden, with at least a name and an address.
+// Sitemap, province hubs, "nearby" and search all filter through this.
 export const LISTABLE = {
+  isHidden: false,
   enrichStatus: "OK",
   name: { not: null },
   address: { not: null },
@@ -37,9 +40,16 @@ function findCompany(taxCode: string) {
   return prisma.company.findUnique({ where: { taxCode }, select: PUBLIC_SELECT });
 }
 
-/** A page is only worth rendering with at least a name and an address. */
+/** A page is only worth rendering when not hidden and with at least a name and an address. */
 function showable(c: PublicCompany | null): ShowableCompany | null {
-  return c?.name && c.address ? (c as ShowableCompany) : null;
+  return c && !c.isHidden && c.name && c.address ? (c as ShowableCompany) : null;
+}
+
+/** Name for the removal-request form; store only (no enrichment), hidden rows stay unnamed. */
+export async function getCompanyNameForRequest(taxCode: string): Promise<string | null> {
+  if (!TAX_CODE_RE.test(taxCode)) return null;
+  const c = await prisma.company.findUnique({ where: { taxCode }, select: { name: true, isHidden: true } });
+  return c && !c.isHidden ? c.name : null;
 }
 
 /**
@@ -51,7 +61,7 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
   if (!TAX_CODE_RE.test(taxCode)) return null;
   if ((await ensureEnriched(taxCode)) === "unavailable") throw new EnrichUnavailableError(taxCode);
   const company = await findCompany(taxCode);
-  if (company?.enrichStatus === "PENDING") throw new EnrichUnavailableError(taxCode);
+  if (company?.enrichStatus === "PENDING" && !company.isHidden) throw new EnrichUnavailableError(taxCode);
   return showable(company);
 });
 

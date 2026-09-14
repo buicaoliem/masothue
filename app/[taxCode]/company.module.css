@@ -13,6 +13,10 @@
   margin-bottom: 24px;
 }
 
+.removalLink { text-align: right; margin-bottom: 8px; font-size: 0.8rem; }
+.removalLink a { color: #6b7280; }
+.removalLink a:hover { color: #1d4ed8; }
+
 .name {
   font-size: 1.35rem;
   line-height: 1.3;

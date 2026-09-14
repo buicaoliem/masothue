@@ -149,6 +149,11 @@ export default async function CompanyPage({ params }: Props) {
     <main className={styles.page}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(buildOrganizationJsonLd(company)) }} />
       <header className={styles.header}>
+        <div className={styles.removalLink}>
+          <Link href={`/yeu-cau-go-thong-tin?mst=${company.taxCode}`} rel="nofollow">
+            Yêu cầu gỡ thông tin
+          </Link>
+        </div>
         <h1 className={styles.name}>{company.name}</h1>
         <p className={styles.taxCode}>
           Mã số thuế: <strong>{company.taxCode}</strong>
