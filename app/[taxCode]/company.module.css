@@ -40,6 +40,17 @@
 .stopped { background: #fee2e2; color: #991b1b; }
 .neutral { background: #f3f4f6; color: #374151; }
 
+.claim {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+.claimHint { display: flex; align-items: center; gap: 12px; }
+
 .info {
   margin: 0;
   display: grid;

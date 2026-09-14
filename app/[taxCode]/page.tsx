@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCompany, getNearbyCompanies } from "@/lib/company";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { AFFILIATE_LINKS, ZALO_CONTACT, type ServiceKey } from "@/lib/config";
 import { CopyButton } from "./CopyButton";
 import styles from "./company.module.css";
 
@@ -105,11 +106,11 @@ function buildOrganizationJsonLd(c: Company) {
 
 const jsonLd = (data: object) => JSON.stringify(data).replace(/</g, "\\u003c");
 
-// Static service strip; hrefs are placeholders for affiliate links.
-const SERVICES = [
-  { title: "Chữ ký số", desc: "Ký số tờ khai thuế, hóa đơn và hợp đồng điện tử.", href: "#" },
-  { title: "Hóa đơn điện tử", desc: "Phát hành hóa đơn điện tử đúng quy định.", href: "#" },
-  { title: "Thiết kế website", desc: "Website giới thiệu doanh nghiệp chuẩn di động.", href: "#" },
+// Static service strip; link targets live in lib/config.ts.
+const SERVICES: { key: ServiceKey; title: string; desc: string }[] = [
+  { key: "digitalSignature", title: "Chữ ký số", desc: "Ký số tờ khai thuế, hóa đơn và hợp đồng điện tử." },
+  { key: "eInvoice", title: "Hóa đơn điện tử", desc: "Phát hành hóa đơn điện tử đúng quy định." },
+  { key: "website", title: "Thiết kế website", desc: "Website giới thiệu doanh nghiệp chuẩn di động." },
 ];
 
 export default async function CompanyPage({ params }: Props) {
@@ -144,6 +145,7 @@ export default async function CompanyPage({ params }: Props) {
   };
 
   const nearby = await getNearbyCompanies(company.provinceSlug, company.taxCode);
+  const claimMessage = ZALO_CONTACT.claimMessage(company.name, company.taxCode);
 
   return (
     <main className={styles.page}>
@@ -162,6 +164,21 @@ export default async function CompanyPage({ params }: Props) {
           <span className={`${styles.badge} ${styles[statusTone(company.status)]}`}>{company.status}</span>
         )}
       </header>
+
+      <div className={styles.claim}>
+        <div className={styles.claimHint}>
+          <div className={styles.invoiceText}>
+            <span className={styles.invoiceLabel}>Nội dung nhắn Zalo</span>
+            <span className={styles.invoiceValue}>{claimMessage}</span>
+          </div>
+          <CopyButton value={claimMessage} />
+        </div>
+        <div className={styles.actions}>
+          <a href={ZALO_CONTACT.url} target="_blank" rel="noopener noreferrer" className={styles.quoteBtn}>
+            Đây là doanh nghiệp của tôi
+          </a>
+        </div>
+      </div>
 
       <dl className={styles.info}>
         {rows.map(([label, value]) => (
@@ -243,7 +260,7 @@ export default async function CompanyPage({ params }: Props) {
               <h3 className={styles.serviceTitle}>{s.title}</h3>
               <p className={styles.serviceDesc}>{s.desc}</p>
               <div className={styles.actions}>
-                <a href={s.href} className={styles.quoteBtn}>
+                <a href={AFFILIATE_LINKS[s.key].url} target="_blank" rel="noopener noreferrer" className={styles.quoteBtn}>
                   Nhận báo giá
                 </a>
               </div>
