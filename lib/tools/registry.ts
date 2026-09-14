@@ -13,6 +13,14 @@ export type Tool = {
 
 export const TOOLS: Tool[] = [
   {
+    slug: "tinh-thue-tncn",
+    name: "Tính thuế TNCN",
+    summary: "Tính thuế thu nhập cá nhân phải nộp mỗi tháng theo biểu thuế lũy tiến 5 bậc và giảm trừ gia cảnh.",
+    description:
+      "Tính thuế thu nhập cá nhân (TNCN) từ tiền lương, tiền công theo biểu thuế lũy tiến từng phần 5 bậc và mức giảm trừ gia cảnh 2026. Hiện thuế phải nộp/tháng và chi tiết từng bậc thuế.",
+    enabled: true,
+  },
+  {
     slug: "doi-so-thanh-chu",
     name: "Đổi số thành chữ",
     summary: "Đọc số tiền thành chữ tiếng Việt để ghi hóa đơn, phiếu thu chi.",
