@@ -1,8 +1,6 @@
 import { cache } from "react";
 import { prisma } from "@/pipeline/db";
-import { provinceFromAddress } from "@/pipeline/province";
-import { VietqrSource } from "@/pipeline/sources/vietqr";
-import { SourceTransportError } from "@/pipeline/sources/types";
+import { ensureEnriched } from "@/lib/enrich";
 
 // Only public business fields leave this module. No phone/email/personal IDs.
 const PUBLIC_SELECT = {
@@ -20,8 +18,6 @@ const PUBLIC_SELECT = {
 
 // 10 digits, optionally a 3-digit branch suffix (0100111948-001).
 export const TAX_CODE_RE = /^\d{10}(-\d{3})?$/;
-
-const vietqr = new VietqrSource();
 
 // Rows worth linking to or listing: enriched, with at least a name and an address.
 export const LISTABLE = {
@@ -48,46 +44,15 @@ function showable(c: PublicCompany | null): ShowableCompany | null {
 
 /**
  * Read a company by tax code; null means "render 404".
- * PENDING rows are enriched once from vietqr and persisted; other rows are served from the store.
- * Merge rule: only non-null values are written, existing values are never blanked.
- * A transport failure throws EnrichUnavailableError and leaves the row PENDING for the next visit.
+ * PENDING rows are enriched once (see lib/enrich.ts); the middleware normally does this first
+ * and answers 503 when enrichment is unavailable. If it still fails here, EnrichUnavailableError is thrown.
  */
 export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany | null> => {
   if (!TAX_CODE_RE.test(taxCode)) return null;
-
+  if ((await ensureEnriched(taxCode)) === "unavailable") throw new EnrichUnavailableError(taxCode);
   const company = await findCompany(taxCode);
-  if (!company || company.enrichStatus !== "PENDING") return showable(company);
-
-  let result;
-  try {
-    result = await vietqr.fetchByTaxCode(taxCode);
-  } catch (err) {
-    if (err instanceof SourceTransportError) throw new EnrichUnavailableError(err.message);
-    throw err;
-  }
-
-  const fetched = result.kind === "OK" ? result.data : null;
-  const address = company.address ?? fetched?.address ?? null;
-  const province = provinceFromAddress(address);
-  const candidate = {
-    name: company.name ?? fetched?.name ?? null,
-    address,
-    status: company.status ?? fetched?.status ?? null,
-    province: province?.displayName ?? null,
-    provinceSlug: province?.slug ?? null,
-  };
-  const fill = Object.fromEntries(Object.entries(candidate).filter(([, v]) => v !== null));
-
-  const updated = await prisma.company.update({
-    where: { taxCode },
-    data: {
-      ...fill,
-      enrichStatus: candidate.name && candidate.address ? "OK" : "SOURCE_MISS",
-      lastEnrichedAt: new Date(),
-    },
-    select: PUBLIC_SELECT,
-  });
-  return showable(updated);
+  if (company?.enrichStatus === "PENDING") throw new EnrichUnavailableError(taxCode);
+  return showable(company);
 });
 
 /** Up to `limit` other enriched companies in the same province, for the "nearby" block. */
