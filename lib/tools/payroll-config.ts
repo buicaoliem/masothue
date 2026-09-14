@@ -11,8 +11,7 @@ export const RATE_BHYT = 0.015;
 export const RATE_BHTN = 0.01;
 
 /**
- * Trần đóng BHXH & BHYT, đồng/tháng.
- * [CẦN XÁC NHẬN theo lương cơ sở 2026] — để hằng số riêng, dễ sửa khi có mức lương cơ sở chính thức.
+ * Trần đóng BHXH & BHYT, đồng/tháng = 20 × mức lương cơ sở (2.340.000 đ) hiện hành.
  */
 export const CAP_BHXH_BHYT = 46_800_000;
 
