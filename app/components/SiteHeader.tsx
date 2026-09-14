@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
-import { SearchForm } from "./SearchForm";
+import { HeaderSearch } from "./HeaderSearch";
 import styles from "./site.module.css";
 
 export function SiteHeader() {
@@ -14,9 +14,7 @@ export function SiteHeader() {
         <a href="#" className={styles.menu}>
           Công cụ
         </a>
-        <div className={styles.headerSearch}>
-          <SearchForm />
-        </div>
+        <HeaderSearch />
       </div>
     </header>
   );
