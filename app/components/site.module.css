@@ -1,0 +1,117 @@
+/* Shared chrome (header/footer/search) and list pages (home, search, province hub). Mobile-first. */
+.shell {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+/* ---- Header ---- */
+.header { border-bottom: 1px solid #e5e7eb; background: #fff; }
+.headerInner {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.brand { font-weight: 700; font-size: 1.05rem; color: #1d4ed8; text-decoration: none; }
+.menu { margin-left: auto; color: #374151; text-decoration: none; font-size: 0.95rem; }
+.menu:hover { color: #1d4ed8; }
+.headerSearch { flex-basis: 100%; }
+
+@media (min-width: 640px) {
+  .headerSearch { flex-basis: auto; flex: 1; order: 1; }
+  .menu { order: 2; margin-left: 0; }
+}
+
+/* ---- Search form ---- */
+.search { display: flex; gap: 8px; width: 100%; }
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font: inherit;
+  background: #fff;
+  color: inherit;
+}
+.searchInput:focus { outline: 2px solid #93c5fd; border-color: #2563eb; }
+.searchBtn {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.searchBtn:hover { background: #1d4ed8; }
+.searchLarge .searchInput { padding: 12px 14px; font-size: 1.05rem; }
+.searchLarge .searchBtn { padding: 12px 18px; font-size: 1.05rem; }
+
+/* ---- Footer ---- */
+.footer { border-top: 1px solid #e5e7eb; background: #f9fafb; margin-top: 48px; }
+.footerInner { max-width: 880px; margin: 0 auto; padding: 20px 16px; text-align: center; }
+.footerLinks { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; }
+.footerLinks a { color: #374151; text-decoration: none; font-size: 0.9rem; }
+.footerLinks a:hover { color: #1d4ed8; }
+.footerNote { margin: 0; color: #6b7280; font-size: 0.85rem; }
+
+/* ---- Page body ---- */
+.page { max-width: 880px; margin: 0 auto; padding: 24px 16px 0; }
+.title { text-align: center; font-size: 1.4rem; line-height: 1.3; margin: 0 0 8px; }
+.lead { text-align: center; color: #4b5563; margin: 0 0 20px; }
+.section { margin-top: 36px; }
+.sectionTitle { text-align: center; font-size: 1.15rem; margin: 0 0 14px; }
+.empty { text-align: center; color: #6b7280; padding: 16px; background: #f9fafb; border-radius: 8px; margin: 0; }
+
+.provinces { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.provinceLink {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #1d4ed8;
+  text-decoration: none;
+  text-align: center;
+}
+.provinceLink:hover { border-color: #2563eb; background: #eff6ff; }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+}
+.card:hover { border-color: #2563eb; }
+.cardName { font-weight: 600; color: #1d4ed8; word-break: break-word; }
+.cardMeta { font-size: 0.85rem; color: #6b7280; word-break: break-word; }
+
+.pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 12px; margin-top: 16px; }
+.pagerInfo { color: #4b5563; font-size: 0.9rem; margin-right: auto; }
+.pagerLink {
+  padding: 6px 12px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  color: #1d4ed8;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.pagerLink:hover { background: #eff6ff; }
+
+@media (min-width: 640px) {
+  .page { padding-top: 40px; }
+  .title { font-size: 1.75rem; }
+  .provinces { grid-template-columns: repeat(4, 1fr); }
+}

@@ -137,6 +137,18 @@
 .nearbyName { font-weight: 600; color: #1d4ed8; word-break: break-word; }
 .nearbyMeta { font-size: 0.85rem; color: #6b7280; word-break: break-word; }
 
+.hubLink { margin-top: 14px; }
+.moreLink {
+  padding: 8px 14px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  color: #1d4ed8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.moreLink:hover { background: #eff6ff; }
+
 .services { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .serviceCard {
   display: flex;

@@ -19,9 +19,18 @@ const PUBLIC_SELECT = {
 } as const;
 
 // 10 digits, optionally a 3-digit branch suffix (0100111948-001).
-const TAX_CODE_RE = /^\d{10}(-\d{3})?$/;
+export const TAX_CODE_RE = /^\d{10}(-\d{3})?$/;
 
 const vietqr = new VietqrSource();
+
+// Rows worth linking to or listing: enriched, with at least a name and an address.
+export const LISTABLE = {
+  enrichStatus: "OK",
+  name: { not: null },
+  address: { not: null },
+} as const;
+
+type ListedCompany = { taxCode: string; name: string; address: string };
 
 export class EnrichUnavailableError extends Error {}
 
@@ -85,15 +94,48 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
 export async function getNearbyCompanies(provinceSlug: string | null, excludeTaxCode: string, limit = 5) {
   if (!provinceSlug) return [];
   return prisma.company.findMany({
-    where: {
-      provinceSlug,
-      enrichStatus: "OK",
-      name: { not: null },
-      address: { not: null },
-      taxCode: { not: excludeTaxCode },
-    },
+    where: { ...LISTABLE, provinceSlug, taxCode: { not: excludeTaxCode } },
     select: { taxCode: true, name: true, address: true },
     orderBy: { updatedAt: "desc" },
     take: limit,
-  }) as Promise<{ taxCode: string; name: string; address: string }[]>;
+  }) as Promise<ListedCompany[]>;
+}
+
+export const PROVINCE_PAGE_SIZE = 50;
+
+/** One page (1-based) of listable companies in a province, plus the total count. */
+export async function getProvinceCompanies(provinceSlug: string, page: number) {
+  const where = { ...LISTABLE, provinceSlug };
+  const [total, rows] = await Promise.all([
+    prisma.company.count({ where }),
+    prisma.company.findMany({
+      where,
+      select: { taxCode: true, name: true, address: true },
+      orderBy: { taxCode: "asc" },
+      skip: (page - 1) * PROVINCE_PAGE_SIZE,
+      take: PROVINCE_PAGE_SIZE,
+    }) as Promise<ListedCompany[]>,
+  ]);
+  return { total, rows };
+}
+
+/** Slugs of provinces with at least one listable company. */
+export async function getListedProvinceSlugs(): Promise<string[]> {
+  const groups = await prisma.company.groupBy({
+    by: ["provinceSlug"],
+    where: { ...LISTABLE, provinceSlug: { not: null } },
+  });
+  return groups.map((g) => g.provinceSlug!);
+}
+
+export const SEARCH_LIMIT = 50;
+
+/** Case-insensitive name match over listable companies only. */
+export function searchCompaniesByName(query: string) {
+  return prisma.company.findMany({
+    where: { ...LISTABLE, name: { contains: query, mode: "insensitive" } },
+    select: { taxCode: true, name: true, address: true },
+    orderBy: { name: "asc" },
+    take: SEARCH_LIMIT,
+  }) as Promise<ListedCompany[]>;
 }

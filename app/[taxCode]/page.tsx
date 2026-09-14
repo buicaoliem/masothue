@@ -222,6 +222,14 @@ export default async function CompanyPage({ params }: Props) {
         </section>
       )}
 
+      {company.provinceSlug && company.province && (
+        <div className={`${styles.actions} ${styles.hubLink}`}>
+          <Link href={`/tinh/${company.provinceSlug}`} className={styles.moreLink}>
+            Xem thêm doanh nghiệp tại {company.province} →
+          </Link>
+        </div>
+      )}
+
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Dịch vụ cho doanh nghiệp</h2>
         <ul className={styles.services}>

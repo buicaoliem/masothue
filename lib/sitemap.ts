@@ -1,16 +1,11 @@
 import { prisma } from "@/pipeline/db";
 import { SITE_URL } from "@/lib/site";
+import { LISTABLE } from "@/lib/company";
 
 // Protocol limit is 50,000 URLs per sitemap file.
 export const SITEMAP_PAGE_SIZE = 50_000;
 
-// Only pages with real content: enriched, with at least a name and an address.
-const LISTABLE = {
-  enrichStatus: "OK",
-  name: { not: null },
-  address: { not: null },
-} as const;
-
+export const pagesSitemapUrl = `${SITE_URL}/sitemaps/pages.xml`;
 export const companySitemapUrl = (page: number) => `${SITE_URL}/sitemaps/companies-${page}.xml`;
 
 export async function countSitemapPages(): Promise<number> {
