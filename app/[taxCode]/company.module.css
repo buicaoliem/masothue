@@ -1,9 +1,13 @@
-/* Mobile-first: info rows are stacked cards; label/value side by side from 640px. */
+/* Mobile-first: info rows are stacked cards; label/value side by side from 640px.
+   Colors here are hardcoded for a light background on purpose (out of scope to
+   redesign) — pin the background so they stay readable even when the visitor's
+   OS is in dark mode, now that the shared header/footer follow it. */
 .page {
   max-width: 880px;
   margin: 0 auto;
   padding: 24px 16px 48px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #fff;
   color: #1f2937;
   line-height: 1.5;
 }

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock masothuedn.com: trang chủ và công cụ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--soft:#F2F6FC;--ink:#14233B;--muted:#56657C;--blue:#1B4DB1;--blue-dark:#133A88;--line:#D8E0EC;--ok:#16794B;--bad:#B42318;--field:#FFFFFF;--hl:#E6EEFB}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1726;--soft:#16213A;--ink:#E6ECF5;--muted:#9AA8BF;--blue:#6D9BF1;--blue-dark:#8FB3F5;--line:#2A3752;--ok:#4CC38A;--bad:#F2877D;--field:#0F1726;--hl:#1C2B4A}}
+:root[data-theme="dark"]{--bg:#0F1726;--soft:#16213A;--ink:#E6ECF5;--muted:#9AA8BF;--blue:#6D9BF1;--blue-dark:#8FB3F5;--line:#2A3752;--ok:#4CC38A;--bad:#F2877D;--field:#0F1726;--hl:#1C2B4A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.num{font-variant-numeric:tabular-nums}
+
+.mockbar{background:#FFF7E0;color:#6B4E00;font-size:13px;padding:8px 0}
+.mockbar .wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mockbar button{font:inherit;font-size:13px;border:1px solid #E0C36A;background:#fff;color:#6B4E00;border-radius:999px;padding:3px 11px;cursor:pointer}
+.mockbar button.on{background:#6B4E00;color:#fff;border-color:#6B4E00}
+
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{font-weight:700;font-size:19px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.logo span{color:var(--blue)}
+nav{display:flex;gap:22px}
+nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:15px}
+nav a:hover,nav a.cur{color:var(--blue)}
+
+h1,h2{text-align:center;letter-spacing:-.015em;margin:0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.2;font-weight:700}
+h2{font-size:clamp(20px,3vw,25px);font-weight:700}
+h3{margin:0;font-size:17px;text-align:center}
+.lead{text-align:center;color:var(--muted);max-width:600px;margin:12px auto 0}
+.crumb{font-size:14px;color:var(--muted);padding-top:18px}
+.crumb a{text-decoration:none}
+
+.btn{height:48px;padding:0 24px;border:0;border-radius:10px;background:var(--blue);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--blue-dark)}
+.btn.ghost{background:transparent;color:var(--blue);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--blue)}
+.act{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+.view{display:none}
+.view.on{display:block}
+
+/* home */
+.hero{padding:56px 0 48px;background:var(--soft);border-bottom:1px solid var(--line)}
+.search{max-width:680px;margin:32px auto 0}
+label,.lbl{display:block;font-weight:600;font-size:14px;margin-bottom:7px}
+.field{display:flex;gap:10px}
+input[type=text],select{width:100%;min-width:0;height:48px;padding:0 14px;font:inherit;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:10px}
+input[type=text]:focus,select:focus{border-color:var(--blue);outline:none}
+.big{height:56px!important;font-size:20px!important;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.field .btn{height:56px}
+.check{min-height:24px;margin-top:10px;font-size:14px;color:var(--muted)}
+.ok{color:var(--ok)!important}.bad{color:var(--bad)!important}
+.digits{display:flex;gap:4px;justify-content:center;margin-top:22px;flex-wrap:wrap;align-items:center}
+.digits i{font-style:normal;width:30px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;background:var(--field);font-variant-numeric:tabular-nums;font-weight:600;color:var(--muted)}
+.digits i.on{color:var(--ink);border-color:var(--blue)}
+.digits i.key{border-style:dashed}
+.digits i.br{opacity:.55}
+.digits b{color:var(--muted);padding:0 2px}
+.digits small{width:100%;text-align:center;color:var(--muted);font-size:12px;margin-top:6px}
+section{padding:56px 0}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px;margin-top:28px;border-top:1px solid var(--line)}
+.tool{display:flex;gap:16px;align-items:flex-start;padding:20px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;cursor:pointer}
+.tool:hover .t{color:var(--blue)}
+.ico{flex:none;width:42px;height:42px;border-radius:9px;background:var(--soft);color:var(--blue);display:grid;place-items:center;font-weight:700;font-size:15px}
+.t{font-weight:600;margin:0}
+.d{margin:2px 0 0;color:var(--muted);font-size:14px}
+.more{display:flex;justify-content:flex-end;margin-top:18px}
+.more a{font-weight:600;text-decoration:none;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:26px}
+.chips a{padding:7px 14px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:14px}
+.chips a:hover{border-color:var(--blue);color:var(--blue)}
+.claim{margin:0 auto;max-width:760px;border:2px dashed #E0A800;border-radius:14px;padding:32px 28px}
+.claim p{text-align:center;color:var(--muted);margin:10px 0 0}
+.pending{display:block;text-align:center;font-size:12px;color:#8A6500;margin-bottom:10px}
+
+/* tool page */
+.tp-head{padding:8px 0 28px}
+.tp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.panel{border:1.5px solid var(--line);border-radius:14px;padding:22px}
+.panel h3{margin-bottom:16px}
+.res{background:var(--soft);border-color:transparent}
+.row{margin-bottom:16px}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;height:44px;border:0;background:var(--field);color:var(--muted);font:inherit;font-weight:500;cursor:pointer;border-right:1.5px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--blue);color:#fff}
+.money{position:relative}
+.money input{padding-right:48px;font-size:18px;font-variant-numeric:tabular-nums}
+.money span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px}
+.step{display:flex;border:1.5px solid var(--line);border-radius:10px;width:max-content}
+.step button{width:44px;height:44px;border:0;background:var(--field);color:var(--blue);font-size:20px;cursor:pointer}
+.step output{width:52px;display:grid;place-items:center;font-weight:600}
+.hint{font-size:13px;color:var(--muted);margin-top:6px}
+.headline{text-align:center;padding:6px 0 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.headline .k{font-size:14px;color:var(--muted)}
+.headline .v{font-size:clamp(28px,5vw,38px);font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums;line-height:1.2;word-break:break-word}
+.lines{margin:0;padding:0;list-style:none}
+.lines li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.lines li:last-child{border-bottom:0}
+.lines li span:last-child{font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.lines li.sub span:first-child{padding-left:14px;color:var(--muted)}
+.lines li.tot{border-top:1.5px solid var(--ink);border-bottom:0;margin-top:4px;font-weight:700}
+.words{font-size:20px;line-height:1.45;font-weight:600;text-align:center;min-height:60px;padding:8px 0}
+.empty{color:var(--muted);text-align:center;font-size:15px;padding:20px 0}
+.lookup{margin-top:14px;padding:14px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:15px}
+.note{font-size:13px;color:var(--muted);margin-top:16px;text-align:center}
+
+.bands{margin-top:40px}
+.tbl{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+.tbl th,.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+.tbl th{font-size:13px;color:var(--muted);font-weight:600}
+.tbl td.r,.tbl th.r{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.cur td{background:var(--hl);font-weight:600}
+.faq{margin-top:40px;max-width:760px;margin-left:auto;margin-right:auto}
+.faq details{border-bottom:1px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;padding:12px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";color:var(--blue);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0 0 14px;color:var(--muted)}
+.others{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+.others .chips a{cursor:pointer}
+
+footer{border-top:1px solid var(--line);padding:28px 0 36px;font-size:14px;color:var(--muted);margin-top:56px}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot nav{gap:18px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  nav.main{display:none}
+  .tools,.tp{grid-template-columns:1fr}
+  .field{flex-direction:column}
+  .field .btn{align-self:flex-end}
+  .digits i{width:24px;height:32px;font-size:14px}
+  .hero{padding:40px 0 36px}
+  section{padding:40px 0}
+  .panel{padding:18px}
+  .tbl thead{display:none}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid var(--line);border-radius:10px;padding:6px 12px;margin-bottom:10px}
+  .tbl td{border:0;padding:5px 0;display:flex;justify-content:space-between;gap:10px;text-align:right}
+  .tbl td::before{content:attr(data-l);color:var(--muted);font-weight:500;text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="mockbar"><div class="wrap" id="switch"><strong>Bản mock, xem trang:</strong></div></div>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#" data-go="home">masothue<span>dn</span></a>
+    <nav class="main" aria-label="Menu chính">
+      <a href="#" data-go="home">Tra cứu</a>
+      <a href="#" data-go="hub">Công cụ</a>
+      <a href="#" data-go="home" data-anchor="tinh">Theo tỉnh</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- HOME -->
+<div class="view" id="v-home">
+  <div class="hero">
+    <div class="wrap">
+      <h1>Tra cứu mã số thuế doanh nghiệp</h1>
+      <p class="lead">Nhập mã số thuế để mở thẳng hồ sơ doanh nghiệp, hoặc nhập tên công ty để tìm.</p>
+      <form class="search" onsubmit="return false">
+        <label for="hq">Mã số thuế hoặc tên công ty</label>
+        <div class="field">
+          <input type="text" class="big" id="hq" autocomplete="off" placeholder="Ví dụ: 0101248141">
+          <button class="btn" type="submit">Tra cứu</button>
+        </div>
+        <div class="check" id="hcheck" aria-live="polite"></div>
+      </form>
+      <div class="digits" id="hdigits" aria-hidden="true"></div>
+    </div>
+  </div>
+  <section>
+    <div class="wrap">
+      <h2>Công cụ miễn phí cho kế toán</h2>
+      <p class="lead">Số liệu theo quy định áp dụng năm 2026.</p>
+      <div class="tools" id="homeTools"></div>
+      <div class="more"><a data-go="hub">Xem tất cả công cụ</a></div>
+    </div>
+  </section>
+  <section id="tinh" style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <h2>Tra cứu theo tỉnh, thành phố</h2>
+      <div class="chips" id="chips"></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="claim">
+        <span class="pending">Chưa chốt: làm ngay hay đợi có traffic</span>
+        <h2>Cập nhật hồ sơ doanh nghiệp của bạn</h2>
+        <p>Thêm ngành nghề, sản phẩm và thông tin liên hệ để khách hàng tìm thấy bạn. Miễn phí.</p>
+        <div class="act"><button class="btn" type="button">Cập nhật hồ sơ</button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- HUB -->
+<div class="view" id="v-hub">
+  <div class="wrap">
+    <div class="crumb"><a href="#" data-go="home">Trang chủ</a> / Công cụ</div>
+    <div class="tp-head" style="padding-top:20px">
+      <h1>Công cụ kế toán, thuế miễn phí</h1>
+      <p class="lead">Dùng ngay trên trình duyệt, không cần đăng ký. Số liệu theo quy định áp dụng năm 2026.</p>
+    </div>
+    <h2 style="margin-top:8px">Thuế và lương</h2>
+    <div class="tools" id="hubA"></div>
+    <h2 style="margin-top:44px">Hóa đơn và chứng từ</h2>
+    <div class="tools" id="hubB"></div>
+  </div>
+</div>
+
+<!-- TNCN -->
+<div class="view" id="v-tncn">
+  <div class="wrap">
+    <div class="crumb"><a href="#" data-go="home">Trang chủ</a> / <a href="#" data-go="hub">Công cụ</a> / Tính thuế TNCN</div>
+    <div class="tp-head" style="padding-top:20px">
+      <h1>Tính thuế thu nhập cá nhân</h1>
+      <p class="lead">Thuế TNCN phải nộp mỗi tháng từ tiền lương, tiền công, theo biểu thuế 5 bậc và mức giảm trừ gia cảnh năm 2026.</p>
+    </div>
+    <div class="tp">
+      <div class="panel">
+        <h3>Thông tin</h3>
+        <div class="row">
+          <label for="t-inc">Thu nhập chịu thuế mỗi tháng</label>
+          <div class="money"><input type="text" id="t-inc" inputmode="numeric" placeholder="0" class="num"><span>đồng</span></div>
+          <div class="hint">Lương đã trừ bảo hiểm bắt buộc, chưa trừ giảm trừ gia cảnh.</div>
+        </div>
+        <div class="row">
+          <span class="lbl">Số người phụ thuộc</span>
+          <div class="step" data-step="t-dep"><button type="button" aria-label="Bớt">−</button><output id="t-dep">0</output><button type="button" aria-label="Thêm">+</button></div>
+        </div>
+        <div class="act"><button class="btn ghost" type="button" data-reset="tncn">Nhập lại</button></div>
+      </div>
+      <div class="panel res" aria-live="polite">
+        <h3>Kết quả</h3>
+        <div id="t-out"><div class="empty">Nhập thu nhập để xem thuế phải nộp.</div></div>
+      </div>
+    </div>
+    <div class="bands">
+      <h2>Biểu thuế 5 bậc năm 2026</h2>
+      <p class="lead">Dòng tô màu là bậc cao nhất mà thu nhập của bạn chạm tới.</p>
+      <table class="tbl" id="t-bands"><thead><tr><th>Bậc</th><th>Thu nhập tính thuế/tháng</th><th class="r">Thuế suất</th><th class="r">Thuế ở bậc này</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="faq">
+      <h2>Câu hỏi thường gặp</h2>
+      <details><summary>Giảm trừ gia cảnh năm 2026 là bao nhiêu?</summary><p>15.500.000 đ/tháng cho bản thân và 6.200.000 đ/tháng cho mỗi người phụ thuộc.</p></details>
+      <details><summary>Thu nhập bao nhiêu thì phải nộp thuế?</summary><p>Khi thu nhập chịu thuế vượt 15.500.000 đ/tháng. Mỗi người phụ thuộc nâng ngưỡng thêm 6.200.000 đ.</p></details>
+      <details><summary>Lương Gross thì tính thế nào?</summary><p>Dùng công cụ Tính lương Gross - Net, công cụ sẽ tự trừ bảo hiểm trước khi tính thuế.</p></details>
+    </div>
+    <div class="others"><h2>Công cụ khác</h2><div class="chips" data-others="tncn"></div></div>
+  </div>
+</div>
+
+<!-- LUONG -->
+<div class="view" id="v-luong">
+  <div class="wrap">
+    <div class="crumb"><a href="#" data-go="home">Trang chủ</a> / <a href="#" data-go="hub">Công cụ</a> / Tính lương Gross - Net</div>
+    <div class="tp-head" style="padding-top:20px">
+      <h1>Tính lương Gross - Net</h1>
+      <p class="lead">Đổi qua lại giữa lương Gross và Net, kèm diễn giải bảo hiểm bắt buộc và thuế TNCN năm 2026.</p>
+    </div>
+    <div class="tp">
+      <div class="panel">
+        <h3>Thông tin</h3>
+        <div class="row">
+          <span class="lbl">Chiều tính</span>
+          <div class="seg" id="l-dir"><button type="button" class="on" data-v="g2n">Gross sang Net</button><button type="button" data-v="n2g">Net sang Gross</button></div>
+        </div>
+        <div class="row">
+          <label for="l-amt" id="l-amt-lbl">Lương Gross mỗi tháng</label>
+          <div class="money"><input type="text" id="l-amt" inputmode="numeric" placeholder="0" class="num"><span>đồng</span></div>
+        </div>
+        <div class="row">
+          <span class="lbl">Số người phụ thuộc</span>
+          <div class="step" data-step="l-dep"><button type="button" aria-label="Bớt">−</button><output id="l-dep">0</output><button type="button" aria-label="Thêm">+</button></div>
+        </div>
+        <div class="row">
+          <label for="l-zone">Vùng làm việc</label>
+          <select id="l-zone"><option value="0">Vùng I</option><option value="1">Vùng II</option><option value="2">Vùng III</option><option value="3">Vùng IV</option></select>
+          <div class="hint">Dùng để tính mức trần đóng bảo hiểm thất nghiệp.</div>
+        </div>
+        <div class="act"><button class="btn ghost" type="button" data-reset="luong">Nhập lại</button></div>
+      </div>
+      <div class="panel res" aria-live="polite">
+        <h3>Kết quả</h3>
+        <div id="l-out"><div class="empty">Nhập mức lương để xem kết quả.</div></div>
+      </div>
+    </div>
+    <p class="note">Số liệu mang tính tham khảo, vui lòng đối chiếu khi quyết toán.</p>
+    <div class="others"><h2>Công cụ khác</h2><div class="chips" data-others="luong"></div></div>
+  </div>
+</div>
+
+<!-- VAT -->
+<div class="view" id="v-vat">
+  <div class="wrap">
+    <div class="crumb"><a href="#" data-go="home">Trang chủ</a> / <a href="#" data-go="hub">Công cụ</a> / Tính thuế VAT</div>
+    <div class="tp-head" style="padding-top:20px">
+      <h1>Tính thuế GTGT (VAT)</h1>
+      <p class="lead">Cộng VAT vào giá chưa thuế, hoặc tách VAT ra khỏi giá đã gồm thuế. Kết quả làm tròn đến đồng.</p>
+    </div>
+    <div class="tp">
+      <div class="panel">
+        <h3>Thông tin</h3>
+        <div class="row">
+          <span class="lbl">Bạn đang có</span>
+          <div class="seg" id="v-mode"><button type="button" class="on" data-v="split">Giá đã gồm VAT</button><button type="button" data-v="add">Giá chưa có VAT</button></div>
+        </div>
+        <div class="row">
+          <label for="v-amt" id="v-amt-lbl">Số tiền đã gồm VAT</label>
+          <div class="money"><input type="text" id="v-amt" inputmode="numeric" placeholder="0" class="num"><span>đồng</span></div>
+        </div>
+        <div class="row">
+          <span class="lbl">Thuế suất</span>
+          <div class="seg" id="v-rate"><button type="button" data-v="0">0%</button><button type="button" data-v="5">5%</button><button type="button" data-v="8">8%</button><button type="button" class="on" data-v="10">10%</button></div>
+        </div>
+        <div class="act"><button class="btn ghost" type="button" data-reset="vat">Nhập lại</button></div>
+      </div>
+      <div class="panel res" aria-live="polite">
+        <h3>Kết quả</h3>
+        <div id="v-out"><div class="empty">Nhập số tiền để xem kết quả.</div></div>
+      </div>
+    </div>
+    <div class="others"><h2>Công cụ khác</h2><div class="chips" data-others="vat"></div></div>
+  </div>
+</div>
+
+<!-- SO THANH CHU -->
+<div class="view" id="v-chu">
+  <div class="wrap">
+    <div class="crumb"><a href="#" data-go="home">Trang chủ</a> / <a href="#" data-go="hub">Công cụ</a> / Đổi số thành chữ</div>
+    <div class="tp-head" style="padding-top:20px">
+      <h1>Đổi số tiền thành chữ</h1>
+      <p class="lead">Đọc số tiền thành chữ tiếng Việt để ghi hóa đơn, phiếu thu, phiếu chi và hợp đồng.</p>
+    </div>
+    <div class="tp">
+      <div class="panel">
+        <h3>Số tiền</h3>
+        <div class="row">
+          <label for="c-amt">Số tiền bằng số</label>
+          <div class="money"><input type="text" id="c-amt" inputmode="numeric" placeholder="0" class="num"><span>đồng</span></div>
+          <div class="hint">Tối đa 15 chữ số.</div>
+        </div>
+        <div class="act"><button class="btn ghost" type="button" data-reset="chu">Nhập lại</button></div>
+      </div>
+      <div class="panel res" aria-live="polite">
+        <h3>Số tiền bằng chữ</h3>
+        <div class="words" id="c-out"><span class="empty" style="display:block;padding:14px 0">Kết quả hiện ở đây.</span></div>
+        <div class="act"><button class="btn" type="button" id="c-copy">Sao chép</button></div>
+      </div>
+    </div>
+    <div class="others"><h2>Công cụ khác</h2><div class="chips" data-others="chu"></div></div>
+  </div>
+</div>
+
+<!-- KIEM TRA MST -->
+<div class="view" id="v-mst">
+  <div class="wrap">
+    <div class="crumb"><a href="#" data-go="home">Trang chủ</a> / <a href="#" data-go="hub">Công cụ</a> / Kiểm tra mã số thuế</div>
+    <div class="tp-head" style="padding-top:20px">
+      <h1>Kiểm tra mã số thuế</h1>
+      <p class="lead">Kiểm tra mã 10 số hoặc 13 số có hợp lệ không, theo chữ số kiểm tra tại Thông tư 105/2020/TT-BTC.</p>
+    </div>
+    <div class="panel" style="max-width:720px;margin:0 auto">
+      <label for="m-q">Mã số thuế</label>
+      <input type="text" class="big" id="m-q" autocomplete="off" placeholder="Ví dụ: 0101248141-001">
+      <div class="digits" id="m-digits" aria-hidden="true"></div>
+      <div id="m-out" aria-live="polite" style="text-align:center;margin-top:14px"></div>
+    </div>
+    <div class="faq">
+      <h2>Câu hỏi thường gặp</h2>
+      <details><summary>Mã số thuế 10 số và 13 số khác nhau thế nào?</summary><p>Mã 10 số cấp cho doanh nghiệp. Mã 13 số cấp cho chi nhánh, đơn vị trực thuộc, gồm 10 số của doanh nghiệp gốc và 3 số chi nhánh.</p></details>
+      <details><summary>Mã hợp lệ có chắc là doanh nghiệp đang hoạt động không?</summary><p>Không. Hợp lệ chỉ nghĩa là mã đúng định dạng. Trạng thái hoạt động cần xem ở hồ sơ doanh nghiệp.</p></details>
+    </div>
+    <div class="others"><h2>Công cụ khác</h2><div class="chips" data-others="mst"></div></div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 masothuedn.com · Thông tin doanh nghiệp công khai</span>
+    <nav aria-label="Chân trang"><a href="#">Giới thiệu</a><a href="#">Điều khoản</a><a href="#">Yêu cầu gỡ thông tin</a><a href="#">Liên hệ</a></nav>
+  </div>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('vi-VN');
+const parse=s=>+(String(s).replace(/\D/g,'')||0);
+const TOOLS=[
+  {id:'tncn',ico:'%',t:'Tính thuế thu nhập cá nhân',d:'Biểu thuế 5 bậc, giảm trừ gia cảnh mới.',g:'A'},
+  {id:'luong',ico:'₫',t:'Tính lương Gross - Net',d:'Tự trừ bảo hiểm và thuế, có diễn giải từng khoản.',g:'A'},
+  {id:'mst',ico:'✓',t:'Kiểm tra mã số thuế',d:'Biết ngay mã 10 hoặc 13 số có gõ nhầm không.',g:'B'},
+  {id:'vat',ico:'+',t:'Tính thuế VAT',d:'Cộng hoặc tách VAT với thuế suất 0, 5, 8, 10%.',g:'A'},
+  {id:'chu',ico:'Aa',t:'Đổi số tiền thành chữ',d:'Ghi số tiền bằng chữ cho hóa đơn, chứng từ.',g:'B'},
+];
+const toolHTML=x=>`<a class="tool" data-go="${x.id}"><span class="ico">${x.ico}</span><div><p class="t">${x.t}</p><p class="d">${x.d}</p></div></a>`;
+$('homeTools').innerHTML=TOOLS.map(toolHTML).join('');
+$('hubA').innerHTML=TOOLS.filter(x=>x.g==='A').map(toolHTML).join('');
+$('hubB').innerHTML=TOOLS.filter(x=>x.g==='B').map(toolHTML).join('');
+document.querySelectorAll('[data-others]').forEach(el=>{
+  el.innerHTML=TOOLS.filter(x=>x.id!==el.dataset.others).map(x=>`<a data-go="${x.id}">${x.t}</a>`).join('');
+});
+const PROV=["TP. Hà Nội","TP. Hải Phòng","TP. Huế","TP. Đà Nẵng","TP. Hồ Chí Minh","TP. Cần Thơ","An Giang","Bắc Ninh","Cà Mau","Cao Bằng","Đắk Lắk","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Tĩnh","Hưng Yên","Khánh Hòa","Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Nghệ An","Ninh Bình","Phú Thọ","Quảng Ngãi","Quảng Ninh","Quảng Trị","Sơn La","Tây Ninh","Thái Nguyên","Thanh Hóa","Tuyên Quang","Vĩnh Long"];
+$('chips').innerHTML=PROV.map(p=>`<a href="#">${p}</a>`).join('');
+
+/* view switch */
+const VIEWS=[['home','Trang chủ'],['hub','Hub công cụ'],['tncn','Thuế TNCN'],['luong','Lương Gross-Net'],['vat','VAT'],['chu','Số thành chữ'],['mst','Kiểm tra MST']];
+$('switch').insertAdjacentHTML('beforeend',VIEWS.map(([k,n])=>`<button type="button" data-go="${k}">${n}</button>`).join(''));
+function go(k,anchor){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+k));
+  document.querySelectorAll('#switch button').forEach(b=>b.classList.toggle('on',b.dataset.go===k));
+  document.querySelectorAll('nav.main a').forEach(a=>a.classList.toggle('cur',(k==='hub'||['tncn','luong','vat','chu','mst'].includes(k))?a.dataset.go==='hub':false));
+  if(anchor){$(anchor).scrollIntoView()}else window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(!a)return;e.preventDefault();go(a.dataset.go,a.dataset.anchor)});
+go('home');
+
+/* money inputs: live thousand separators */
+document.querySelectorAll('.money input').forEach(inp=>inp.addEventListener('input',()=>{
+  const max=inp.id==='c-amt'?15:13;const raw=inp.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'').slice(0,max);
+  inp.value=raw?(+raw>Number.MAX_SAFE_INTEGER?raw.replace(/\B(?=(\d{3})+(?!\d))/g,'.'):(+raw).toLocaleString('vi-VN')):'';
+}));
+/* steppers */
+document.querySelectorAll('[data-step]').forEach(s=>{
+  const o=$(s.dataset.step);const [m,p]=s.querySelectorAll('button');
+  m.onclick=()=>{o.value=Math.max(0,+o.value-1);o.textContent=o.value;recalc()};
+  p.onclick=()=>{o.value=Math.min(20,+o.value+1);o.textContent=o.value;recalc()};
+  o.value=0;
+});
+function seg(id,cb){const el=$(id);el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;el.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));cb&&cb(b.dataset.v);recalc()})}
+const segVal=id=>$(id).querySelector('.on').dataset.v;
+
+/* MST checksum (10 or 13 digits) */
+function mstCheck(v){
+  const d=(v.match(/\d/g)||[]);const clean=/^[\d\s.-]*$/.test(v);
+  if(!v.trim())return{state:'empty',d};
+  if(!clean)return{state:'name',d};
+  if(d.length<10)return{state:'short',need:10-d.length,d};
+  if(d.length>10&&d.length<13)return{state:'short13',need:13-d.length,d};
+  if(d.length>13)return{state:'long',d};
+  const w=[31,29,23,19,17,13,7,5,3];let s=0;for(let i=0;i<9;i++)s+=w[i]*+d[i];
+  const c=10-(s%11);
+  return{state:c===+d[9]?'ok':'bad',d,branch:d.length===13};
+}
+function renderDigits(box,d){
+  const n=d.length>10?13:10;let h='';
+  for(let i=0;i<n;i++){if(i===10)h+='<b>-</b>';h+=`<i class="${d[i]!==undefined?'on':''} ${i===9?'key':''} ${i>9?'br':''}">${d[i]??''}</i>`}
+  box.innerHTML=h+'<small>Ô viền đứt là số kiểm tra, dùng để phát hiện gõ nhầm'+(n===13?'. 3 ô sau dấu gạch là số chi nhánh':'')+'</small>';
+}
+function msg(r){
+  return {empty:['','Gõ đủ 10 số (hoặc 13 số với chi nhánh), trang kiểm tra ngay.'],
+    name:['','Đang tìm theo tên công ty.'],
+    short:['','Còn thiếu '+r.need+' số.'],
+    short13:['','Mã chi nhánh cần 13 số, còn thiếu '+r.need+' số.'],
+    long:['bad','Mã số thuế chỉ có 10 hoặc 13 số.'],
+    ok:['ok',r.branch?'Mã chi nhánh hợp lệ.':'Mã hợp lệ.'],
+    bad:['bad','Mã không hợp lệ, có thể gõ nhầm một chữ số.']}[r.state];
+}
+$('hq').addEventListener('input',()=>{const r=mstCheck($('hq').value);renderDigits($('hdigits'),r.d);const [c,t]=msg(r);$('hcheck').className='check '+c;$('hcheck').textContent=t+(r.state==='ok'?' Bấm Tra cứu để mở hồ sơ.':'')});
+$('m-q').addEventListener('input',()=>{const r=mstCheck($('m-q').value);renderDigits($('m-digits'),r.d);const [c,t]=msg(r.state==='name'?{state:'bad'}:r);
+  let h=`<div class="check ${c}" style="font-size:16px;font-weight:600">${r.state==='name'?'Chỉ nhập chữ số.':t}</div>`;
+  if(r.state==='ok')h+=`<div class="lookup">Nếu mã có trong danh bạ, tên và trạng thái doanh nghiệp hiện ở đây, kèm nút mở hồ sơ.<div class="act" style="margin-top:10px"><button class="btn" type="button">Xem hồ sơ</button></div></div>`;
+  $('m-out').innerHTML=h});
+renderDigits($('hdigits'),[]);$('hcheck').textContent=msg({state:'empty'})[1];renderDigits($('m-digits'),[]);
+
+/* tax */
+const SELF=15500000,DEP=6200000;
+const BANDS=[[10e6,.05],[30e6,.10],[60e6,.20],[100e6,.30],[Infinity,.35]];
+function tax(tn){let t=0,prev=0,parts=[];for(const [cap,r] of BANDS){const part=Math.max(0,Math.min(tn,cap)-prev);parts.push(part*r);t+=part*r;prev=cap}return{t,parts}}
+function bandsTable(tn){
+  const {parts}=tax(tn);const labels=['Đến 10 triệu','Trên 10 đến 30 triệu','Trên 30 đến 60 triệu','Trên 60 đến 100 triệu','Trên 100 triệu'];
+  let top=-1;parts.forEach((p,i)=>{if(p>0)top=i});
+  document.querySelector('#t-bands tbody').innerHTML=BANDS.map((b,i)=>`<tr class="${i===top?'cur':''}"><td data-l="Bậc">Bậc ${i+1}</td><td data-l="Thu nhập tính thuế">${labels[i]}</td><td class="r" data-l="Thuế suất">${b[1]*100}%</td><td class="r" data-l="Thuế ở bậc này">${tn>0?fmt(parts[i])+' đ':'–'}</td></tr>`).join('');
+}
+/* insurance */
+const REF_CAP=20*2340000;const MINWAGE=[5310000,4730000,4140000,3700000];
+function ins(g,z){const bh=Math.min(g,REF_CAP);const tn=Math.min(g,20*MINWAGE[z]);return{bhxh:bh*.08,bhyt:bh*.015,bhtn:tn*.01}}
+function g2n(g,dep,z){const i=ins(g,z);const sum=i.bhxh+i.bhyt+i.bhtn;const ded=SELF+DEP*dep;const tn=Math.max(0,g-sum-ded);const t=tax(tn).t;return{g,i,sum,ded,tn,t,net:g-sum-t}}
+
+/* number to words */
+const DG=['không','một','hai','ba','bốn','năm','sáu','bảy','tám','chín'];
+function read3(n,full){const h=Math.floor(n/100),t=Math.floor(n/10)%10,u=n%10;let w=[];
+  if(full||h>0)w.push(DG[h]+' trăm');
+  if(t===0){if(u>0&&(full||h>0))w.push('lẻ')}else if(t===1)w.push('mười');else w.push(DG[t]+' mươi');
+  if(u>0){if(u===1&&t>1)w.push('mốt');else if(u===5&&t>0)w.push('lăm');else if(u===4&&t>1)w.push('tư');else w.push(DG[u])}
+  return w.join(' ')}
+function toWords(s){
+  s=s.replace(/^0+/,'');if(!s)return'Không đồng';
+  const g=[];while(s.length){g.unshift(+s.slice(-3));s=s.slice(0,-3)}
+  const names=['','nghìn','triệu','tỷ','nghìn'];const out=[];const L=g.length;
+  g.forEach((v,idx)=>{const pos=L-1-idx;const lead=idx===0;
+    if(v>0){out.push(read3(v,!lead));if(names[pos])out.push(names[pos])}
+    if(pos===3&&v===0&&L>4&&g[idx-1]>0)out.push('tỷ');
+  });
+  const r=out.join(' ')+' đồng';return r.charAt(0).toUpperCase()+r.slice(1)}
+
+/* recalc */
+function recalc(){
+  // TNCN
+  const inc=parse($('t-inc').value),dep=+$('t-dep').value;
+  if(inc){const ded=SELF+DEP*dep,tn=Math.max(0,inc-ded),t=tax(tn).t;
+    $('t-out').innerHTML=`<div class="headline"><div class="k">Thuế TNCN phải nộp mỗi tháng</div><div class="v">${fmt(t)} đ</div></div>
+    <ul class="lines"><li><span>Thu nhập chịu thuế</span><span>${fmt(inc)} đ</span></li>
+    <li class="sub"><span>Giảm trừ bản thân</span><span>−${fmt(SELF)} đ</span></li>
+    <li class="sub"><span>Giảm trừ ${dep} người phụ thuộc</span><span>−${fmt(DEP*dep)} đ</span></li>
+    <li class="tot"><span>Thu nhập tính thuế</span><span>${fmt(tn)} đ</span></li></ul>
+    ${tn===0?'<p class="note ok">Thu nhập chưa tới ngưỡng, không phải nộp thuế.</p>':`<p class="note">Thuế suất thực tế ${(t/inc*100).toFixed(1).replace('.',',')}% trên thu nhập chịu thuế.</p>`}`;
+    bandsTable(tn)}
+  else{$('t-out').innerHTML='<div class="empty">Nhập thu nhập để xem thuế phải nộp.</div>';bandsTable(0)}
+  // Luong
+  const dir=segVal('l-dir'),amt=parse($('l-amt').value),ld=+$('l-dep').value,z=+$('l-zone').value;
+  $('l-amt-lbl').textContent=dir==='g2n'?'Lương Gross mỗi tháng':'Lương Net mong muốn mỗi tháng';
+  if(amt){let r;
+    if(dir==='g2n')r=g2n(amt,ld,z);
+    else{let lo=amt,hi=amt*2+1e8;for(let k=0;k<80;k++){const m=(lo+hi)/2;if(g2n(m,ld,z).net<amt)lo=m;else hi=m}r=g2n(Math.round(hi),ld,z)}
+    $('l-out').innerHTML=`<div class="headline"><div class="k">${dir==='g2n'?'Lương Net thực nhận':'Lương Gross cần trả'}</div><div class="v">${fmt(dir==='g2n'?r.net:r.g)} đ</div></div>
+    <ul class="lines"><li><span>Lương Gross</span><span>${fmt(r.g)} đ</span></li>
+    <li class="sub"><span>BHXH 8%</span><span>−${fmt(r.i.bhxh)} đ</span></li>
+    <li class="sub"><span>BHYT 1,5%</span><span>−${fmt(r.i.bhyt)} đ</span></li>
+    <li class="sub"><span>BHTN 1%</span><span>−${fmt(r.i.bhtn)} đ</span></li>
+    <li class="sub"><span>Giảm trừ gia cảnh</span><span>${fmt(r.ded)} đ</span></li>
+    <li class="sub"><span>Thu nhập tính thuế</span><span>${fmt(r.tn)} đ</span></li>
+    <li class="sub"><span>Thuế TNCN</span><span>−${fmt(r.t)} đ</span></li>
+    <li class="tot"><span>Lương Net</span><span>${fmt(r.net)} đ</span></li></ul>`}
+  else $('l-out').innerHTML='<div class="empty">Nhập mức lương để xem kết quả.</div>';
+  // VAT
+  const mode=segVal('v-mode'),rate=+segVal('v-rate')/100,va=parse($('v-amt').value);
+  $('v-amt-lbl').textContent=mode==='split'?'Số tiền đã gồm VAT':'Số tiền chưa có VAT';
+  if(va){let before,t,after;
+    if(mode==='split'){before=Math.round(va/(1+rate));t=va-before;after=va}else{before=va;t=Math.round(va*rate);after=va+t}
+    $('v-out').innerHTML=`<div class="headline"><div class="k">${mode==='split'?'Tiền hàng chưa thuế':'Tổng thanh toán'}</div><div class="v">${fmt(mode==='split'?before:after)} đ</div></div>
+    <ul class="lines"><li><span>Tiền trước thuế</span><span>${fmt(before)} đ</span></li>
+    <li><span>Tiền thuế GTGT ${rate*100}%</span><span>${fmt(t)} đ</span></li>
+    <li class="tot"><span>Tổng thanh toán</span><span>${fmt(after)} đ</span></li></ul>`}
+  else $('v-out').innerHTML='<div class="empty">Nhập số tiền để xem kết quả.</div>';
+  // Chu
+  const cs=$('c-amt').value.replace(/\D/g,'');
+  $('c-out').innerHTML=cs?toWords(cs):'<span class="empty" style="display:block;padding:14px 0">Kết quả hiện ở đây.</span>';
+}
+['t-inc','l-amt','v-amt','c-amt'].forEach(id=>$(id).addEventListener('input',recalc));
+$('l-zone').addEventListener('change',recalc);
+seg('l-dir');seg('v-mode');seg('v-rate');
+document.querySelectorAll('[data-reset]').forEach(b=>b.onclick=()=>{
+  const p=b.closest('.view');p.querySelectorAll('.money input').forEach(i=>i.value='');
+  p.querySelectorAll('.step output').forEach(o=>{o.value=0;o.textContent='0'});recalc()});
+$('c-copy').onclick=async()=>{try{await navigator.clipboard.writeText($('c-out').textContent);$('c-copy').textContent='Đã sao chép'}catch(e){$('c-copy').textContent='Không sao chép được'}setTimeout(()=>$('c-copy').textContent='Sao chép',1500)};
+recalc();
+</script>
+</body>
+</html>

@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { checkMst, type MstCheckResult } from "./actions";
+import { mstHint } from "../../components/mstHint";
+import { MstDigitBoxes, mstMessage } from "../../components/MstDigitBoxes";
+import siteStyles from "../../components/site.module.css";
 import styles from "../tools.module.css";
 
 const STATUS_LABEL: Record<"PENDING" | "OK" | "SOURCE_MISS", string> = {
@@ -16,6 +19,9 @@ export function MstChecker() {
   const [result, setResult] = useState<MstCheckResult | null>(null);
   const [isPending, startTransition] = useTransition();
 
+  const hint = mstHint(value);
+  const message = mstMessage(hint, "tool");
+
   const onCheck = () => {
     const raw = value.trim();
     if (!raw) return;
@@ -23,7 +29,7 @@ export function MstChecker() {
   };
 
   return (
-    <div className={styles.panel}>
+    <div className={`${styles.panel} ${styles.panelNarrow}`}>
       <div className={styles.field}>
         <label htmlFor="mst" className={styles.label}>
           Mã số thuế
@@ -32,12 +38,17 @@ export function MstChecker() {
           id="mst"
           inputMode="numeric"
           autoComplete="off"
-          placeholder="VD: 0300588569"
+          placeholder="VD: 0101248141-001"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && onCheck()}
           className={`${styles.input} ${styles.inputLarge}`}
         />
+      </div>
+
+      <MstDigitBoxes hint={hint} />
+      <div className={`${siteStyles.check} ${message.tone === "ok" ? siteStyles.checkOk : message.tone === "bad" ? siteStyles.checkBad : ""}`} aria-live="polite">
+        {message.text}
       </div>
 
       <div className={styles.actions}>
@@ -57,7 +68,7 @@ export function MstChecker() {
           )}
 
           {result.kind === "found" && (
-            <>
+            <div className={styles.lookup}>
               <div className={styles.resultStrong}>{result.name ?? "(chưa rõ tên doanh nghiệp)"}</div>
               <div>
                 Mã số thuế <strong>{result.taxCode}</strong> — {STATUS_LABEL[result.enrichStatus]}.
@@ -65,11 +76,11 @@ export function MstChecker() {
               {result.enrichStatus !== "SOURCE_MISS" && (
                 <div className={styles.actions}>
                   <Link href={`/${result.taxCode}`} className={styles.secondaryBtn}>
-                    Xem chi tiết
+                    Xem hồ sơ
                   </Link>
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       )}

@@ -1,80 +1,74 @@
 "use client";
 
 import { useState } from "react";
-import { onlyDigits } from "@/lib/tools/number-to-words";
+import { MoneyField } from "../MoneyField";
+import { SegmentedControl } from "../SegmentedControl";
 import { computeVat, formatVnd, VAT_RATES, type VatMode, type VatRate } from "@/lib/tools/vat";
 import styles from "../tools.module.css";
 
-const MAX_DIGITS = 13;
-const groupDigits = (digits: string) => digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
 const MODES: { value: VatMode; label: string }[] = [
-  { value: "extract", label: "Tách VAT từ giá đã gồm thuế" },
-  { value: "add", label: "Cộng VAT vào giá chưa thuế" },
+  { value: "extract", label: "Giá đã gồm VAT" },
+  { value: "add", label: "Giá chưa có VAT" },
 ];
+
+const RATE_OPTIONS = VAT_RATES.map((r) => ({ value: r, label: `${r}%` }));
 
 export function VatCalculator() {
   const [digits, setDigits] = useState("");
   const [rate, setRate] = useState<VatRate>(10);
   const [mode, setMode] = useState<VatMode>("extract");
   const result = digits ? computeVat(Number(digits), rate, mode) : null;
-  const show = (n: number | undefined) => (n === undefined ? "–" : `${formatVnd(n)} đ`);
+
+  const reset = () => setDigits("");
 
   return (
-    <div className={styles.panel}>
-      <div className={styles.field}>
-        <label htmlFor="amount" className={styles.label}>
-          {mode === "extract" ? "Số tiền đã gồm VAT (đồng)" : "Số tiền chưa gồm VAT (đồng)"}
-        </label>
-        <input
+    <div className={styles.tp}>
+      <div className={styles.panel}>
+        <h3>Thông tin</h3>
+        <SegmentedControl label="Bạn đang có" options={MODES} value={mode} onChange={setMode} />
+        <MoneyField
           id="amount"
-          inputMode="numeric"
-          autoComplete="off"
+          label={mode === "extract" ? "Số tiền đã gồm VAT" : "Số tiền chưa gồm VAT"}
+          digits={digits}
+          onChange={setDigits}
+          maxDigits={13}
           placeholder="VD: 108.000"
-          value={groupDigits(digits)}
-          onChange={(e) => setDigits(onlyDigits(e.target.value).slice(0, MAX_DIGITS))}
-          className={`${styles.input} ${styles.inputLarge}`}
         />
+        <SegmentedControl<VatRate> label="Thuế suất" options={RATE_OPTIONS} value={rate} onChange={setRate} />
+        <div className={styles.actions}>
+          <button type="button" className={styles.secondaryBtn} onClick={reset}>
+            Nhập lại
+          </button>
+        </div>
       </div>
 
-      <fieldset className={styles.field}>
-        <legend className={styles.label}>Thuế suất</legend>
-        <div className={styles.choices}>
-          {VAT_RATES.map((r) => (
-            <label key={r} className={styles.choice}>
-              <input type="radio" name="rate" checked={rate === r} onChange={() => setRate(r)} />
-              {r}%
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset className={styles.field}>
-        <legend className={styles.label}>Cách tính</legend>
-        <div className={styles.choices}>
-          {MODES.map((m) => (
-            <label key={m.value} className={styles.choice}>
-              <input type="radio" name="mode" checked={mode === m.value} onChange={() => setMode(m.value)} />
-              {m.label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <dl className={styles.rows} aria-live="polite">
-        <div className={styles.row}>
-          <dt>Tiền trước thuế</dt>
-          <dd>{show(result?.beforeTax)}</dd>
-        </div>
-        <div className={styles.row}>
-          <dt>Tiền thuế GTGT ({rate}%)</dt>
-          <dd>{show(result?.tax)}</dd>
-        </div>
-        <div className={styles.row}>
-          <dt>Tiền sau thuế</dt>
-          <dd>{show(result?.afterTax)}</dd>
-        </div>
-      </dl>
+      <div className={`${styles.panel} ${styles.res}`} aria-live="polite">
+        <h3>Kết quả</h3>
+        {result ? (
+          <>
+            <div className={styles.headline}>
+              <div className={styles.headlineLabel}>{mode === "extract" ? "Tiền hàng chưa thuế" : "Tổng thanh toán"}</div>
+              <div className={styles.headlineValue}>{formatVnd(mode === "extract" ? result.beforeTax : result.afterTax)} đ</div>
+            </div>
+            <ul className={styles.lines}>
+              <li>
+                <span>Tiền trước thuế</span>
+                <span>{formatVnd(result.beforeTax)} đ</span>
+              </li>
+              <li>
+                <span>Tiền thuế GTGT ({rate}%)</span>
+                <span>{formatVnd(result.tax)} đ</span>
+              </li>
+              <li className={styles.tot}>
+                <span>Tổng thanh toán</span>
+                <span>{formatVnd(result.afterTax)} đ</span>
+              </li>
+            </ul>
+          </>
+        ) : (
+          <p className={`${styles.result} ${styles.empty}`}>Nhập số tiền để xem kết quả.</p>
+        )}
+      </div>
     </div>
   );
 }

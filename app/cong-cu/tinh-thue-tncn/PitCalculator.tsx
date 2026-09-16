@@ -2,108 +2,98 @@
 
 import { useState } from "react";
 import { CopyTextButton } from "../CopyTextButton";
-import { onlyDigits } from "@/lib/tools/number-to-words";
+import { MoneyField } from "../MoneyField";
+import { Stepper } from "../Stepper";
+import { TncnBandsTable } from "./TncnBandsTable";
 import { formatVnd } from "@/lib/tools/payroll";
-import { computePit, type PitResult } from "@/lib/tools/pit";
+import { computePit } from "@/lib/tools/pit";
 import styles from "../tools.module.css";
 
-const MAX_DIGITS = 12;
-const groupDigits = (digits: string) => digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-function bracketLabel(index: number, upTo: number, rate: number): string {
-  return `Bậc ${index + 1} (đến ${upTo === Infinity ? "trên 100 triệu" : `${formatVnd(upTo)} đ`}) — ${Math.round(rate * 100)}%`;
-}
-
-function summarize(income: number, deps: number, result: PitResult): string {
+function summarize(income: number, deps: number, taxableIncome: number, tax: number): string {
   return [
     `Thu nhập chịu thuế: ${formatVnd(income)} đ`,
     `Số người phụ thuộc: ${deps}`,
-    `Thu nhập tính thuế: ${formatVnd(result.taxableIncome)} đ`,
-    `Thuế TNCN phải nộp/tháng: ${formatVnd(result.tax)} đ`,
+    `Thu nhập tính thuế: ${formatVnd(taxableIncome)} đ`,
+    `Thuế TNCN phải nộp/tháng: ${formatVnd(tax)} đ`,
   ].join("\n");
 }
 
 export function PitCalculator() {
   const [digits, setDigits] = useState("");
-  const [dependents, setDependents] = useState("0");
-  const [submitted, setSubmitted] = useState<{ income: number; deps: number; result: PitResult } | null>(null);
+  const [dependents, setDependents] = useState(0);
 
   const income = digits ? Number(digits) : null;
-  const deps = Math.max(0, Number(dependents) || 0);
-  const canSubmit = income !== null && income > 0;
+  const result = income !== null && income > 0 ? computePit(income, dependents) : null;
 
-  const onSubmit = () => {
-    if (!canSubmit) return;
-    setSubmitted({ income, deps, result: computePit(income, deps) });
+  const reset = () => {
+    setDigits("");
+    setDependents(0);
   };
 
   return (
-    <div className={styles.panel}>
-      <div className={styles.field}>
-        <label htmlFor="income" className={styles.label}>
-          Thu nhập chịu thuế/tháng (đồng)
-        </label>
-        <input
-          id="income"
-          inputMode="numeric"
-          autoComplete="off"
-          placeholder="VD: 20.000.000"
-          value={groupDigits(digits)}
-          onChange={(e) => setDigits(onlyDigits(e.target.value).slice(0, MAX_DIGITS))}
-          onKeyDown={(e) => e.key === "Enter" && onSubmit()}
-          className={`${styles.input} ${styles.inputLarge}`}
-        />
-      </div>
-
-      <div className={styles.field}>
-        <label htmlFor="dependents" className={styles.label}>
-          Số người phụ thuộc
-        </label>
-        <input
-          id="dependents"
-          inputMode="numeric"
-          autoComplete="off"
-          value={dependents}
-          onChange={(e) => setDependents(onlyDigits(e.target.value).slice(0, 2))}
-          onKeyDown={(e) => e.key === "Enter" && onSubmit()}
-          className={styles.input}
-        />
-      </div>
-
-      <div className={styles.actions}>
-        <button type="button" onClick={onSubmit} disabled={!canSubmit} className={styles.primaryBtn}>
-          Tính thuế
-        </button>
-      </div>
-
-      {submitted ? (
-        <>
-          <dl className={styles.rows} aria-live="polite">
-            <div className={styles.row}>
-              <dt>Thu nhập tính thuế</dt>
-              <dd>{formatVnd(submitted.result.taxableIncome)} đ</dd>
-            </div>
-            {submitted.result.rows.map((r, i) => (
-              <div className={styles.row} key={r.upTo}>
-                <dt>{bracketLabel(i, r.upTo, r.rate)}</dt>
-                <dd>{formatVnd(r.tax)} đ</dd>
-              </div>
-            ))}
-            <div className={styles.row}>
-              <dt>Thuế TNCN phải nộp/tháng</dt>
-              <dd>{formatVnd(submitted.result.tax)} đ</dd>
-            </div>
-          </dl>
+    <>
+      <div className={styles.tp}>
+        <div className={styles.panel}>
+          <h3>Thông tin</h3>
+          <MoneyField
+            id="income"
+            label="Thu nhập chịu thuế mỗi tháng"
+            digits={digits}
+            onChange={setDigits}
+            placeholder="VD: 20.000.000"
+            hint="Lương đã trừ bảo hiểm bắt buộc, chưa trừ giảm trừ gia cảnh."
+          />
+          <Stepper label="Số người phụ thuộc" value={dependents} onChange={setDependents} />
           <div className={styles.actions}>
-            <CopyTextButton
-              value={summarize(submitted.income, submitted.deps, submitted.result)}
-              label="Sao chép kết quả"
-            />
+            <button type="button" className={styles.secondaryBtn} onClick={reset}>
+              Nhập lại
+            </button>
           </div>
-        </>
-      ) : (
-        <p className={`${styles.result} ${styles.empty}`}>Nhập thu nhập chịu thuế và bấm “Tính thuế” để xem kết quả.</p>
-      )}
-    </div>
+        </div>
+
+        <div className={`${styles.panel} ${styles.res}`} aria-live="polite">
+          <h3>Kết quả</h3>
+          {result ? (
+            <>
+              <div className={styles.headline}>
+                <div className={styles.headlineLabel}>Thuế TNCN phải nộp mỗi tháng</div>
+                <div className={styles.headlineValue}>{formatVnd(result.tax)} đ</div>
+              </div>
+              <ul className={styles.lines}>
+                <li>
+                  <span>Thu nhập chịu thuế</span>
+                  <span>{formatVnd(income!)} đ</span>
+                </li>
+                <li className={styles.sub}>
+                  <span>Giảm trừ bản thân và người phụ thuộc</span>
+                  <span>−{formatVnd(income! - result.taxableIncome)} đ</span>
+                </li>
+                <li className={styles.tot}>
+                  <span>Thu nhập tính thuế</span>
+                  <span>{formatVnd(result.taxableIncome)} đ</span>
+                </li>
+              </ul>
+              {result.taxableIncome === 0 ? (
+                <p className={`${styles.note} ${styles.noteOk}`}>Thu nhập chưa tới ngưỡng, không phải nộp thuế.</p>
+              ) : (
+                <p className={styles.note}>
+                  Thuế suất thực tế {((result.tax / income!) * 100).toFixed(1).replace(".", ",")}% trên thu nhập chịu thuế.
+                </p>
+              )}
+              <div className={styles.actions}>
+                <CopyTextButton
+                  value={summarize(income!, dependents, result.taxableIncome, result.tax)}
+                  label="Sao chép kết quả"
+                />
+              </div>
+            </>
+          ) : (
+            <p className={`${styles.result} ${styles.empty}`}>Nhập thu nhập để xem thuế phải nộp.</p>
+          )}
+        </div>
+      </div>
+
+      <TncnBandsTable taxableIncome={result?.taxableIncome ?? 0} />
+    </>
   );
 }
