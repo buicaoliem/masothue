@@ -53,6 +53,22 @@ export const TOOLS: Tool[] = [
     enabled: true,
   },
   {
+    slug: "tien-cham-nop-thue",
+    name: "Tính tiền chậm nộp thuế",
+    summary: "Tính tiền chậm nộp thuế theo mức 0,03%/ngày từ hạn nộp đến ngày nộp thực tế.",
+    description:
+      "Tính tiền chậm nộp thuế theo mức 0,03%/ngày trên số tiền thuế chậm nộp, tính liên tục từ ngày sau hạn nộp đến ngày liền trước ngày nộp thực tế, theo khoản 2 Điều 59 Luật Quản lý thuế 38/2019/QH14.",
+    enabled: true,
+  },
+  {
+    slug: "tinh-luong-lam-them-gio",
+    name: "Tính lương làm thêm giờ",
+    summary: "Tính tiền lương làm thêm giờ theo mức 150%/200%/300% và phụ trội ban đêm.",
+    description:
+      "Tính tiền lương làm thêm giờ theo mức tối thiểu 150% ngày thường, 200% ngày nghỉ hằng tuần, 300% ngày lễ tết và phụ trội làm việc ban đêm, theo Bộ luật Lao động 2019 và Nghị định 145/2020/NĐ-CP.",
+    enabled: true,
+  },
+  {
     slug: "tao-vietqr",
     name: "Tạo mã VietQR",
     summary: "Tạo mã QR chuyển khoản ngân hàng theo chuẩn VietQR.",
