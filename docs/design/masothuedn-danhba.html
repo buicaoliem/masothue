@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock trang danh bạ masothuedn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--soft:#F2F6FC;--ink:#14233B;--muted:#56657C;--blue:#1B4DB1;--blue-dark:#133A88;--line:#D8E0EC;--ok:#16794B;--okbg:#E7F5EE;--off:#6B7587;--offbg:#EEF0F4;--field:#FFFFFF;--hl:#E6EEFB;
+  --gold:#E3B341;--gold-dark:#C99A2E;--goldink:#1A1A1A;--goldbg:#FBF4DF;--goldtext:#7A5A00;--goldline:#EBCB7A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1726;--soft:#16213A;--ink:#E6ECF5;--muted:#9AA8BF;--blue:#6D9BF1;--blue-dark:#8FB3F5;--line:#2A3752;--ok:#4CC38A;--okbg:#153327;--off:#9AA8BF;--offbg:#1F2A40;--field:#0F1726;--hl:#1C2B4A;--gold:#E3B341;--gold-dark:#F0C75E;--goldbg:#2E2715;--goldtext:#F0C75E;--goldline:#6B5620}}
+:root[data-theme="dark"]{--bg:#0F1726;--soft:#16213A;--ink:#E6ECF5;--muted:#9AA8BF;--blue:#6D9BF1;--blue-dark:#8FB3F5;--line:#2A3752;--ok:#4CC38A;--okbg:#153327;--off:#9AA8BF;--offbg:#1F2A40;--field:#0F1726;--hl:#1C2B4A;--gold:#E3B341;--gold-dark:#F0C75E;--goldbg:#2E2715;--goldtext:#F0C75E;--goldline:#6B5620}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.num{font-variant-numeric:tabular-nums}
+h1,h2,h3{text-align:center;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.25}
+h2{font-size:clamp(19px,2.6vw,22px)}
+h3{font-size:16px}
+.lead{text-align:center;color:var(--muted);margin:8px auto 0;max-width:640px}
+.meta{color:var(--muted);font-size:14px}
+.missing{color:var(--muted);font-style:italic}
+
+.mockbar{background:#FFF7E0;color:#6B4E00;font-size:13px;padding:8px 0;border-bottom:1px solid #F0DC9A}
+.mockbar .wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.mockbar button{font:inherit;font-size:13px;border:1px solid #E0C36A;background:#fff;color:#6B4E00;border-radius:999px;padding:3px 11px;cursor:pointer}
+.mockbar button.on{background:#6B4E00;color:#fff;border-color:#6B4E00}
+
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}
+.logo span{color:var(--blue)}
+nav{display:flex;gap:22px}
+nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:15px}
+.crumb{font-size:14px;color:var(--muted);padding:18px 0 4px;overflow-wrap:anywhere}
+.crumb a{text-decoration:none}
+.v{display:none}.v.on{display:block}
+.page{padding-bottom:56px}
+
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.b-ok{background:var(--okbg);color:var(--ok)}
+.b-off{background:var(--offbg);color:var(--off)}
+.b-gold{background:var(--gold);color:var(--goldink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 18px;border:0;border-radius:9px;background:var(--blue);color:#fff;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--blue-dark)}
+.btn.ghost{background:transparent;color:var(--blue);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--blue);background:transparent}
+.btn.gold{background:var(--gold);color:var(--goldink)}
+.btn.gold:hover{background:var(--gold-dark)}
+.act{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.logo-box{border-radius:12px;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}
+
+/* listing */
+.lhead{padding:10px 0 20px}
+.filterbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.filterbar button{font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);border-radius:999px;padding:5px 13px;cursor:pointer}
+.filterbar button.on{border-color:var(--blue);color:var(--blue);background:var(--hl)}
+.top{background:var(--goldbg);border:1px solid var(--goldline);border-radius:16px;padding:22px 18px 20px;margin-top:10px}
+.top .sub{text-align:center;font-size:13px;color:var(--goldtext);margin:4px 0 16px}
+.feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.f{background:var(--bg);border:2px solid var(--gold);border-radius:14px;padding:18px 16px;text-align:center;display:flex;flex-direction:column;gap:6px}
+.f .logo-box{width:64px;height:64px;font-size:22px;margin:0 auto 4px}
+.f h4{margin:0;font-size:15px;line-height:1.35}
+.f h4 a{color:var(--ink);text-decoration:none}
+.f p{margin:0;font-size:14px;color:var(--muted)}
+.f .act{justify-content:center;margin-top:auto;padding-top:8px}
+.f.empty{border-style:dashed;border-color:var(--goldline);background:transparent}
+.f.empty .logo-box{background:transparent;border:2px dashed var(--goldline);color:var(--goldtext)}
+.list{margin-top:34px}
+.list h2{margin-bottom:6px}
+.row{display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.row .logo-box{width:52px;height:52px;font-size:18px}
+.info{flex:1;min-width:0}
+.info h4{margin:0;font-size:16px;line-height:1.35}
+.info h4 a{color:var(--ink);text-decoration:none}
+.info h4 a:hover{color:var(--blue)}
+.info .meta{margin-top:2px}
+.pager{display:flex;justify-content:flex-end;gap:6px;margin-top:18px}
+.pager a{min-width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-size:14px;padding:0 10px}
+.pager a.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.related{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:40px}
+.box{border:1px solid var(--line);border-radius:12px;padding:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.chips a{padding:6px 13px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:14px}
+.chips a:hover{border-color:var(--blue);color:var(--blue)}
+.emptyrow{text-align:center;padding:36px 16px;border:1.5px dashed var(--line);border-radius:12px;margin-top:14px}
+.emptyrow p{margin:6px 0 0;color:var(--muted)}
+.emptyrow .act{justify-content:center;margin-top:14px}
+
+/* profile */
+.pp{margin-top:12px;border-radius:18px;overflow:hidden}
+.pp.paid{border:2px solid var(--gold)}
+.pp.free{border:1px solid var(--line)}
+.phead{padding:28px 22px;text-align:center}
+.paid .phead{background:var(--goldbg)}
+.free .phead{background:var(--soft)}
+.phead .logo-box{width:88px;height:88px;font-size:30px;margin:0 auto 12px}
+.phead h1{margin-top:8px}
+.phead .meta{margin-top:6px}
+.phead .act{justify-content:center;margin-top:18px}
+.pbody{padding:24px 22px 28px}
+.sec + .sec{margin-top:30px}
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.gallery div{aspect-ratio:4/3;border-radius:10px;background:var(--soft);display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:8px}
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.svc{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.svc b{display:block}
+.svc span{font-size:14px;color:var(--muted)}
+.kv{display:grid;grid-template-columns:200px 1fr;margin:14px auto 0;max-width:820px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kv dt,.kv dd{margin:0;padding:11px 16px;border-bottom:1px solid var(--line)}
+.kv dt{background:var(--soft);color:var(--muted);font-size:14px;font-weight:500}
+.kv dt:last-of-type,.kv dd:last-of-type{border-bottom:0}
+.claim{max-width:820px;margin:18px auto 0;border:1.5px dashed var(--goldline);background:var(--goldbg);border-radius:12px;padding:18px}
+.claim p{margin:0;text-align:center;font-size:15px}
+.claim .act{margin-top:12px}
+.upsell{max-width:820px;margin:14px auto 0;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:14px 16px;border-radius:12px;border:1px solid var(--line)}
+.upsell p{margin:0;font-size:14px;color:var(--muted)}
+.same{margin-top:34px}
+.note{font-size:13px;color:var(--muted);text-align:center;margin-top:18px}
+
+
+/* forms */
+.formwrap{max-width:760px;margin:12px auto 0}
+.fs{border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:16px}
+.fs h2{margin-bottom:4px}
+.fs .sub{text-align:center;color:var(--muted);font-size:14px;margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.fld{margin-bottom:14px}
+.fld label,.lbl{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.fld .opt{font-weight:400;color:var(--muted)}
+.fld input,.fld select,.fld textarea{width:100%;min-width:0;height:46px;padding:0 13px;font:inherit;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:10px}
+.fld textarea{height:auto;min-height:96px;padding:10px 13px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue);outline:none}
+.hint{font-size:13px;color:var(--muted);margin-top:5px}
+.hint.ok{color:var(--ok)}.hint.bad{color:#B42318}
+.count{float:right}
+.svcrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) 40px;gap:8px;margin-bottom:8px}
+.svcrow input{height:42px;padding:0 11px;font:inherit;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:9px;min-width:0}
+.icon-btn{height:42px;border:1.5px solid var(--line);background:var(--field);border-radius:9px;color:var(--muted);cursor:pointer;font-size:18px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:15px;margin:10px 0;cursor:pointer}
+.chk input{width:18px;height:18px;margin-top:3px;flex:none}
+.private{background:var(--soft);border-color:transparent}
+.done{text-align:center;padding:40px 20px;border:1px solid var(--line);border-radius:14px;margin-top:16px}
+.done .ic{width:56px;height:56px;border-radius:50%;background:var(--okbg);color:var(--ok);display:grid;place-items:center;font-size:26px;margin:0 auto 12px}
+.done p{color:var(--muted);margin:8px auto 0;max-width:520px}
+.done .act{justify-content:center;margin-top:18px}
+.perks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.perk{border:2px solid var(--gold);border-radius:14px;padding:18px;background:var(--goldbg)}
+.perk h3{margin-bottom:6px}
+.perk p{margin:0;font-size:14px;text-align:center}
+.price{text-align:center;margin-top:18px;font-size:15px}
+/* admin */
+.atabs{display:flex;gap:4px;justify-content:center;border-bottom:1px solid var(--line);margin-top:14px;overflow-x:auto}
+.atabs button{font:inherit;background:none;border:0;border-bottom:2.5px solid transparent;padding:11px 14px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.atabs button.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+.apane{display:none;margin-top:18px}.apane.on{display:block}
+.sub-card{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+.sub-card .top2{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.sub-card h4{margin:0;font-size:17px}
+.cmp2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.cmp2 div{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14px}
+.cmp2 b{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.b-warn{background:#FEF3C7;color:#8A5A00}
+.reason{display:none;margin-top:10px}
+.reason.on{display:block}
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th,.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+.tbl th{font-size:13px;color:var(--muted);font-weight:600;background:var(--soft)}
+@media (max-width:760px){
+  .grid2,.perks,.cmp2{grid-template-columns:1fr}
+  .svcrow{grid-template-columns:1fr 40px}
+  .svcrow input:nth-child(2){grid-column:1/2}
+  .tbl.stack thead{display:none}
+  .tbl.stack,.tbl.stack tbody,.tbl.stack tr,.tbl.stack td{display:block;width:100%}
+  .tbl.stack tr{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:10px}
+  .tbl.stack td{border:0;padding:4px 0;display:flex;justify-content:space-between;gap:10px;text-align:right}
+  .tbl.stack td::before{content:attr(data-l);color:var(--muted);font-size:13px;text-align:left}
+}
+
+footer{border-top:1px solid var(--line);padding:28px 0 36px;font-size:14px;color:var(--muted)}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot nav{gap:18px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  nav.main{display:none}
+  .feat,.related,.services{grid-template-columns:1fr}
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kv{grid-template-columns:1fr}
+  .kv dt{border-bottom:0;padding-bottom:2px}
+  .row{flex-wrap:wrap}
+  .row .act{width:100%}
+  .pbody,.phead{padding-left:16px;padding-right:16px}
+}
+</style>
+</head>
+<body>
+<div class="mockbar"><div class="wrap" id="sw"><strong>Bản mock, xem trang:</strong></div></div>
+
+<header><div class="wrap bar">
+  <a class="logo" href="#" data-go="list">masothue<span>dn</span></a>
+  <nav class="main" aria-label="Menu chính"><a href="#">Tra cứu</a><a href="#" data-go="list">Danh bạ</a><a href="#">Công cụ</a></nav>
+</div></header>
+
+<main class="wrap page">
+<!-- LISTING -->
+<div class="v" id="v-list">
+  <div class="crumb"><a href="#">Trang chủ</a> / <a href="#">Danh bạ</a> / <a href="#">Hà Nội</a> / Kế toán, thuế</div>
+  <div class="lhead">
+    <h1>Dịch vụ kế toán, thuế tại Hà Nội</h1>
+    <p class="lead">128 doanh nghiệp đang hoạt động. Dữ liệu trong mock là minh họa.</p>
+    <div class="filterbar" id="fb"><button class="on">Đang hoạt động</button><button>Tất cả</button><button>Mới thành lập</button><button>Có hồ sơ đầy đủ</button></div>
+  </div>
+
+  <div class="top">
+    <h2>Đứng đầu ngành</h2>
+    <p class="sub">Vị trí tài trợ</p>
+    <div class="feat" id="feat"></div>
+  </div>
+
+  <div class="list">
+    <h2>Tất cả doanh nghiệp</h2>
+    <div id="rows"></div>
+    <div class="pager"><a class="on" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">Trang sau</a></div>
+  </div>
+
+  <div class="related">
+    <div class="box"><h3>Ngành liên quan tại Hà Nội</h3><div class="chips"><a href="#">Dịch vụ pháp lý</a><a href="#">Tư vấn quản lý</a><a href="#">Chữ ký số</a><a href="#">Hóa đơn điện tử</a></div></div>
+    <div class="box"><h3>Kế toán, thuế ở tỉnh khác</h3><div class="chips"><a href="#">TP. Hồ Chí Minh</a><a href="#">TP. Đà Nẵng</a><a href="#">TP. Hải Phòng</a><a href="#">Ninh Bình</a></div></div>
+  </div>
+</div>
+
+<!-- EMPTY LISTING -->
+<div class="v" id="v-empty">
+  <div class="crumb"><a href="#">Trang chủ</a> / <a href="#">Danh bạ</a> / <a href="#">Lai Châu</a> / Kế toán, thuế</div>
+  <div class="lhead"><h1>Dịch vụ kế toán, thuế tại Lai Châu</h1><p class="lead">Trang ngành chưa đủ doanh nghiệp. Trang dạng này không đưa lên Google cho tới khi đủ.</p></div>
+  <div class="top">
+    <h2>Đứng đầu ngành</h2>
+    <p class="sub">Vị trí tài trợ</p>
+    <div class="feat"><div class="f empty"><div class="logo-box">+</div><h4>Vị trí này đang trống</h4><p>Doanh nghiệp đầu tiên đăng ký sẽ đứng đầu trang.</p><div class="act"><a class="btn gold" href="#" data-go="ads">Đăng ký vị trí</a></div></div></div>
+  </div>
+  <div class="emptyrow">
+    <h3>Chưa có doanh nghiệp nào cập nhật ngành này</h3>
+    <p>Doanh nghiệp kế toán, thuế ở Lai Châu có thể tự thêm hồ sơ miễn phí.</p>
+    <div class="act"><a class="btn" href="#" data-go="form">Thêm doanh nghiệp của bạn</a></div>
+  </div>
+</div>
+
+<!-- PAID PROFILE -->
+<div class="v" id="v-paid"></div>
+<!-- FREE PROFILE -->
+<div class="v" id="v-free"></div>
+
+<!-- FORM -->
+<div class="v" id="v-form">
+  <div class="crumb"><a href="#">Trang chủ</a> / <a href="#" data-go="list">Danh bạ</a> / Cập nhật hồ sơ</div>
+  <div class="lhead" style="padding-bottom:0"><h1>Cập nhật hồ sơ doanh nghiệp</h1><p class="lead">Miễn phí. Chúng tôi gọi xác minh với người gửi trước khi đăng, để không ai sửa được hồ sơ của doanh nghiệp khác.</p></div>
+  <form class="formwrap" id="pform" onsubmit="return false">
+    <div class="fs"><h2>Doanh nghiệp</h2><p class="sub">Tên và địa chỉ sẽ được đối chiếu với thông tin đăng ký</p>
+      <div class="fld"><label for="f-mst">Mã số thuế</label><input id="f-mst" inputmode="numeric" placeholder="10 hoặc 13 số" class="num"><div class="hint" id="f-msth">Nhập mã số thuế để kiểm tra.</div></div>
+      <div class="fld"><label for="f-name">Tên doanh nghiệp</label><input id="f-name" placeholder="Như trên giấy đăng ký"></div>
+      <div class="fld"><label for="f-addr">Địa chỉ trụ sở</label><input id="f-addr" placeholder="Số nhà, đường, phường"></div>
+      <div class="grid2">
+        <div class="fld"><label for="f-prov">Tỉnh, thành phố</label><select id="f-prov"><option>TP. Hà Nội</option><option>TP. Hồ Chí Minh</option><option>TP. Đà Nẵng</option><option>TP. Hải Phòng</option><option>Ninh Bình</option><option>Bắc Ninh</option><option>Lai Châu</option></select></div>
+        <div class="fld"><label for="f-grp">Nhóm ngành</label><select id="f-grp"><option>Kế toán, thuế</option><option>Luật, pháp lý doanh nghiệp</option><option>Tư vấn quản lý</option><option>Quảng cáo, marketing</option><option>In ấn, bao bì</option><option>Thiết kế, xây dựng</option><option>Nội thất</option><option>Vật liệu xây dựng</option><option>Điện, nước, điều hòa</option><option>Cơ khí, gia công</option><option>Vận tải, logistics</option><option>Xuất nhập khẩu</option><option>Phần mềm, công nghệ thông tin</option><option>Nhà hàng, ăn uống</option><option>Khách sạn, lưu trú</option><option>Spa, thẩm mỹ</option><option>Phòng khám, nha khoa</option><option>Giáo dục, đào tạo</option><option>Bất động sản</option><option>Thương mại tổng hợp</option><option>Khác</option></select><div class="hint">Chọn nhóm khách hàng hay tìm nhất.</div></div>
+      </div>
+    </div>
+    <div class="fs"><h2>Giới thiệu</h2><p class="sub">Phần khách hàng đọc trên trang hồ sơ</p>
+      <div class="fld"><label for="f-desc">Mô tả ngắn <span class="count" id="f-cnt">0/300</span></label><textarea id="f-desc" maxlength="300" placeholder="Doanh nghiệp làm gì, phục vụ ai"></textarea></div>
+      <span class="lbl">Dịch vụ, sản phẩm <span class="opt" style="font-weight:400;color:var(--muted)">(tối đa 6)</span></span>
+      <div id="svcs"></div>
+      <div class="act"><button class="btn ghost" type="button" id="addsvc">Thêm dịch vụ</button></div>
+    </div>
+    <div class="fs"><h2>Liên hệ công khai</h2><p class="sub">Hiện trên trang hồ sơ để khách liên hệ</p>
+      <div class="grid2">
+        <div class="fld"><label for="f-ph">Số điện thoại <span class="opt">(không bắt buộc)</span></label><input id="f-ph" inputmode="tel"></div>
+        <div class="fld"><label for="f-zl">Số Zalo <span class="opt">(không bắt buộc)</span></label><input id="f-zl" inputmode="tel"></div>
+        <div class="fld"><label for="f-web">Website <span class="opt">(không bắt buộc)</span></label><input id="f-web" placeholder="https://"></div>
+        <div class="fld"><label for="f-em">Email <span class="opt">(không bắt buộc)</span></label><input id="f-em" inputmode="email"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="f-consent"> Tôi đồng ý công khai các thông tin liên hệ trên trang masothuedn.com, và có thể yêu cầu gỡ bất cứ lúc nào.</label>
+    </div>
+    <div class="fs private"><h2>Người gửi</h2><p class="sub">Không công khai. Chỉ dùng để gọi xác minh.</p>
+      <div class="grid2">
+        <div class="fld"><label for="f-sn">Họ và tên</label><input id="f-sn"></div>
+        <div class="fld"><label for="f-sr">Chức vụ</label><input id="f-sr" placeholder="Giám đốc, kế toán…"></div>
+      </div>
+      <div class="fld"><label for="f-sp">Số điện thoại</label><input id="f-sp" inputmode="tel"></div>
+      <label class="chk"><input type="checkbox" id="f-auth"> Tôi là người đại diện hoặc được doanh nghiệp giao cập nhật thông tin này.</label>
+      <div class="hint" style="text-align:center">Ô chống spam tự kiểm tra ở đây khi chạy thật.</div>
+    </div>
+    <div class="act" style="margin-top:18px"><button class="btn" type="submit" id="f-send" disabled>Gửi hồ sơ</button></div>
+    <p class="note" id="f-why">Cần nhập mã số thuế hợp lệ, tên, số điện thoại người gửi và tick ô xác nhận.</p>
+  </form>
+  <div class="done" id="pdone" hidden><div class="ic">✓</div><h2>Đã nhận hồ sơ</h2><p>Chúng tôi sẽ gọi số điện thoại người gửi để xác minh, sau đó hồ sơ mới hiện trên trang. Hồ sơ cũ (nếu có) vẫn giữ nguyên cho tới khi duyệt xong.</p><div class="act"><a class="btn ghost" href="#" data-go="list">Về danh bạ</a></div></div>
+</div>
+
+<!-- ADS -->
+<div class="v" id="v-ads">
+  <div class="crumb"><a href="#">Trang chủ</a> / <a href="#" data-go="list">Danh bạ</a> / Vị trí nổi bật</div>
+  <div class="lhead" style="padding-bottom:0"><h1>Đưa doanh nghiệp lên đầu ngành</h1><p class="lead">Mỗi trang ngành theo tỉnh có tối đa 3 vị trí "Đứng đầu ngành".</p></div>
+  <div class="perks">
+    <div class="perk"><h3>Đầu trang ngành</h3><p>Logo và tên doanh nghiệp nằm trên cùng, trước mọi doanh nghiệp khác.</p></div>
+    <div class="perk"><h3>Nút liên hệ</h3><p>Khách bấm gọi điện hoặc nhắn Zalo ngay, không cần tìm số.</p></div>
+    <div class="perk"><h3>Hồ sơ đầy đủ</h3><p>Trang riêng có dịch vụ, hình ảnh và huy hiệu "Đứng đầu ngành".</p></div>
+  </div>
+  <p class="price">Giá tùy ngành và tỉnh. Để lại thông tin, chúng tôi báo giá trong giờ làm việc.</p>
+  <form class="formwrap" id="aform" onsubmit="return false">
+    <div class="fs"><h2>Nhận báo giá</h2>
+      <div class="grid2">
+        <div class="fld"><label for="a-n">Họ và tên</label><input id="a-n"></div>
+        <div class="fld"><label for="a-p">Số điện thoại</label><input id="a-p" inputmode="tel"></div>
+        <div class="fld"><label for="a-g">Ngành muốn đứng đầu</label><select id="a-g"><option>Kế toán, thuế</option><option>Luật, pháp lý doanh nghiệp</option><option>Tư vấn quản lý</option><option>Quảng cáo, marketing</option><option>In ấn, bao bì</option><option>Thiết kế, xây dựng</option><option>Nội thất</option><option>Vật liệu xây dựng</option><option>Điện, nước, điều hòa</option><option>Cơ khí, gia công</option><option>Vận tải, logistics</option><option>Xuất nhập khẩu</option><option>Phần mềm, công nghệ thông tin</option><option>Nhà hàng, ăn uống</option><option>Khách sạn, lưu trú</option><option>Spa, thẩm mỹ</option><option>Phòng khám, nha khoa</option><option>Giáo dục, đào tạo</option><option>Bất động sản</option><option>Thương mại tổng hợp</option><option>Khác</option></select></div>
+        <div class="fld"><label for="a-t">Tỉnh, thành phố</label><select id="a-t"><option>TP. Hà Nội</option><option>TP. Hồ Chí Minh</option><option>TP. Đà Nẵng</option><option>TP. Hải Phòng</option><option>Ninh Bình</option><option>Bắc Ninh</option><option>Lai Châu</option></select></div>
+      </div>
+      <div class="fld"><label for="a-m">Mã số thuế <span class="opt">(không bắt buộc)</span></label><input id="a-m" class="num"></div>
+      <div class="fld"><label for="a-x">Lời nhắn <span class="opt">(không bắt buộc)</span></label><textarea id="a-x"></textarea></div>
+      <div class="act"><a class="btn ghost" href="#">Nhắn Zalo</a><button class="btn gold" type="submit" id="a-send">Gửi yêu cầu</button></div>
+      <p class="note">Nút Nhắn Zalo chỉ hiện khi đã cài số Zalo bán hàng.</p>
+    </div>
+  </form>
+  <div class="done" id="adone" hidden><div class="ic">✓</div><h2>Đã nhận yêu cầu</h2><p>Chúng tôi sẽ gọi lại để báo giá.</p><div class="act"><a class="btn ghost" href="#" data-go="list">Về danh bạ</a></div></div>
+</div>
+
+<!-- ADMIN -->
+<div class="v" id="v-admin">
+  <div class="lhead" style="padding-bottom:0"><h1>Quản trị danh bạ</h1><p class="lead">Trang nội bộ, có mật khẩu, không cho Google vào.</p></div>
+  <div class="atabs" id="atabs"><button class="on" data-t="p1">Hồ sơ chờ duyệt (2)</button><button data-t="p2">Yêu cầu quảng cáo (1)</button><button data-t="p3">Vị trí nổi bật</button></div>
+  <div class="apane on" id="p1">
+    <div class="sub-card"><div class="top2"><h4>Công ty TNHH Đại lý Thuế Phúc Long</h4><span class="badge b-ok">Tên khớp đăng ký</span></div>
+      <div class="meta">MST <span class="num">0109000044</span> · Kế toán, thuế · TP. Hà Nội · gửi 16/09/2026 09:12</div>
+      <div class="cmp2"><div><b>Tên theo đăng ký</b>Công ty TNHH Đại lý Thuế Phúc Long</div><div><b>Tên người gửi nhập</b>Công ty TNHH Đại lý Thuế Phúc Long</div>
+      <div><b>Người gửi</b>Trần Thị B · Kế toán trưởng</div><div><b>Số gọi xác minh</b><a href="#">0900 000 001</a></div></div>
+      <p style="margin:12px 0 0;font-size:15px">Đại lý thuế, quyết toán thuế cho doanh nghiệp nhỏ. Dịch vụ: Báo cáo thuế, Quyết toán TNCN.</p>
+      <div class="reason" id="r1"><div class="fld"><label for="rr1">Lý do từ chối</label><input id="rr1" placeholder="Ví dụ: không xác minh được người gửi"></div></div>
+      <div class="act" style="margin-top:12px"><button class="btn ghost" type="button" data-rej="r1">Từ chối</button><button class="btn" type="button">Duyệt và đăng</button></div>
+    </div>
+    <div class="sub-card"><div class="top2"><h4>Công ty TNHH Kiểm Toán Nam Hà Việt Nam</h4><span class="badge b-warn">Tên lệch đăng ký</span></div>
+      <div class="meta">MST <span class="num">0109000066</span> · Kế toán, thuế · TP. Hà Nội · gửi 16/09/2026 10:40</div>
+      <div class="cmp2"><div><b>Tên theo đăng ký</b>Công ty TNHH Kiểm toán Nam Hà</div><div><b>Tên người gửi nhập</b>Công ty TNHH Kiểm Toán Nam Hà Việt Nam</div>
+      <div><b>Người gửi</b>Lê Văn C · Giám đốc</div><div><b>Số gọi xác minh</b><a href="#">0900 000 002</a></div></div>
+      <div class="reason" id="r2"><div class="fld"><label for="rr2">Lý do từ chối</label><input id="rr2"></div></div>
+      <div class="act" style="margin-top:12px"><button class="btn ghost" type="button" data-rej="r2">Từ chối</button><button class="btn" type="button">Duyệt và đăng</button></div>
+      <p class="note" style="text-align:right">Khi tên lệch, trang hồ sơ luôn hiện tên theo đăng ký.</p>
+    </div>
+  </div>
+  <div class="apane" id="p2">
+    <table class="tbl stack"><thead><tr><th>Người liên hệ</th><th>Ngành, tỉnh</th><th>Gửi lúc</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td data-l="Người liên hệ">Phạm Văn D · <a href="#">0900 000 003</a></td><td data-l="Ngành, tỉnh">Kế toán, thuế · TP. Hà Nội</td><td data-l="Gửi lúc" class="num">16/09 11:05</td><td data-l="Trạng thái"><select aria-label="Trạng thái"><option>Mới</option><option>Đã gọi</option><option>Đã chốt</option><option>Không mua</option></select></td></tr>
+    </tbody></table>
+  </div>
+  <div class="apane" id="p3">
+    <div class="act" style="margin-bottom:12px"><button class="btn gold" type="button">Thêm vị trí</button></div>
+    <table class="tbl stack"><thead><tr><th>Doanh nghiệp</th><th>Ngành, tỉnh</th><th>Vị trí</th><th>Thời hạn</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td data-l="Doanh nghiệp">Kế toán Minh An</td><td data-l="Ngành, tỉnh">Kế toán, thuế · Hà Nội</td><td data-l="Vị trí">1</td><td data-l="Thời hạn" class="num">01/09/2026 – 31/08/2027</td><td data-l="Trạng thái"><span class="badge b-ok">Đang chạy</span></td></tr>
+    <tr><td data-l="Doanh nghiệp">Tư vấn Thuế Hòa Bình</td><td data-l="Ngành, tỉnh">Kế toán, thuế · Hà Nội</td><td data-l="Vị trí">2</td><td data-l="Thời hạn" class="num">15/09/2026 – 14/12/2026</td><td data-l="Trạng thái"><span class="badge b-ok">Đang chạy</span></td></tr>
+    </tbody></table>
+    <p class="note">Hết hạn thì vị trí tự rút khỏi trang, không cần thao tác.</p>
+  </div>
+</div>
+</main>
+
+<footer><div class="wrap foot">
+  <span>© 2026 masothuedn.com · Thông tin doanh nghiệp công khai</span>
+  <nav aria-label="Chân trang"><a href="#">Công cụ</a><a href="#">Yêu cầu gỡ thông tin</a></nav>
+</div></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const DATA=[
+ {n:'Công ty TNHH Kế toán Minh An',mst:'0109000011',st:1,d:'12/03/2019',a:'Số 18 phố Trần Thái Tông, Phường Cầu Giấy, TP. Hà Nội',paid:true,c:'#1B4DB1',ini:'MA',desc:'Kế toán trọn gói, báo cáo thuế cho doanh nghiệp nhỏ.'},
+ {n:'Công ty TNHH Tư vấn Thuế Hòa Bình',mst:'0109000022',st:1,d:'05/08/2021',a:'Số 42 đường Láng, Phường Láng, TP. Hà Nội',paid:true,c:'#0F7B6C',ini:'HB',desc:'Quyết toán thuế, hoàn thuế giá trị gia tăng.'},
+ {n:'Công ty Cổ phần Dịch vụ Kế toán Sao Việt',mst:'0109000033',st:1,d:'20/11/2016',a:'Số 7 phố Duy Tân, Phường Cầu Giấy, TP. Hà Nội',c:'#8A4FD1',ini:'SV'},
+ {n:'Công ty TNHH Đại lý Thuế Phúc Long',mst:'0109000044',st:1,d:'02/06/2023',a:'Số 120 phố Kim Mã, Phường Giảng Võ, TP. Hà Nội',c:'#C2410C',ini:'PL'},
+ {n:'Công ty TNHH Kiểm toán Nam Hà',mst:'0109000066',st:1,d:'09/09/2020',a:'Số 25 phố Nguyễn Chí Thanh, Phường Láng, TP. Hà Nội',c:'#B45309',ini:'NH'},
+ {n:'Công ty TNHH Kế toán Thành Công',mst:'0109000055',st:0,d:'14/01/2014',a:'Số 3 ngõ 68 phố Cầu Giấy, Phường Cầu Giấy, TP. Hà Nội',c:'#64748B',ini:'TC'},
+];
+const stB=s=>s?'<span class="badge b-ok">Đang hoạt động</span>':'<span class="badge b-off">Ngừng hoạt động</span>';
+const paid=DATA.filter(x=>x.paid), free=DATA.filter(x=>!x.paid);
+
+$('feat').innerHTML=paid.map(x=>`<div class="f"><div class="logo-box" style="background:${x.c}">${x.ini}</div>
+<h4><a href="#" data-go="paid">${x.n}</a></h4><p>${x.desc}</p>
+<div class="act"><a class="btn ghost" href="#">Gọi điện</a><a class="btn gold" href="#">Nhắn Zalo</a></div></div>`).join('')+
+`<div class="f empty"><div class="logo-box">+</div><h4>Vị trí này đang trống</h4><p>Đưa doanh nghiệp của bạn lên đầu trang ngành này.</p><div class="act"><a class="btn gold" href="#" data-go="ads">Đăng ký vị trí</a></div></div>`;
+
+$('rows').innerHTML=free.map(x=>`<div class="row"><div class="logo-box" style="background:${x.c}">${x.ini}</div>
+<div class="info"><h4><a href="#" data-go="free">${x.n}</a></h4><div class="meta">${x.a}</div><div class="meta">MST <span class="num">${x.mst}</span></div></div>
+<div class="act">${stB(x.st)}<a class="btn ghost" href="#" data-go="free">Xem hồ sơ</a></div></div>`).join('');
+
+const reg=x=>`<dl class="kv">
+<dt>Mã số thuế</dt><dd class="num">${x.mst}</dd>
+<dt>Tình trạng</dt><dd>${stB(x.st)}</dd>
+<dt>Ngày thành lập</dt><dd class="num">${x.d}</dd>
+<dt>Địa chỉ trụ sở</dt><dd>${x.a}</dd>
+<dt>Người đại diện</dt><dd>${x.paid?'Nguyễn Văn A':'<span class="missing">Chưa có dữ liệu</span>'}</dd>
+<dt>Ngành nghề chính</dt><dd>${x.paid?'<a href="#">6920 · Hoạt động liên quan đến kế toán, kiểm toán và tư vấn về thuế</a>':'<span class="missing">Chưa có dữ liệu</span>'}</dd>
+</dl>`;
+const same=`<div class="same"><h2>Doanh nghiệp cùng ngành</h2><div class="chips">${DATA.slice(2,5).map(x=>`<a href="#" data-go="free">${x.n}</a>`).join('')}</div></div>`;
+
+const P=paid[0];
+$('v-paid').innerHTML=`<div class="crumb"><a href="#">Trang chủ</a> / <a href="#">Hà Nội</a> / <a href="#" data-go="list">Kế toán, thuế</a> / ${P.n}</div>
+<div class="pp paid">
+ <div class="phead"><div class="logo-box" style="background:${P.c}">${P.ini}</div><span class="badge b-gold">Đứng đầu ngành</span>
+  <h1>${P.n}</h1><div class="meta">MST <b class="num">${P.mst}</b> · ${stB(P.st)}</div><p class="lead">${P.desc}</p>
+  <div class="act"><a class="btn ghost" href="#">Gọi điện</a><a class="btn ghost" href="#">Website</a><a class="btn gold" href="#">Nhắn Zalo</a></div></div>
+ <div class="pbody">
+  <div class="sec"><h2>Dịch vụ</h2><div class="services">
+   <div class="svc"><b>Kế toán trọn gói</b><span>Sổ sách, báo cáo thuế hằng quý</span></div>
+   <div class="svc"><b>Quyết toán thuế TNCN</b><span>Cho doanh nghiệp và cá nhân</span></div>
+   <div class="svc"><b>Báo cáo tài chính năm</b><span>Lập và nộp đúng hạn</span></div>
+   <div class="svc"><b>Đăng ký chữ ký số</b><span>Hỗ trợ cài đặt tận nơi</span></div></div></div>
+  <div class="sec"><h2>Hình ảnh</h2><div class="gallery"><div>Ảnh văn phòng</div><div>Ảnh đội ngũ</div><div>Chứng nhận</div><div>Ảnh khách hàng</div></div></div>
+  <div class="sec"><h2>Thông tin đăng ký</h2>${reg(P)}</div>
+  ${same}
+ </div>
+</div>`;
+
+const F=free[0];
+$('v-free').innerHTML=`<div class="crumb"><a href="#">Trang chủ</a> / <a href="#">Hà Nội</a> / <a href="#" data-go="list">Kế toán, thuế</a> / ${F.n}</div>
+<div class="pp free">
+ <div class="phead"><div class="logo-box" style="background:${F.c}">${F.ini}</div>
+  <h1>${F.n}</h1><div class="meta">MST <b class="num">${F.mst}</b> · ${stB(F.st)}</div></div>
+ <div class="pbody">
+  <div class="sec"><h2>Thông tin đăng ký</h2>${reg(F)}
+   <div class="claim"><p><b>Bạn là chủ doanh nghiệp này?</b> Thêm ngành nghề, dịch vụ, số điện thoại để khách hàng liên hệ được. Miễn phí.</p><div class="act"><a class="btn" href="#" data-go="form">Cập nhật hồ sơ</a></div></div>
+   <div class="upsell"><p>Muốn xuất hiện trong khối "Đứng đầu ngành" với logo và nút Nhắn Zalo?</p><div class="act"><a class="btn gold" href="#" data-go="ads">Xem gói nổi bật</a></div></div>
+  </div>
+  ${same}
+  <p class="note">Thông tin lấy từ nguồn đăng ký doanh nghiệp công khai. Chủ doanh nghiệp có thể <a href="#">yêu cầu gỡ thông tin</a>.</p>
+ </div>
+</div>`;
+
+const V=[['list','Danh sách theo ngành'],['empty','Danh sách chưa có dữ liệu'],['paid','Hồ sơ có gói nổi bật'],['free','Hồ sơ thường'],['form','Form cập nhật hồ sơ'],['ads','Trang vị trí nổi bật'],['admin','Trang quản trị']];
+$('sw').insertAdjacentHTML('beforeend',V.map(([k,n])=>`<button type="button" data-go="${k}">${n}</button>`).join(''));
+function go(k){document.querySelectorAll('.v').forEach(v=>v.classList.toggle('on',v.id==='v-'+k));document.querySelectorAll('#sw button').forEach(b=>b.classList.toggle('on',b.dataset.go===k));window.scrollTo(0,0)}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go);return}
+ const f=e.target.closest('#fb button');if(f)f.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===f));
+ if(e.target.closest('a[href="#"]'))e.preventDefault()});
+
+/* form logic */
+const svcs=$('svcs');
+function addSvc(){if(svcs.children.length>=6)return;svcs.insertAdjacentHTML('beforeend','<div class="svcrow"><input placeholder="Tên dịch vụ" aria-label="Tên dịch vụ"><input placeholder="Mô tả ngắn" aria-label="Mô tả ngắn"><button type="button" class="icon-btn" aria-label="Xóa">×</button></div>');$('addsvc').disabled=svcs.children.length>=6}
+addSvc();
+$('addsvc').onclick=addSvc;
+svcs.addEventListener('click',e=>{const b=e.target.closest('.icon-btn');if(b){b.parentElement.remove();$('addsvc').disabled=false}});
+function mstOk(v){const d=(v.match(/\d/g)||[]);if(d.length!==10&&d.length!==13)return null;const w=[31,29,23,19,17,13,7,5,3];let s=0;for(let i=0;i<9;i++)s+=w[i]*+d[i];return 10-(s%11)===+d[9]}
+function validate(){
+  const r=mstOk($('f-mst').value),h=$('f-msth');
+  if(!$('f-mst').value.trim()){h.className='hint';h.textContent='Nhập mã số thuế để kiểm tra.'}
+  else if(r===null){h.className='hint';h.textContent='Mã số thuế có 10 hoặc 13 số.'}
+  else if(r){h.className='hint ok';h.textContent='Mã hợp lệ.'}else{h.className='hint bad';h.textContent='Mã không hợp lệ, kiểm tra lại từng chữ số.'}
+  $('f-cnt').textContent=$('f-desc').value.length+'/300';
+  const ok=r===true&&$('f-name').value.trim()&&$('f-sn').value.trim()&&$('f-sp').value.trim()&&$('f-auth').checked;
+  $('f-send').disabled=!ok;$('f-why').hidden=!!ok;
+}
+$('pform').addEventListener('input',validate);$('pform').addEventListener('change',validate);validate();
+$('pform').addEventListener('submit',()=>{if($('f-send').disabled)return;$('pform').hidden=true;$('pdone').hidden=false;window.scrollTo(0,0)});
+$('aform').addEventListener('submit',()=>{$('aform').hidden=true;$('adone').hidden=false});
+$('atabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$('atabs').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.apane').forEach(p=>p.classList.toggle('on',p.id===b.dataset.t))});
+document.addEventListener('click',e=>{const r=e.target.closest('[data-rej]');if(r){const box=$(r.dataset.rej);if(box.classList.contains('on')){r.textContent='Đã từ chối';r.disabled=true}else{box.classList.add('on');r.textContent='Xác nhận từ chối'}}});
+go('list');
+</script>
+</body>
+</html>

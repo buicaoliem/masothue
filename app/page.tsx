@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
-import { SearchForm } from "./components/SearchForm";
+import { ENABLED_TOOLS } from "@/lib/tools/registry";
+import { ToolListRow } from "./components/ToolListRow";
+import { HomeHero } from "./HomeHero";
 import styles from "./components/site.module.css";
 
 export const metadata: Metadata = {
@@ -14,22 +16,41 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className={styles.page}>
-      <h1 className={styles.title}>Tra cứu mã số thuế doanh nghiệp</h1>
-      <p className={styles.lead}>Nhập mã số thuế để mở thẳng trang doanh nghiệp, hoặc nhập tên để tìm.</p>
-      <SearchForm large />
+    <main>
+      <div className={styles.hero}>
+        <div className={styles.wrap}>
+          <h1 className={styles.title}>Tra cứu mã số thuế doanh nghiệp</h1>
+          <p className={styles.lead}>Nhập mã số thuế để mở thẳng hồ sơ doanh nghiệp, hoặc nhập tên công ty để tìm.</p>
+          <HomeHero />
+        </div>
+      </div>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Tra cứu theo tỉnh</h2>
-        <ul className={styles.provinces}>
-          {PROVINCES.map((p) => (
-            <li key={p.slug}>
-              <Link href={`/tinh/${p.slug}`} className={styles.provinceLink}>
+        <div className={styles.wrap}>
+          <h2 className={styles.sectionTitle}>Công cụ miễn phí cho kế toán</h2>
+          <p className={styles.lead}>Số liệu theo quy định áp dụng năm 2026.</p>
+          <div className={styles.toolsList}>
+            {ENABLED_TOOLS.map((t) => (
+              <ToolListRow key={t.slug} tool={t} />
+            ))}
+          </div>
+          <div className={styles.moreRow}>
+            <Link href="/cong-cu">Xem tất cả công cụ</Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="tinh" className={styles.section} style={{ borderTop: "1px solid var(--line)" }}>
+        <div className={styles.wrap}>
+          <h2 className={styles.sectionTitle}>Tra cứu theo tỉnh, thành phố</h2>
+          <div className={styles.chips}>
+            {PROVINCES.map((p) => (
+              <Link key={p.slug} href={`/tinh/${p.slug}`} className={styles.chip}>
                 {p.displayName}
               </Link>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   );

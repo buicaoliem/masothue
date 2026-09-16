@@ -8,9 +8,11 @@ export function SiteHeader() {
     <header className={styles.header}>
       <div className={styles.headerInner}>
         <SiteLogo />
-        <Link href="/cong-cu" className={styles.menu}>
-          Công cụ
-        </Link>
+        <nav className={styles.navMain} aria-label="Menu chính">
+          <Link href="/">Tra cứu</Link>
+          <Link href="/cong-cu">Công cụ</Link>
+          <Link href="/#tinh">Theo tỉnh</Link>
+        </nav>
         <HeaderSearch />
       </div>
     </header>
