@@ -1,9 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { ensureEnriched } from "@/lib/enrich";
+import { requireAdmin } from "@/lib/directory/admin-auth";
 
 // Detail pages of PENDING companies are enriched here, before rendering, so a failed enrichment
 // can answer 503 + Retry-After (crawlers retry later) instead of a 200/500 page without data.
 // SOURCE_MISS and unknown codes pass through and the page answers 404 as before.
+// /admin is gated here first (401 + WWW-Authenticate); app/admin also re-checks per request
+// (see app/admin/guard.ts) as defense in depth.
 
 const RETRY_AFTER_S = 3600;
 
@@ -17,6 +20,11 @@ const BUSY_HTML = `<!doctype html>
 </body></html>`;
 
 export async function middleware(req: NextRequest) {
+  if (req.nextUrl.pathname.startsWith("/admin")) {
+    const unauthorized = await requireAdmin(req);
+    return unauthorized ?? NextResponse.next();
+  }
+
   const taxCode = req.nextUrl.pathname.slice(1);
   if ((await ensureEnriched(taxCode)) === "ready") return NextResponse.next();
   return new NextResponse(BUSY_HTML, {
@@ -32,5 +40,5 @@ export async function middleware(req: NextRequest) {
 export const config = {
   runtime: "nodejs",
   // Same shape as TAX_CODE_RE in lib/company.ts.
-  matcher: ["/:taxCode(\\d{10}|\\d{10}-\\d{3})"],
+  matcher: ["/:taxCode(\\d{10}|\\d{10}-\\d{3})", "/admin", "/admin/:path*"],
 };

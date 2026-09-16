@@ -52,6 +52,13 @@ export async function getCompanyNameForRequest(taxCode: string): Promise<string 
   return c && !c.isHidden ? c.name : null;
 }
 
+/** Official name/address for prefilling the directory submission form; store only, hidden rows read as not found. */
+export async function getCompanyForPrefill(taxCode: string): Promise<{ name: string; address: string } | null> {
+  if (!TAX_CODE_RE.test(taxCode)) return null;
+  const c = await prisma.company.findUnique({ where: { taxCode }, select: { name: true, address: true, isHidden: true } });
+  return c && !c.isHidden && c.name && c.address ? { name: c.name, address: c.address } : null;
+}
+
 export type MstLookupInfo = { name: string | null; enrichStatus: "PENDING" | "OK" | "SOURCE_MISS" };
 
 /** Existence check for the "kiểm tra mã số thuế" tool; store only, no enrichment triggered. Hidden rows read as not found. */
