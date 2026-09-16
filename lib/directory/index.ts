@@ -28,3 +28,4 @@ export { DIRECTORY_GROUPS, findDirectoryGroup, type DirectoryGroup } from "./gro
 export { isAdminAuthorized, requireAdmin } from "./admin-auth";
 export { PROFILES_PAGE_SIZE, INDEXABLE_MIN_PROFILES, RATE_LIMIT_PER_DAY } from "./service";
 export type { PublicProfile, ActivePlacement, SubmissionRow, SponsorLeadRow, PlacementRow, LeadStatus, Result } from "./service";
+export type { PlacementInput } from "./validation";
