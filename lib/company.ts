@@ -59,6 +59,15 @@ export async function getCompanyForPrefill(taxCode: string): Promise<{ name: str
   return c && !c.isHidden && c.name && c.address ? { name: c.name, address: c.address } : null;
 }
 
+/** Like getCompanyForPrefill, but never throws — a DB failure resolves to null so the update-profile page renders an empty form instead of crashing. */
+export async function getCompanyForPrefillSafe(taxCode: string): Promise<{ name: string; address: string } | null> {
+  try {
+    return await getCompanyForPrefill(taxCode);
+  } catch {
+    return null;
+  }
+}
+
 export type MstLookupInfo = { name: string | null; enrichStatus: "PENDING" | "OK" | "SOURCE_MISS" };
 
 /** Existence check for the "kiểm tra mã số thuế" tool; store only, no enrichment triggered. Hidden rows read as not found. */

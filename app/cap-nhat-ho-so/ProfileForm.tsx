@@ -9,7 +9,9 @@ import { MstDigitBoxes, mstMessage } from "../components/MstDigitBoxes";
 import siteStyles from "../components/site.module.css";
 import dirStyles from "../components/directory.module.css";
 import styles from "../components/directoryForm.module.css";
-import { INITIAL_PROFILE_STATE, submitProfileAction, DESCRIPTION_MAX, SERVICES_MAX } from "./actions";
+import { DESCRIPTION_MAX, SERVICES_MAX } from "@/lib/directory/validation";
+import { submitProfileAction } from "./actions";
+import { INITIAL_PROFILE_STATE } from "./formState";
 
 type ServiceRow = { name: string; detail: string };
 
