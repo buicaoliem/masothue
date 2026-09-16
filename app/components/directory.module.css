@@ -1,0 +1,168 @@
+/* Directory pages (/danh-ba/*) and the paid/free profile blocks on the company page.
+   Gold is reserved for paid-placement elements; everything else stays blue, on the
+   tokens from app/globals.css. */
+
+.badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.badgeOk { background: var(--okbg); color: var(--ok); }
+.badgeOff { background: var(--soft); color: var(--muted); }
+.badgeGold { background: var(--gold); color: var(--goldink); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--blue);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--blue-dark); }
+.btnGhost { background: transparent; color: var(--blue); border: 1.5px solid var(--line); }
+.btnGhost:hover { border-color: var(--blue); background: transparent; }
+.btnGold { background: var(--gold); color: var(--goldink); }
+.btnGold:hover { background: var(--gold-dark); }
+.act { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.actCenter { justify-content: center; }
+
+.logoBox { border-radius: 12px; display: grid; place-items: center; font-weight: 700; color: #fff; flex: none; }
+
+/* ---- Group hub (/danh-ba) ---- */
+.groupsGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.groupCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: inherit;
+  text-decoration: none;
+}
+.groupCard:hover { border-color: var(--blue); }
+.groupCardName { font-weight: 600; color: var(--ink); }
+.groupCardCount { font-size: 0.85rem; color: var(--muted); }
+@media (max-width: 760px) {
+  .groupsGrid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---- Filter bar (group × province page) ---- */
+.filterbar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+.filterBtn {
+  font: inherit;
+  font-size: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 5px 13px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.filterBtnOn { border-color: var(--blue); color: var(--blue); background: var(--hl); }
+
+/* ---- Featured (paid) block ---- */
+.top { background: var(--goldbg); border: 1px solid var(--goldline); border-radius: 16px; padding: 22px 18px 20px; margin-top: 16px; }
+.top h2 { text-align: center; margin: 0; }
+.topSub { text-align: center; font-size: 13px; color: var(--goldtext); margin: 4px 0 16px; }
+.feat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.f { background: var(--bg); border: 2px solid var(--gold); border-radius: 14px; padding: 18px 16px; text-align: center; display: flex; flex-direction: column; gap: 6px; }
+.f .logoBox { width: 64px; height: 64px; font-size: 22px; margin: 0 auto 4px; }
+.fName { margin: 0; font-size: 15px; line-height: 1.35; }
+.fName a { color: var(--ink); text-decoration: none; }
+.fDesc { margin: 0; font-size: 14px; color: var(--muted); }
+.fAct { justify-content: center; margin-top: auto; padding-top: 8px; }
+.fEmpty { border-style: dashed; border-color: var(--goldline); background: transparent; }
+.fEmpty .logoBox { background: transparent; border: 2px dashed var(--goldline); color: var(--goldtext); width: 64px; height: 64px; font-size: 22px; margin: 0 auto 4px; }
+@media (max-width: 760px) {
+  .feat { grid-template-columns: 1fr; }
+}
+
+/* ---- All-businesses list ---- */
+.list { margin-top: 34px; }
+.list h2 { margin-bottom: 6px; }
+.row { display: flex; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.row .logoBox { width: 52px; height: 52px; font-size: 18px; }
+.rowInfo { flex: 1; min-width: 0; }
+.rowName { margin: 0; font-size: 16px; line-height: 1.35; }
+.rowName a { color: var(--ink); text-decoration: none; }
+.rowName a:hover { color: var(--blue); }
+.rowMeta { margin-top: 2px; color: var(--muted); font-size: 14px; word-break: break-word; }
+@media (max-width: 760px) {
+  .row { flex-wrap: wrap; }
+  .row .act { width: 100%; }
+}
+
+/* ---- Pager (numbered, right-aligned) ---- */
+.numPager { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.numPagerLink { min-width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; font-size: 14px; padding: 0 10px; color: var(--ink); }
+.numPagerOn { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+/* ---- Related boxes ---- */
+.related { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
+.box { border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+@media (max-width: 760px) {
+  .related { grid-template-columns: 1fr; }
+}
+
+/* ---- Empty state ---- */
+.emptyRow { text-align: center; padding: 36px 16px; border: 1.5px dashed var(--line); border-radius: 12px; margin-top: 14px; }
+.emptyRow p { margin: 6px 0 0; color: var(--muted); }
+.emptyRow .act { justify-content: center; margin-top: 14px; }
+
+/* ---- Profile blocks (used on the company page) ---- */
+.pp { margin-top: 12px; border-radius: 18px; overflow: hidden; }
+.ppPaid { border: 2px solid var(--gold); }
+.ppFree { border: 1px solid var(--line); }
+.phead { padding: 28px 22px; text-align: center; }
+.pheadPaid { background: var(--goldbg); }
+.pheadFree { background: var(--soft); }
+.phead .logoBox { width: 88px; height: 88px; font-size: 30px; margin: 0 auto 12px; }
+.pheadName { margin: 8px 0 0; text-align: center; text-transform: none; }
+.pheadMeta { margin-top: 6px; text-align: center; color: var(--muted); font-size: 14px; }
+.pheadLead { text-align: center; color: var(--muted); margin: 8px auto 0; max-width: 640px; }
+.pheadAct { justify-content: center; margin-top: 18px; }
+.pbody { padding: 24px 22px 28px; }
+.sec { margin-top: 30px; }
+.sec:first-child { margin-top: 0; }
+.sec h2 { text-align: center; margin: 0 0 6px; }
+
+.services { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.svc { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.svcName { display: block; font-weight: 700; }
+.svcDetail { font-size: 14px; color: var(--muted); }
+@media (max-width: 760px) {
+  .services { grid-template-columns: 1fr; }
+}
+
+.kv { display: grid; grid-template-columns: 200px 1fr; margin: 14px auto 0; max-width: 820px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.kv dt, .kv dd { margin: 0; padding: 11px 16px; border-bottom: 1px solid var(--line); }
+.kv dt { background: var(--soft); color: var(--muted); font-size: 14px; font-weight: 500; }
+.kv dt:last-of-type, .kv dd:last-of-type { border-bottom: 0; }
+.missing { color: var(--muted); font-style: italic; }
+@media (max-width: 760px) {
+  .kv { grid-template-columns: 1fr; }
+  .kv dt { border-bottom: 0; padding-bottom: 2px; }
+}
+
+.claimBox { max-width: 820px; margin: 18px auto 0; border: 1.5px dashed var(--goldline); background: var(--goldbg); border-radius: 12px; padding: 18px; }
+.claimBox p { margin: 0; text-align: center; font-size: 15px; color: var(--ink); }
+.claimBox .act { margin-top: 12px; justify-content: center; }
+
+.upsellBox { max-width: 820px; margin: 14px auto 0; display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); }
+.upsellBox p { margin: 0; font-size: 14px; color: var(--muted); }
+
+.same { margin-top: 34px; }
+.same h2 { text-align: center; margin: 0 0 6px; }
+
+.note { font-size: 13px; color: var(--muted); text-align: center; margin-top: 18px; }
+.crumb { font-size: 14px; color: var(--muted); padding-top: 4px; margin-bottom: 8px; overflow-wrap: anywhere; }
+.crumb a { text-decoration: none; }

@@ -74,6 +74,18 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
   return showable(company);
 });
 
+/**
+ * Like getCompany, but never throws — null on unavailable enrichment or a non-showable row.
+ * For pages that have a fallback (an approved directory profile) when the registry has nothing.
+ */
+export async function getCompanySafe(taxCode: string): Promise<ShowableCompany | null> {
+  try {
+    return await getCompany(taxCode);
+  } catch {
+    return null;
+  }
+}
+
 /** Up to `limit` other enriched companies in the same province, for the "nearby" block. */
 export async function getNearbyCompanies(provinceSlug: string | null, excludeTaxCode: string, limit = 5) {
   if (!provinceSlug) return [];
