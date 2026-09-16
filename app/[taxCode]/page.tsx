@@ -3,13 +3,14 @@ import { Fragment, type ReactNode } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCompanySafe, getNearbyCompanies } from "@/lib/company";
-import { findDirectoryGroup, getActivePlacements, getProfile, type PublicProfile } from "@/lib/directory";
+import { findDirectoryGroup, getProfile, type PublicProfile } from "@/lib/directory";
 import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
 import { LogoTile } from "../components/LogoTile";
 import { CopyButton } from "./CopyButton";
+import { loadCompanyPageData } from "./data";
 import styles from "./company.module.css";
 import dirStyles from "../components/directory.module.css";
 import siteStyles from "../components/site.module.css";
@@ -151,15 +152,12 @@ function badgeClass(status: string): string {
 
 export default async function CompanyPage({ params }: Props) {
   const { taxCode } = await params;
-  const [company, profile] = await Promise.all([getCompanySafe(taxCode), getProfile(taxCode)]);
-  if (!company && !profile) notFound();
+  const data = await loadCompanyPageData(taxCode);
+  if (data.notFound) notFound();
+  const { company, profile, isPaid } = data;
 
   const group = profile ? findDirectoryGroup(profile.groupSlug) : null;
-  const [placements, sameGroup] = await Promise.all([
-    profile ? getActivePlacements(profile.groupSlug, profile.provinceSlug) : Promise.resolve([]),
-    profile ? getSameGroupProfiles(profile.groupSlug, profile.provinceSlug, taxCode, 6) : Promise.resolve([]),
-  ]);
-  const isPaid = profile !== null && placements.some((p) => p.mst === profile.mst);
+  const sameGroup = profile ? await getSameGroupProfiles(profile.groupSlug, profile.provinceSlug, taxCode, 6) : [];
 
   const { name, address, province } = resolveDisplay(company, profile);
   const displayTaxCode = company?.taxCode ?? profile?.mst ?? taxCode;
