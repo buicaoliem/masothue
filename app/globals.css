@@ -10,8 +10,16 @@
   --blue-dark: #133a88;
   --line: #d8e0ec;
   --ok: #16794b;
+  --okbg: #e7f5ee;
   --bad: #b42318;
   --hl: #e6eefb;
+  /* Gold: paid-placement elements only. Every other button/accent stays blue. */
+  --gold: #e3b341;
+  --gold-dark: #c99a2e;
+  --goldink: #1a1a1a;
+  --goldbg: #fbf4df;
+  --goldtext: #7a5a00;
+  --goldline: #ebcb7a;
 }
 
 /* dark mode: re-enable in DIR-2a

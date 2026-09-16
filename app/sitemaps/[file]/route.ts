@@ -1,4 +1,6 @@
 import { getListedProvinceSlugs } from "@/lib/company";
+import { INDEXABLE_MIN_PROFILES } from "@/lib/directory";
+import { getGroupCountsNationwide, getIndexableDirectoryPaths, getProvinceSlugsWithAnyProfile } from "@/lib/directory-web";
 import { getSitemapPage, xmlEscape, xmlResponse } from "@/lib/sitemap";
 import { SITE_URL } from "@/lib/site";
 import { ENABLED_TOOLS } from "@/lib/tools/registry";
@@ -15,12 +17,24 @@ export async function GET(_req: Request, { params }: Props) {
   const { file } = await params;
 
   if (file === "pages.xml") {
-    const slugs = await getListedProvinceSlugs();
+    const [slugs, directoryPaths, directoryProvinceSlugs, groupCounts] = await Promise.all([
+      getListedProvinceSlugs(),
+      getIndexableDirectoryPaths(),
+      getProvinceSlugsWithAnyProfile(),
+      getGroupCountsNationwide(),
+    ]);
+    const indexableGroupSlugs = [...groupCounts.entries()].filter(([, n]) => n >= INDEXABLE_MIN_PROFILES).map(([slug]) => slug);
     const urls = [
       `${SITE_URL}/`,
       `${SITE_URL}/cong-cu`,
       ...ENABLED_TOOLS.map((t) => `${SITE_URL}/cong-cu/${t.slug}`),
       ...slugs.sort().map((slug) => `${SITE_URL}/tinh/${slug}`),
+      ...(directoryProvinceSlugs.length > 0 ? [`${SITE_URL}/danh-ba`] : []),
+      ...directoryProvinceSlugs.sort().map((slug) => `${SITE_URL}/danh-ba/tinh/${slug}`),
+      ...indexableGroupSlugs.sort().map((slug) => `${SITE_URL}/danh-ba/${slug}`),
+      ...directoryPaths
+        .sort((a, b) => `${a.groupSlug}/${a.provinceSlug}`.localeCompare(`${b.groupSlug}/${b.provinceSlug}`))
+        .map((d) => `${SITE_URL}/danh-ba/${d.groupSlug}/${d.provinceSlug}`),
     ];
     return urlset(urls.map((u) => `  <url><loc>${xmlEscape(u)}</loc></url>`));
   }

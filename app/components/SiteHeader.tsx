@@ -10,6 +10,7 @@ export function SiteHeader() {
         <SiteLogo />
         <nav className={styles.navMain} aria-label="Menu chính">
           <Link href="/">Tra cứu</Link>
+          <Link href="/danh-ba">Danh bạ</Link>
           <Link href="/cong-cu">Công cụ</Link>
           <Link href="/#tinh">Theo tỉnh</Link>
         </nav>

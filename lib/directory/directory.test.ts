@@ -4,9 +4,12 @@ import { join } from "node:path";
 import { beforeEach, test } from "node:test";
 import { PGlite } from "@electric-sql/pglite";
 import { isAdminAuthorized } from "./admin-auth";
-import { DIRECTORY_GROUPS } from "./groups";
+import { DIRECTORY_GROUPS, findDirectoryGroup } from "./groups";
 import { createDirectory, RATE_LIMIT_PER_DAY, type Directory } from "./service";
 import type { Sql } from "./sql";
+import { createDirectoryWeb } from "@/lib/directory-web";
+import { loadCompanyPageData, type CompanyPageCompany } from "@/app/[taxCode]/data";
+import { loadGroupPageData } from "@/app/danh-ba/[group]/data";
 
 // Runs every repo migration against an in-memory Postgres, then exercises the real SQL.
 
@@ -28,6 +31,7 @@ const MST_D = "0100233583";
 let db: PGlite;
 let sql: Sql;
 let dir: Directory;
+let dirWeb: ReturnType<typeof createDirectoryWeb>;
 let clock: Date;
 let enriched: string[];
 
@@ -86,7 +90,17 @@ beforeEach(async () => {
     verifyTurnstile: async () => true,
     now: () => clock,
   });
+  dirWeb = createDirectoryWeb(sql);
 });
+
+/** loadCompanyPageData wired to this test's PGlite-backed dir, with an injectable "enriched Company row" stub. */
+function companyPageData(taxCode: string, company: CompanyPageCompany | null = null) {
+  return loadCompanyPageData(taxCode, {
+    getCompanySafe: async () => company,
+    getProfile: dir.getProfile,
+    getActivePlacements: dir.getActivePlacements,
+  });
+}
 
 test("có đúng 41 ngành, slug không trùng", () => {
   assert.equal(DIRECTORY_GROUPS.length, 41);
@@ -350,6 +364,98 @@ test("admin guard: từ chối tất cả khi thiếu cấu hình", async () => 
   assert.equal(await isAdminAuthorized(null), false);
   delete process.env.ADMIN_USER;
   delete process.env.ADMIN_PASSWORD;
+});
+
+test("trang công ty (MST bị ẩn hoặc chờ/được duyệt gỡ): notFound, không lộ ở bất kỳ đâu công khai", async () => {
+  await seedCompany(MST_A, { name: "Công ty A", address: "HCM" });
+  await seedCompany(MST_B, { name: "Công ty B", address: "HCM" });
+  await seedCompany(MST_C, { name: "Công ty C", address: "HCM" });
+  await submitAndApprove(MST_A);
+  await submitAndApprove(MST_B);
+  await submitAndApprove(MST_C);
+  const g = { groupSlug: "ke-toan-thue", provinceSlug: "ho-chi-minh" };
+  for (const mst of [MST_A, MST_B, MST_C]) {
+    await dir.createPlacement({ ...g, mst, position: mst === MST_A ? 1 : mst === MST_B ? 2 : 3, startsAt: "2026-09-01", endsAt: "2026-10-01" });
+  }
+
+  await db.query(`UPDATE "Company" SET "isHidden" = true WHERE "taxCode" = $1`, [MST_A]);
+  await db.query(`INSERT INTO "RemovalRequest" (id, "taxCode", reason, "contactEmail", status) VALUES ('rr-b', $1, 'Xin gỡ', 'a@b.vn', 'PENDING')`, [MST_B]);
+  await db.query(`INSERT INTO "RemovalRequest" (id, "taxCode", reason, "contactEmail", status) VALUES ('rr-c', $1, 'Xin gỡ', 'a@b.vn', 'APPROVED')`, [MST_C]);
+
+  for (const mst of [MST_A, MST_B, MST_C]) {
+    const page = await companyPageData(mst);
+    assert.equal(page.notFound, true, `${mst} phải notFound`);
+
+    assert.deepEqual((await dir.listProfiles(g.groupSlug, g.provinceSlug)).map((p) => p.mst), []);
+    assert.deepEqual(await dir.getActivePlacements(g.groupSlug, g.provinceSlug), []);
+    assert.equal((await dirWeb.getGroupCountsNationwide()).get(g.groupSlug) ?? 0, 0);
+    assert.equal((await dirWeb.getProvinceCountsForGroup(g.groupSlug)).get(g.provinceSlug) ?? 0, 0);
+    assert.deepEqual(await dirWeb.getIndexableDirectoryPaths(), []);
+  }
+});
+
+test("trang công ty: chưa có bản ghi Company đã enrich thì hiển thị bản miễn phí từ hồ sơ", async () => {
+  await submitAndApprove(MST_C, { description: "Hồ sơ tự khai" });
+  const page = await companyPageData(MST_C, null);
+  assert.equal(page.notFound, false);
+  if (page.notFound) return;
+  assert.equal(page.company, null);
+  assert.equal(page.profile?.description, "Hồ sơ tự khai");
+  assert.equal(page.isPaid, false);
+});
+
+test("trang công ty: có vị trí nổi bật đang hoạt động thì trả bản trả phí, hết hạn thì quay về bản miễn phí", async () => {
+  await submitAndApprove(MST_A);
+  await dir.createPlacement({
+    mst: MST_A, groupSlug: "ke-toan-thue", provinceSlug: "ho-chi-minh", position: 1,
+    startsAt: "2026-09-01T00:00:00Z", endsAt: "2026-09-20T00:00:00Z",
+  });
+
+  const paid = await companyPageData(MST_A);
+  assert.equal(paid.notFound, false);
+  if (paid.notFound) return;
+  assert.equal(paid.isPaid, true);
+
+  clock = new Date("2026-09-20T00:00:00Z"); // ends_at là mốc loại trừ
+  const expired = await companyPageData(MST_A);
+  assert.equal(expired.notFound, false);
+  if (expired.notFound) return;
+  assert.equal(expired.isPaid, false);
+  assert.ok(expired.profile, "hồ sơ vẫn còn, chỉ mất vị trí trả phí");
+});
+
+test("trang công ty: không lộ thông tin người gửi trong dữ liệu trả về", async () => {
+  await submitAndApprove(MST_A, { publicPhone: "0901234567", consentPublish: true, submitterPhone: "0912345678" });
+  const page = await companyPageData(MST_A);
+  const text = JSON.stringify(page).toLowerCase();
+  assert.ok(!/submitter|ip_?hash|confirm/.test(text), text);
+  assert.ok(!JSON.stringify(page).includes("0912345678"));
+});
+
+test("trang /danh-ba/[group]: danh sách tỉnh có đếm số, tính indexable, slug lạ 404", async () => {
+  const deps = { findDirectoryGroup, getProvinceCountsForGroup: dirWeb.getProvinceCountsForGroup };
+
+  const unknown = await loadGroupPageData("khong-ton-tai", deps);
+  assert.equal(unknown.notFound, true);
+
+  await submitAndApprove(MST_A, { provinceSlug: "ho-chi-minh" });
+  await submitAndApprove(MST_B, { provinceSlug: "ho-chi-minh" });
+  await submitAndApprove(MST_C, { provinceSlug: "ha-noi" });
+
+  const page = await loadGroupPageData("ke-toan-thue", deps);
+  assert.equal(page.notFound, false);
+  if (page.notFound) return;
+  assert.equal(page.groupLabel, "Kế toán, thuế");
+  assert.equal(page.indexable, true, "3 hồ sơ trên toàn quốc thì đủ điều kiện index");
+  const byProvince = new Map(page.provinces.map((p) => [p.slug, p.count]));
+  assert.equal(byProvince.get("ho-chi-minh"), 2);
+  assert.equal(byProvince.get("ha-noi"), 1);
+
+  const empty = await loadGroupPageData("luat-phap-ly", deps);
+  assert.equal(empty.notFound, false);
+  if (empty.notFound) return;
+  assert.deepEqual(empty.provinces, []);
+  assert.equal(empty.indexable, false);
 });
 
 function lead(over: Record<string, unknown> = {}) {
