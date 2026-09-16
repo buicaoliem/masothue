@@ -118,3 +118,106 @@ model IngestCheckpoint {
   status    String   @default("pending") // pending | running | done | failed
   updatedAt DateTime @updatedAt
 }
+
+// ---------------------------------------------------------------------------
+// Directory (danh bạ). Businesses submit their own profile; an admin approves it by hand.
+// submitter_* and ip_hash are private: never selected by any public read (lib/directory).
+// Extra CHECK constraints live in the migration SQL only.
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum SponsorLeadStatus {
+  NEW
+  CALLED
+  WON
+  LOST
+}
+
+model ProfileSubmission {
+  id                  String           @id
+  mst                 String
+  companyName         String           @map("company_name")
+  address             String
+  provinceSlug        String           @map("province_slug")
+  groupSlug           String           @map("group_slug")
+  description         String           @db.VarChar(300)
+  services            Json             @default("[]")
+  publicPhone         String?          @map("public_phone")
+  publicZalo          String?          @map("public_zalo")
+  website             String?
+  publicEmail         String?          @map("public_email")
+  consentPublish      Boolean          @map("consent_publish")
+  submitterName       String           @map("submitter_name")
+  submitterRole       String           @map("submitter_role")
+  submitterPhone      String           @map("submitter_phone")
+  confirmAuthority    Boolean          @map("confirm_authority")
+  status              SubmissionStatus @default(PENDING)
+  rejectReason        String?          @map("reject_reason")
+  ipHash              String           @map("ip_hash")
+  nameMatchesRegistry Boolean?         @map("name_matches_registry")
+  createdAt           DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  reviewedAt          DateTime?        @map("reviewed_at") @db.Timestamptz(3)
+
+  @@index([status, createdAt])
+  @@index([mst])
+  @@index([ipHash, createdAt])
+  @@map("profile_submission")
+}
+
+model BusinessProfile {
+  mst                String   @id
+  companyName        String   @map("company_name")
+  address            String
+  provinceSlug       String   @map("province_slug")
+  groupSlug          String   @map("group_slug")
+  description        String   @db.VarChar(300)
+  services           Json     @default("[]")
+  publicPhone        String?  @map("public_phone")
+  publicZalo         String?  @map("public_zalo")
+  website            String?
+  publicEmail        String?  @map("public_email")
+  logoUrl            String?  @map("logo_url")
+  sourceSubmissionId String   @map("source_submission_id")
+  approvedAt         DateTime @map("approved_at") @db.Timestamptz(3)
+  updatedAt          DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
+
+  @@index([groupSlug, provinceSlug])
+  @@map("business_profile")
+}
+
+// Paid "Đứng đầu ngành" slots, entered by the admin. No overlap per group+province+position (checked in code).
+model FeaturedPlacement {
+  id           String   @id
+  mst          String
+  groupSlug    String   @map("group_slug")
+  provinceSlug String   @map("province_slug")
+  position     Int      @db.SmallInt
+  startsAt     DateTime @map("starts_at") @db.Timestamptz(3)
+  endsAt       DateTime @map("ends_at") @db.Timestamptz(3)
+  note         String?
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([groupSlug, provinceSlug, position])
+  @@map("featured_placement")
+}
+
+model SponsorLead {
+  id           String            @id
+  contactName  String            @map("contact_name")
+  phone        String
+  mst          String?
+  groupSlug    String            @map("group_slug")
+  provinceSlug String            @map("province_slug")
+  message      String?
+  status       SponsorLeadStatus @default(NEW)
+  ipHash       String            @map("ip_hash")
+  createdAt    DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([status, createdAt])
+  @@index([ipHash, createdAt])
+  @@map("sponsor_lead")
+}
