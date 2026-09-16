@@ -6,7 +6,8 @@ import { DIRECTORY_GROUPS } from "@/lib/directory/groups";
 import { PROVINCES } from "@/pipeline/province";
 import dirStyles from "../components/directory.module.css";
 import styles from "../components/directoryForm.module.css";
-import { INITIAL_LEAD_STATE, submitSponsorLeadAction } from "./actions";
+import { submitSponsorLeadAction } from "./actions";
+import { INITIAL_LEAD_STATE } from "./formState";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCompanyForPrefill } from "@/lib/company";
+import { getCompanyForPrefillSafe } from "@/lib/company";
 import { validateMst } from "@/lib/tools/mst";
 import { SITE_NAME } from "@/lib/site";
 import { ProfileForm } from "./ProfileForm";
@@ -18,7 +18,7 @@ export default async function UpdateProfilePage({ searchParams }: Props) {
   const mstParam = (Array.isArray(raw) ? raw[0] : raw ?? "").trim();
   const validated = mstParam ? validateMst(mstParam) : null;
   const normalizedMst = validated?.valid ? validated.normalized : mstParam;
-  const prefill = validated?.valid ? await getCompanyForPrefill(validated.normalized) : null;
+  const prefill = validated?.valid ? await getCompanyForPrefillSafe(validated.normalized) : null;
 
   return (
     <main className={siteStyles.page}>

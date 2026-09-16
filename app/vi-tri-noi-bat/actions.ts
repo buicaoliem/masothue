@@ -2,11 +2,7 @@
 
 import { headers } from "next/headers";
 import { createSponsorLead } from "@/lib/directory";
-
-export type LeadFieldErrors = Record<string, string>;
-export type LeadFormState = { ok: boolean; submitted: boolean; message?: string; errors: LeadFieldErrors };
-
-export const INITIAL_LEAD_STATE: LeadFormState = { ok: false, submitted: false, errors: {} };
+import type { LeadFormState } from "./formState";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 

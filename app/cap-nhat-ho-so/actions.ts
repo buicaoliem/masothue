@@ -2,12 +2,8 @@
 
 import { headers } from "next/headers";
 import { submitProfile } from "@/lib/directory";
-import { DESCRIPTION_MAX, SERVICES_MAX } from "@/lib/directory/validation";
-
-export type ProfileFieldErrors = Record<string, string>;
-export type ProfileFormState = { ok: boolean; submitted: boolean; message?: string; errors: ProfileFieldErrors };
-
-export const INITIAL_PROFILE_STATE: ProfileFormState = { ok: false, submitted: false, errors: {} };
+import { SERVICES_MAX } from "@/lib/directory/validation";
+import type { ProfileFormState } from "./formState";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 
@@ -64,5 +60,3 @@ export async function submitProfileAction(_prev: ProfileFormState, fd: FormData)
   if (!result.ok) return { ok: false, submitted: false, message: result.message, errors: result.errors ?? {} };
   return { ok: true, submitted: true, errors: {} };
 }
-
-export { DESCRIPTION_MAX, SERVICES_MAX };
