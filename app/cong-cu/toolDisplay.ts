@@ -8,6 +8,8 @@ export const TOOL_ICON: Record<string, string> = {
   "kiem-tra-ma-so-thue": "✓",
   "tinh-vat": "+",
   "doi-so-thanh-chu": "Aa",
+  "tien-cham-nop-thue": "!",
+  "tinh-luong-lam-them-gio": "OT",
 };
 
 export type ToolGroupKey = "thue-luong" | "mst-chung-tu";
@@ -16,6 +18,8 @@ export const TOOL_GROUP: Record<string, ToolGroupKey> = {
   "tinh-thue-tncn": "thue-luong",
   "tinh-luong": "thue-luong",
   "tinh-vat": "thue-luong",
+  "tien-cham-nop-thue": "thue-luong",
+  "tinh-luong-lam-them-gio": "thue-luong",
   "kiem-tra-ma-so-thue": "mst-chung-tu",
   "doi-so-thanh-chu": "mst-chung-tu",
 };

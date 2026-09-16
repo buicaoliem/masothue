@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test:tncn": "tsx --test lib/tools/pit.test.ts",
     "test:mst": "tsx --test lib/tools/mst.test.ts",
+    "test:late-payment": "tsx --test lib/tools/late-payment.test.ts",
+    "test:overtime": "tsx --test lib/tools/overtime.test.ts",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:generate": "prisma generate",
     "pipeline:probe-esgoo": "tsx pipeline/scripts/probe-esgoo.ts",
