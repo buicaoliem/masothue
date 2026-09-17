@@ -7,6 +7,7 @@ import { findDirectoryGroup, getProfile, type PublicProfile } from "@/lib/direct
 import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { OPENDATA_PUBLISHERS } from "@/lib/opendata-sources";
 import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
 import { REL_EXTERNAL_SPONSORED, REL_EXTERNAL_UGC } from "@/lib/relAttrs";
 import { LogoTile } from "../components/LogoTile";
@@ -146,6 +147,19 @@ function Missing() {
   return <span className={dirStyles.missing}>Chưa có dữ liệu</span>;
 }
 
+/** Attribution for rows filled from a provincial open-data file (Company.dataSource). */
+function SourceNote({ company }: { company: Company | null }) {
+  const publisher = company?.dataSource ? OPENDATA_PUBLISHERS[company.dataSource] : undefined;
+  if (!publisher) return null;
+  return (
+    <p className={dirStyles.note}>
+      Nguồn: dữ liệu mở của {publisher}
+      {company?.dataAsOf ? `, cập nhật đến ${formatDate(company.dataAsOf)}` : ""}. Địa chỉ ghi theo địa giới trước ngày
+      01/07/2025; tình trạng có thể đã thay đổi.
+    </p>
+  );
+}
+
 function badgeClass(status: string): string {
   const tone = statusTone(status);
   return tone === "active" ? dirStyles.badgeOk : dirStyles.badgeOff;
@@ -170,6 +184,7 @@ export default async function CompanyPage({ params }: Props) {
     ["Địa chỉ trụ sở", address || <Missing />],
     ["Người đại diện", company?.representativeName ?? <Missing />],
     ["Ngành nghề chính", company?.mainIndustry ?? <Missing />],
+    ["Loại hình", company?.legalType ?? <Missing />],
   ];
 
   const invoiceRows: [string, string][] = company ? [["Tên công ty", company.name], ["Mã số thuế", company.taxCode], ["Địa chỉ", company.address]] : [];
@@ -269,6 +284,7 @@ export default async function CompanyPage({ params }: Props) {
                   </Fragment>
                 ))}
               </dl>
+              <SourceNote company={company} />
             </div>
           </div>
         </div>
@@ -329,6 +345,7 @@ export default async function CompanyPage({ params }: Props) {
               </Fragment>
             ))}
           </dl>
+          <SourceNote company={company} />
 
           <div className={dirStyles.claimBox}>
             <p>

@@ -20,6 +20,7 @@
     "pipeline:enrich-backfill": "dotenv -e .env.local -- tsx pipeline/scripts/enrich-backfill.ts",
     "pipeline:enrich-batch": "dotenv -e .env.local -- tsx pipeline/scripts/enrich-batch.ts",
     "pipeline:backfill-province": "dotenv -e .env.local -- tsx pipeline/scripts/backfill-province.ts",
+    "pipeline:import-opendata": "dotenv -e .env.local -- tsx pipeline/scripts/import-opendata.ts",
     "test:directory": "tsx --test lib/directory/directory.test.ts",
     "test:notify": "tsx --test lib/notify/telegram.test.ts"
   },
@@ -44,6 +45,7 @@
     "prisma": "^6.19.3",
     "sharp": "^0.35.4",
     "tsx": "^4.23.13",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "xlsx": "^0.18.5"
   }
 }

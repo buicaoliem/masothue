@@ -35,6 +35,8 @@ model Company {
   enrichStatus       EnrichStatus @default(PENDING)
   lastEnrichedAt     DateTime?
   isHidden           Boolean      @default(false) // true = 404 and left out of every list/sitemap
+  dataSource         String? // bulk-import origin, e.g. "opendata-hcm" (pipeline/scripts/import-opendata.ts)
+  dataAsOf           DateTime?    @db.Date // "last updated" date of that dataset on the publisher's portal
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 
