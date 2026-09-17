@@ -46,6 +46,11 @@ export default async function FeaturedPlacementPage({ searchParams }: Props) {
         initialMst={sp.mst ?? ""}
         zaloNumber={zaloNumber ?? null}
       />
+      <p className={styles.hint} style={{ textAlign: "center" }}>
+        <a href="/chinh-sach-bao-mat" target="_blank" rel="noopener noreferrer">
+          Xem Chính sách bảo mật
+        </a>
+      </p>
     </main>
   );
 }

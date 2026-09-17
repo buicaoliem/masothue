@@ -27,6 +27,9 @@ export async function GET(_req: Request, { params }: Props) {
     const urls = [
       `${SITE_URL}/`,
       `${SITE_URL}/cong-cu`,
+      `${SITE_URL}/gioi-thieu`,
+      `${SITE_URL}/dieu-khoan`,
+      `${SITE_URL}/chinh-sach-bao-mat`,
       ...ENABLED_TOOLS.map((t) => `${SITE_URL}/cong-cu/${t.slug}`),
       ...slugs.sort().map((slug) => `${SITE_URL}/tinh/${slug}`),
       ...(directoryProvinceSlugs.length > 0 ? [`${SITE_URL}/danh-ba`] : []),

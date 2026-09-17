@@ -2,8 +2,11 @@ import Link from "next/link";
 import styles from "./site.module.css";
 
 const LINKS = [
-  { label: "Công cụ", href: "/cong-cu" },
+  { label: "Giới thiệu", href: "/gioi-thieu" },
+  { label: "Điều khoản", href: "/dieu-khoan" },
+  { label: "Chính sách bảo mật", href: "/chinh-sach-bao-mat" },
   { label: "Yêu cầu gỡ thông tin", href: "/yeu-cau-go-thong-tin" },
+  { label: "Công cụ", href: "/cong-cu" },
 ];
 
 export function SiteFooter() {
