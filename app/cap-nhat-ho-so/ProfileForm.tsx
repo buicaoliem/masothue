@@ -271,6 +271,11 @@ export function ProfileForm({ initialMst, initialCompanyName, initialAddress }: 
           Tôi đồng ý công khai các thông tin liên hệ trên trang masothuedn.com, và có thể yêu cầu gỡ bất cứ lúc nào.
         </label>
         {err("consentPublish")}
+        <p className={styles.hint}>
+          <a href="/chinh-sach-bao-mat" target="_blank" rel="noopener noreferrer">
+            Xem Chính sách bảo mật
+          </a>
+        </p>
       </div>
 
       <div className={`${styles.fs} ${styles.private}`}>
