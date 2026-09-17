@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { headers } from "next/headers";
 
 // Anti-spam helpers shared by the directory forms.
 
@@ -7,6 +8,26 @@ const DEV_SALT = "dev-only-ip-salt";
 
 let warnedSalt = false;
 let warnedTurnstile = false;
+
+/**
+ * The real client IP behind Vercel's edge network, in `headers()` trust order:
+ * x-vercel-forwarded-for (set by Vercel itself, not attacker-controlled), then x-real-ip, then
+ * the LAST entry of x-forwarded-for (the value the nearest proxy appended; earlier entries are
+ * whatever the client sent and can be spoofed by the request itself).
+ */
+export async function clientIp(): Promise<string | null> {
+  const h = await headers();
+  const vercelForwarded = h.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+  if (vercelForwarded) return vercelForwarded;
+  const realIp = h.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+  const forwarded = h.get("x-forwarded-for");
+  if (forwarded) {
+    const parts = forwarded.split(",").map((p) => p.trim()).filter(Boolean);
+    if (parts.length > 0) return parts[parts.length - 1];
+  }
+  return null;
+}
 
 /** Salted SHA-256 of the client IP; the raw IP is never stored. */
 export function hashIp(ip: string | null | undefined): string {

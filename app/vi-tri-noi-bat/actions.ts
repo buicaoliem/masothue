@@ -1,20 +1,9 @@
 "use server";
 
-import { headers } from "next/headers";
-import { createSponsorLead } from "@/lib/directory";
+import { clientIp, createSponsorLead } from "@/lib/directory";
 import type { LeadFormState } from "./formState";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
-
-async function clientIp(): Promise<string | null> {
-  const h = await headers();
-  const forwarded = h.get("x-forwarded-for");
-  if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
-  return h.get("x-real-ip") ?? null;
-}
 
 export async function submitSponsorLeadAction(_prev: LeadFormState, fd: FormData): Promise<LeadFormState> {
   const ip = await clientIp();

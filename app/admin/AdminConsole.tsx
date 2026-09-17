@@ -6,10 +6,18 @@ import { PROVINCES } from "@/pipeline/province";
 import type { LeadStatus, PlacementInput } from "@/lib/directory";
 import dirStyles from "../components/directory.module.css";
 import formStyles from "../components/directoryForm.module.css";
-import { approveSubmissionAction, createPlacementAction, rejectSubmissionAction, setLeadStatusAction } from "./actions";
+import {
+  approveRemovalAction,
+  approveSubmissionAction,
+  createPlacementAction,
+  rejectRemovalAction,
+  rejectSubmissionAction,
+  setLeadStatusAction,
+} from "./actions";
 import type { AdminData, PendingSubmissionView } from "./data";
+import type { PendingRemovalRow } from "@/lib/removal";
 
-type Tab = "pending" | "leads" | "placements";
+type Tab = "pending" | "leads" | "placements" | "removals";
 
 const LEAD_STATUS_LABEL: Record<LeadStatus, string> = { NEW: "Mới", CALLED: "Đã gọi", WON: "Đã chốt", LOST: "Không mua" };
 const LEAD_STATUSES: LeadStatus[] = ["NEW", "CALLED", "WON", "LOST"];
@@ -29,6 +37,7 @@ export function AdminConsole({ initialData }: { initialData: AdminData }) {
   const [pending, setPending] = useState(initialData.pending);
   const [leads, setLeads] = useState(initialData.leads);
   const [placements, setPlacements] = useState(initialData.placements);
+  const [removals, setRemovals] = useState(initialData.removals);
 
   return (
     <div>
@@ -42,6 +51,9 @@ export function AdminConsole({ initialData }: { initialData: AdminData }) {
         <button type="button" className={tab === "placements" ? formStyles.atabsOn : ""} onClick={() => setTab("placements")}>
           Vị trí nổi bật
         </button>
+        <button type="button" className={tab === "removals" ? formStyles.atabsOn : ""} onClick={() => setTab("removals")}>
+          Yêu cầu gỡ thông tin ({removals.length})
+        </button>
       </div>
 
       {tab === "pending" && (
@@ -49,6 +61,15 @@ export function AdminConsole({ initialData }: { initialData: AdminData }) {
           {pending.length === 0 && <p className={dirStyles.note}>Không có hồ sơ nào đang chờ duyệt.</p>}
           {pending.map((s) => (
             <PendingCard key={s.id} s={s} onDone={(id) => setPending((cur) => cur.filter((x) => x.id !== id))} />
+          ))}
+        </div>
+      )}
+
+      {tab === "removals" && (
+        <div className={formStyles.apane}>
+          {removals.length === 0 && <p className={dirStyles.note}>Không có yêu cầu gỡ thông tin nào đang chờ duyệt.</p>}
+          {removals.map((r) => (
+            <RemovalCard key={r.id} r={r} onDone={(id) => setRemovals((cur) => cur.filter((x) => x.id !== id))} />
           ))}
         </div>
       )}
@@ -216,6 +237,79 @@ function PendingCard({ s, onDone }: { s: PendingSubmissionView; onDone: (id: str
         </button>
         <button type="button" className={dirStyles.btn} onClick={approve} disabled={busy}>
           Duyệt và đăng
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RemovalCard({ r, onDone }: { r: PendingRemovalRow; onDone: (id: string) => void }) {
+  const [rejecting, setRejecting] = useState(false);
+  const [reason, setReason] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
+
+  async function approve() {
+    setBusy(true);
+    const res = await approveRemovalAction(r.id);
+    setBusy(false);
+    if (res.ok) onDone(r.id);
+    else setResult({ ok: false, message: res.message });
+  }
+
+  async function reject() {
+    if (!rejecting) {
+      setRejecting(true);
+      return;
+    }
+    if (!reason.trim()) {
+      setResult({ ok: false, message: "Vui lòng nhập lý do từ chối." });
+      return;
+    }
+    setBusy(true);
+    const res = await rejectRemovalAction(r.id, reason.trim());
+    setBusy(false);
+    if (res.ok) onDone(r.id);
+    else setResult({ ok: false, message: res.message });
+  }
+
+  return (
+    <div className={formStyles.subCard}>
+      <div className={formStyles.top2}>
+        <h4>{r.companyName ?? "Chưa có dữ liệu đăng ký"}</h4>
+      </div>
+      <div className={formStyles.meta}>
+        MST {r.taxCode} · gửi {fmtDateTime(r.createdAt)}
+      </div>
+      <div className={formStyles.cmp2}>
+        <div>
+          <b>Người yêu cầu</b>
+          {r.requesterName ?? "—"} {r.requesterRelation ? `(${r.requesterRelation})` : ""}
+        </div>
+        <div>
+          <b>Email liên hệ</b>
+          {r.contactEmail}
+        </div>
+      </div>
+      <p style={{ marginTop: 12 }}>{r.reason}</p>
+
+      {rejecting && (
+        <div className={formStyles.reason}>
+          <div className={formStyles.fld}>
+            <label className={formStyles.lbl}>Lý do từ chối</label>
+            <input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Ví dụ: không xác minh được người yêu cầu" />
+          </div>
+        </div>
+      )}
+
+      {result && <p className={`${formStyles.result} ${result.ok ? formStyles.resultOk : formStyles.resultBad}`}>{result.message}</p>}
+
+      <div className={dirStyles.act} style={{ marginTop: 12 }}>
+        <button type="button" className={dirStyles.btnGhost + " " + dirStyles.btn} onClick={reject} disabled={busy}>
+          {rejecting ? "Xác nhận từ chối" : "Từ chối"}
+        </button>
+        <button type="button" className={dirStyles.btn} onClick={approve} disabled={busy}>
+          Duyệt và ẩn
         </button>
       </div>
     </div>
