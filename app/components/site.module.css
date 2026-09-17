@@ -84,6 +84,9 @@
 .footerLinks a { color: var(--muted); text-decoration: none; }
 .footerLinks a:hover { color: var(--blue); }
 .footerNote { margin: 0; }
+.footerContact { white-space: nowrap; }
+.footerContact a { color: var(--muted); text-decoration: none; }
+.footerContact a:hover { color: var(--blue); }
 
 /* ---- Page body ---- */
 .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
