@@ -11,6 +11,7 @@ import {
   type PlacementInput,
   type Result,
 } from "@/lib/directory";
+import { approveRemoval, rejectRemoval } from "@/lib/removal";
 import { assertAdmin } from "./guard";
 
 export async function approveSubmissionAction(id: string): Promise<Result> {
@@ -44,4 +45,19 @@ export async function createPlacementAction(input: PlacementInput): Promise<Crea
   const profile = await getProfile(input.mst);
   revalidatePath("/admin");
   return { ok: true, id: r.id, noApprovedProfile: profile === null };
+}
+
+export async function approveRemovalAction(id: string): Promise<Result> {
+  await assertAdmin();
+  const r = await approveRemoval(id);
+  revalidatePath("/admin");
+  if (r.ok && r.taxCode) revalidatePath(`/${r.taxCode}`);
+  return r;
+}
+
+export async function rejectRemovalAction(id: string, reason: string): Promise<Result> {
+  await assertAdmin();
+  const r = await rejectRemoval(id, reason);
+  revalidatePath("/admin");
+  return r;
 }

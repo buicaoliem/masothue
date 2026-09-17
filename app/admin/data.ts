@@ -1,6 +1,7 @@
 import { findDirectoryGroup, listPendingSubmissions, listPlacements, listSponsorLeads, type SubmissionRow, type SponsorLeadRow, type PlacementRow } from "@/lib/directory";
 import { normalizeName } from "@/lib/directory/validation";
 import { findCompanyForLookup } from "@/lib/company";
+import { listPendingRemovals, type PendingRemovalRow } from "@/lib/removal";
 import { PROVINCES } from "@/pipeline/province";
 import { assertAdmin } from "./guard";
 
@@ -31,14 +32,21 @@ export type AdminData = {
   pending: PendingSubmissionView[];
   leads: SponsorLeadRow[];
   placements: (PlacementRow & { groupLabel: string; provinceLabel: string })[];
+  removals: PendingRemovalRow[];
 };
 
 export async function loadAdminData(): Promise<AdminData> {
   await assertAdmin();
-  const [pending, leads, placements] = await Promise.all([listPendingSubmissions(), listSponsorLeads(), listPlacements()]);
+  const [pending, leads, placements, removals] = await Promise.all([
+    listPendingSubmissions(),
+    listSponsorLeads(),
+    listPlacements(),
+    listPendingRemovals(),
+  ]);
   return {
     pending: await Promise.all(pending.map(withNameBadge)),
     leads,
     placements: placements.map((p) => ({ ...p, groupLabel: groupLabel(p.groupSlug), provinceLabel: provinceLabel(p.provinceSlug) })),
+    removals,
   };
 }

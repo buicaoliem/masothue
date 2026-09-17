@@ -1,6 +1,6 @@
 import { prisma } from "@/pipeline/db";
 import { SITE_URL } from "@/lib/site";
-import { LISTABLE } from "@/lib/company";
+import { listableWhere } from "@/lib/company";
 
 // Protocol limit is 50,000 URLs per sitemap file.
 export const SITEMAP_PAGE_SIZE = 50_000;
@@ -9,13 +9,13 @@ export const pagesSitemapUrl = `${SITE_URL}/sitemaps/pages.xml`;
 export const companySitemapUrl = (page: number) => `${SITE_URL}/sitemaps/companies-${page}.xml`;
 
 export async function countSitemapPages(): Promise<number> {
-  const total = await prisma.company.count({ where: LISTABLE });
+  const total = await prisma.company.count({ where: await listableWhere() });
   return Math.max(1, Math.ceil(total / SITEMAP_PAGE_SIZE));
 }
 
-export function getSitemapPage(page: number) {
+export async function getSitemapPage(page: number) {
   return prisma.company.findMany({
-    where: LISTABLE,
+    where: await listableWhere(),
     select: { taxCode: true, updatedAt: true },
     orderBy: { taxCode: "asc" },
     skip: page * SITEMAP_PAGE_SIZE,
