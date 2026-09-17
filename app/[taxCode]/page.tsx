@@ -8,6 +8,7 @@ import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
+import { REL_EXTERNAL_SPONSORED, REL_EXTERNAL_UGC } from "@/lib/relAttrs";
 import { LogoTile } from "../components/LogoTile";
 import { CopyButton } from "./CopyButton";
 import { loadCompanyPageData } from "./data";
@@ -228,7 +229,7 @@ export default async function CompanyPage({ params }: Props) {
                 </a>
               )}
               {profile.website && (
-                <a href={profile.website} target="_blank" rel="noopener noreferrer" className={`${dirStyles.btn} ${dirStyles.btnGhost}`}>
+                <a href={profile.website} target="_blank" rel={REL_EXTERNAL_SPONSORED} className={`${dirStyles.btn} ${dirStyles.btnGhost}`}>
                   Website
                 </a>
               )}
@@ -236,7 +237,7 @@ export default async function CompanyPage({ params }: Props) {
                 <a
                   href={`https://zalo.me/${profile.publicZalo}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={REL_EXTERNAL_SPONSORED}
                   className={`${dirStyles.btn} ${dirStyles.btnGold}`}
                 >
                   Nhắn Zalo
@@ -288,7 +289,7 @@ export default async function CompanyPage({ params }: Props) {
                   </a>
                 )}
                 {profile.website && (
-                  <a href={profile.website} target="_blank" rel="noopener noreferrer" className={`${dirStyles.btn} ${dirStyles.btnGhost}`}>
+                  <a href={profile.website} target="_blank" rel={REL_EXTERNAL_UGC} className={`${dirStyles.btn} ${dirStyles.btnGhost}`}>
                     Website
                   </a>
                 )}
@@ -296,7 +297,7 @@ export default async function CompanyPage({ params }: Props) {
                   <a
                     href={`https://zalo.me/${profile.publicZalo}`}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={REL_EXTERNAL_UGC}
                     className={`${dirStyles.btn} ${dirStyles.btnGhost}`}
                   >
                     Nhắn Zalo
@@ -421,7 +422,7 @@ export default async function CompanyPage({ params }: Props) {
                   <h3 className={styles.serviceTitle}>{s.title}</h3>
                   <p className={styles.serviceDesc}>{s.desc}</p>
                   <div className={styles.actions}>
-                    <a href={AFFILIATE_LINKS[s.key].url} target="_blank" rel="noopener noreferrer" className={styles.quoteBtn}>
+                    <a href={AFFILIATE_LINKS[s.key].url} target="_blank" rel={REL_EXTERNAL_SPONSORED} className={styles.quoteBtn}>
                       Nhận báo giá
                     </a>
                   </div>

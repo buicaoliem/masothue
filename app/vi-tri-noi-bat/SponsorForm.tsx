@@ -8,6 +8,7 @@ import dirStyles from "../components/directory.module.css";
 import styles from "../components/directoryForm.module.css";
 import { submitSponsorLeadAction } from "./actions";
 import { INITIAL_LEAD_STATE } from "./formState";
+import { REL_EXTERNAL_INFO } from "@/lib/relAttrs";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
@@ -119,7 +120,7 @@ export function SponsorForm({ initialGroupSlug, initialProvinceSlug, initialMst,
 
         <div className={dirStyles.act}>
           {zaloNumber && (
-            <a className={dirStyles.btnGhost + " " + dirStyles.btn} href={`https://zalo.me/${zaloNumber}`} target="_blank" rel="noopener noreferrer">
+            <a className={dirStyles.btnGhost + " " + dirStyles.btn} href={`https://zalo.me/${zaloNumber}`} target="_blank" rel={REL_EXTERNAL_INFO}>
               Nhắn Zalo
             </a>
           )}
