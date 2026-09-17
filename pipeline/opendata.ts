@@ -31,7 +31,7 @@ interface SourceConfig {
   dataAsOf: string;
   /** Header name in the file → whitelisted field. "taxCode" is required. */
   columns: Record<string, keyof OpendataRecord>;
-  /** Value used when the file has no status column (the HCMC file lists active companies only). */
+  /** Value used when the file has no status column (the HCMC file lists active companies only). Registry wording, not tax-office wording. */
   fixedStatus?: string;
 }
 
@@ -44,7 +44,7 @@ export const SOURCES: Record<SourceKey, SourceConfig> = {
     provinceSlug: "ho-chi-minh",
     dataAsOf: "2025-11-14",
     columns: { MaSoDN: "taxCode", TenDN: "name", NgayCap: "activeDate", LoaiDN: "legalType", DiaChi: "address" },
-    fixedStatus: "NNT đang hoạt động",
+    fixedStatus: "Đang hoạt động",
   },
   // https://data.sonla.gov.vn/iframe/detail_data/du-lieu-ve-dang-ky-doanh-nghiep ("Dữ liệu DN .XLS"), updated 25/11/2024.
   sonla: {
@@ -80,18 +80,11 @@ export const SOURCES: Record<SourceKey, SourceConfig> = {
   },
 };
 
-// Registry statuses → the tax-authority status strings already stored in Company.status. Anything else → null.
-const STATUS_MAP: Record<string, string> = {
-  "đang hoạt động": "NNT đang hoạt động",
-  "tạm ngừng kinh doanh": "NNT tạm ngừng KD có thời hạn",
-  "không còn hoạt động kinh doanh tại địa chỉ đã đăng ký": "NNT không hoạt động tại địa chỉ đã đăng ký",
-  "đang làm thủ tục giải thể, đã bị chia, bị hợp nhất, bị sáp nhập": "NNT ngừng HĐ nhưng chưa hoàn thành thủ tục chấm dứt hiệu lực MST",
-  "đã giải thể, phá sản, chấm dứt tồn tại": "NNT ngừng hoạt động và đã hoàn thành thủ tục chấm dứt hiệu lực MST",
-};
-
+// Stores the registry's own status wording as-is (trimmed, sentence-cased) — never mapped to tax-office wording.
 export function normalizeStatus(raw: string | null): string | null {
-  if (!raw) return null;
-  return STATUS_MAP[raw.normalize("NFC").trim().toLowerCase().replace(/\s+/g, " ")] ?? null;
+  const s = text(raw);
+  if (!s) return null;
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
 function text(v: unknown): string | null {
@@ -141,7 +134,7 @@ export function makeMapper(source: SourceKey, header: readonly string[]) {
       taxCode: mst.normalized,
       name: text(cell(cells, "name")),
       address: text(cell(cells, "address")),
-      status: cfg.fixedStatus ?? normalizeStatus(text(cell(cells, "status"))),
+      status: normalizeStatus(cfg.fixedStatus ?? text(cell(cells, "status"))),
       representativeName: text(cell(cells, "representativeName")),
       activeDate: parseDate(cell(cells, "activeDate")),
       mainIndustry: parseMainIndustry(cell(cells, "mainIndustry")),

@@ -8,6 +8,7 @@ import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { OPENDATA_PUBLISHERS } from "@/lib/opendata-sources";
+import { statusTone } from "@/lib/company-status";
 import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
 import { REL_EXTERNAL_SPONSORED, REL_EXTERNAL_UGC } from "@/lib/relAttrs";
 import { LogoTile } from "../components/LogoTile";
@@ -19,13 +20,6 @@ import siteStyles from "../components/site.module.css";
 
 type Props = { params: Promise<{ taxCode: string }> };
 type Company = NonNullable<Awaited<ReturnType<typeof getCompanySafe>>>;
-
-function statusTone(status: string): "active" | "stopped" | "neutral" {
-  const s = status.toLowerCase();
-  if (s.includes("ngừng") || s.includes("chấm dứt") || s.includes("giải thể")) return "stopped";
-  if (s.includes("đang hoạt động")) return "active";
-  return "neutral";
-}
 
 function formatDate(d: Date): string {
   const dd = String(d.getUTCDate()).padStart(2, "0");
@@ -165,6 +159,12 @@ function badgeClass(status: string): string {
   return tone === "active" ? dirStyles.badgeOk : dirStyles.badgeOff;
 }
 
+/** Status text as shown to users; rows filled from a provincial open-data file (Company.dataSource) note their source. */
+function displayStatus(c: Company): string | null {
+  if (!c.status) return null;
+  return c.dataSource ? `${c.status} (theo đăng ký kinh doanh)` : c.status;
+}
+
 export default async function CompanyPage({ params }: Props) {
   const { taxCode } = await params;
   const data = await loadCompanyPageData(taxCode);
@@ -179,7 +179,7 @@ export default async function CompanyPage({ params }: Props) {
 
   const kvRows: [string, ReactNode][] = [
     ["Mã số thuế", displayTaxCode],
-    ["Tình trạng", company?.status ?? <Missing />],
+    ["Tình trạng", (company && displayStatus(company)) ?? <Missing />],
     ["Ngày thành lập", company?.activeDate ? formatDate(company.activeDate) : <Missing />],
     ["Địa chỉ trụ sở", address || <Missing />],
     ["Người đại diện", company?.representativeName ?? <Missing />],
@@ -232,7 +232,7 @@ export default async function CompanyPage({ params }: Props) {
               {company?.status && (
                 <>
                   {" "}
-                  · <span className={`${dirStyles.badge} ${badgeClass(company.status)}`}>{company.status}</span>
+                  · <span className={`${dirStyles.badge} ${badgeClass(company.status)}`}>{displayStatus(company)}</span>
                 </>
               )}
             </p>
@@ -295,7 +295,7 @@ export default async function CompanyPage({ params }: Props) {
             <p className={styles.taxCode}>
               Mã số thuế: <strong>{displayTaxCode}</strong>
             </p>
-            {company?.status && <span className={`${styles.badge} ${styles[statusTone(company.status)]}`}>{company.status}</span>}
+            {company?.status && <span className={`${styles.badge} ${styles[statusTone(company.status)]}`}>{displayStatus(company)}</span>}
             {profile?.description && <p className={dirStyles.pheadLead}>{profile.description}</p>}
             {profile && (profile.publicPhone || profile.website || profile.publicZalo) && (
               <div className={`${dirStyles.act} ${dirStyles.pheadAct}`}>

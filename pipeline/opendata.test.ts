@@ -67,7 +67,7 @@ test("whitelist: sensitive columns never leave the mapper", () => {
   for (const secret of ["0255-3823428", "secret@example.vn", "210706011", "TRẦN THỊ B", "500000000"]) {
     assert.ok(!json.includes(secret), secret);
   }
-  assert.equal(rec.status, "NNT đang hoạt động");
+  assert.equal(rec.status, "Đang hoạt động");
   assert.equal(rec.activeDate, "1992-12-28");
   assert.equal(rec.mainIndustry, "4661 - Bán buôn nhiên liệu rắn, lỏng, khí và các sản phẩm liên quan");
 });

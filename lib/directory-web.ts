@@ -1,6 +1,7 @@
 import { prisma } from "@/pipeline/db";
 import { INDEXABLE_MIN_PROFILES, type PublicProfile } from "@/lib/directory";
 import { prismaSql, type Sql } from "@/lib/directory/sql";
+import { ACTIVE_STATUS_SUBSTRING } from "@/lib/company-status";
 
 // Public reads for the /danh-ba pages that don't fit lib/directory/service.ts's per group×province
 // API: cross-group/cross-province rollups, a status/completeness filter, and "same group" lookups.
@@ -18,7 +19,7 @@ export type ProfileFilter = "active" | "all" | "complete";
 
 /** "Đang hoạt động" (default) matches Company.status; "Có hồ sơ đầy đủ" needs a description and a public contact. */
 function filterClause(filter: ProfileFilter): string {
-  if (filter === "active") return `AND c.status ILIKE '%đang hoạt động%'`;
+  if (filter === "active") return `AND c.status ILIKE '%${ACTIVE_STATUS_SUBSTRING}%'`;
   if (filter === "complete") {
     return `AND length(trim(p.description)) > 0
       AND (p.public_phone IS NOT NULL OR p.public_zalo IS NOT NULL OR p.website IS NOT NULL OR p.public_email IS NOT NULL)`;
