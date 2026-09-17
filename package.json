@@ -20,7 +20,8 @@
     "pipeline:enrich-backfill": "dotenv -e .env.local -- tsx pipeline/scripts/enrich-backfill.ts",
     "pipeline:enrich-batch": "dotenv -e .env.local -- tsx pipeline/scripts/enrich-batch.ts",
     "pipeline:backfill-province": "dotenv -e .env.local -- tsx pipeline/scripts/backfill-province.ts",
-    "test:directory": "tsx --test lib/directory/directory.test.ts"
+    "test:directory": "tsx --test lib/directory/directory.test.ts",
+    "test:notify": "tsx --test lib/notify/telegram.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

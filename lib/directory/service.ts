@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Sql } from "./sql";
+import { findDirectoryGroup } from "./groups";
 import { hashIp, verifyTurnstile as verifyTurnstileDefault } from "./security";
 import {
   fieldErrors,
@@ -14,6 +15,12 @@ import {
   type ServiceItem,
   type SponsorLeadInput,
 } from "./validation";
+import { SITE_URL } from "@/lib/site";
+import { buildProfileSubmissionMessage, buildSponsorLeadMessage, scheduleNotify } from "@/lib/notify/telegram";
+import { PROVINCES } from "@/pipeline/province";
+
+const provinceName = (slug: string) => PROVINCES.find((p) => p.slug === slug)?.displayName ?? slug;
+const groupLabel = (slug: string) => findDirectoryGroup(slug)?.label ?? slug;
 
 // Directory data layer: submissions, approval, sponsor leads, paid placements and public reads.
 // Not a server action module: admin functions must only be called behind requireAdmin().
@@ -186,6 +193,15 @@ export function createDirectory(deps: DirectoryDeps) {
         v.submitterName, v.submitterRole, v.submitterPhone, v.confirmAuthority, ipHash, now().toISOString(),
       ],
     );
+    scheduleNotify(() =>
+      buildProfileSubmissionMessage({
+        companyName: v.companyName,
+        mst: v.mst,
+        groupLabel: groupLabel(v.groupSlug),
+        provinceName: provinceName(v.provinceSlug),
+        adminUrl: `${SITE_URL}/admin`,
+      }),
+    );
     return { ok: true, id };
   }
 
@@ -209,6 +225,14 @@ export function createDirectory(deps: DirectoryDeps) {
       `INSERT INTO sponsor_lead (id, contact_name, phone, mst, group_slug, province_slug, message, ip_hash, created_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9::timestamptz) RETURNING id`,
       [id, v.contactName, v.phone, v.mst, v.groupSlug, v.provinceSlug, v.message, ipHash, now().toISOString()],
+    );
+    scheduleNotify(() =>
+      buildSponsorLeadMessage({
+        groupLabel: groupLabel(v.groupSlug),
+        provinceName: provinceName(v.provinceSlug),
+        mst: v.mst,
+        adminUrl: `${SITE_URL}/admin`,
+      }),
     );
     return { ok: true, id };
   }
