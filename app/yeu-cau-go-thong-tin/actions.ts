@@ -3,6 +3,8 @@
 import type { RequesterRelation } from "@prisma/client";
 import { prisma } from "@/pipeline/db";
 import { getCompanyNameForRequest, TAX_CODE_RE } from "@/lib/company";
+import { buildRemovalRequestMessage, scheduleNotify } from "@/lib/notify/telegram";
+import { SITE_URL } from "@/lib/site";
 
 export type FieldName = "taxCode" | "reason" | "contactEmail" | "requesterName" | "requesterRelation";
 export type SubmitState = { ok: boolean; errors: Partial<Record<FieldName, string>> };
@@ -46,6 +48,10 @@ export async function submitRemovalRequest(_prev: SubmitState, fd: FormData): Pr
       requesterName: requesterName || null,
       requesterRelation: (relation as RequesterRelation) || null,
     },
+  });
+  scheduleNotify(async () => {
+    const companyName = await getCompanyNameForRequest(taxCode).catch(() => null);
+    return buildRemovalRequestMessage({ taxCode, companyName, adminUrl: `${SITE_URL}/admin` });
   });
   return { ok: true, errors: {} };
 }
