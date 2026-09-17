@@ -14,6 +14,9 @@ const PUBLIC_SELECT = {
   activeDate: true,
   representativeName: true,
   mainIndustry: true,
+  legalType: true,
+  dataSource: true,
+  dataAsOf: true,
   enrichStatus: true,
   isHidden: true,
 } as const;

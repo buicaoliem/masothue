@@ -7,6 +7,8 @@ import { findDirectoryGroup, getProfile, type PublicProfile } from "@/lib/direct
 import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { OPENDATA_PUBLISHERS } from "@/lib/opendata-sources";
+import { statusTone } from "@/lib/company-status";
 import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
 import { REL_EXTERNAL_SPONSORED, REL_EXTERNAL_UGC } from "@/lib/relAttrs";
 import { LogoTile } from "../components/LogoTile";
@@ -18,13 +20,6 @@ import siteStyles from "../components/site.module.css";
 
 type Props = { params: Promise<{ taxCode: string }> };
 type Company = NonNullable<Awaited<ReturnType<typeof getCompanySafe>>>;
-
-function statusTone(status: string): "active" | "stopped" | "neutral" {
-  const s = status.toLowerCase();
-  if (s.includes("ngừng") || s.includes("chấm dứt") || s.includes("giải thể")) return "stopped";
-  if (s.includes("đang hoạt động")) return "active";
-  return "neutral";
-}
 
 function formatDate(d: Date): string {
   const dd = String(d.getUTCDate()).padStart(2, "0");
@@ -146,9 +141,28 @@ function Missing() {
   return <span className={dirStyles.missing}>Chưa có dữ liệu</span>;
 }
 
+/** Attribution for rows filled from a provincial open-data file (Company.dataSource). */
+function SourceNote({ company }: { company: Company | null }) {
+  const publisher = company?.dataSource ? OPENDATA_PUBLISHERS[company.dataSource] : undefined;
+  if (!publisher) return null;
+  return (
+    <p className={dirStyles.note}>
+      Nguồn: dữ liệu mở của {publisher}
+      {company?.dataAsOf ? `, cập nhật đến ${formatDate(company.dataAsOf)}` : ""}. Địa chỉ ghi theo địa giới trước ngày
+      01/07/2025; tình trạng có thể đã thay đổi.
+    </p>
+  );
+}
+
 function badgeClass(status: string): string {
   const tone = statusTone(status);
   return tone === "active" ? dirStyles.badgeOk : dirStyles.badgeOff;
+}
+
+/** Status text as shown to users; rows filled from a provincial open-data file (Company.dataSource) note their source. */
+function displayStatus(c: Company): string | null {
+  if (!c.status) return null;
+  return c.dataSource ? `${c.status} (theo đăng ký kinh doanh)` : c.status;
 }
 
 export default async function CompanyPage({ params }: Props) {
@@ -165,11 +179,12 @@ export default async function CompanyPage({ params }: Props) {
 
   const kvRows: [string, ReactNode][] = [
     ["Mã số thuế", displayTaxCode],
-    ["Tình trạng", company?.status ?? <Missing />],
+    ["Tình trạng", (company && displayStatus(company)) ?? <Missing />],
     ["Ngày thành lập", company?.activeDate ? formatDate(company.activeDate) : <Missing />],
     ["Địa chỉ trụ sở", address || <Missing />],
     ["Người đại diện", company?.representativeName ?? <Missing />],
     ["Ngành nghề chính", company?.mainIndustry ?? <Missing />],
+    ["Loại hình", company?.legalType ?? <Missing />],
   ];
 
   const invoiceRows: [string, string][] = company ? [["Tên công ty", company.name], ["Mã số thuế", company.taxCode], ["Địa chỉ", company.address]] : [];
@@ -217,7 +232,7 @@ export default async function CompanyPage({ params }: Props) {
               {company?.status && (
                 <>
                   {" "}
-                  · <span className={`${dirStyles.badge} ${badgeClass(company.status)}`}>{company.status}</span>
+                  · <span className={`${dirStyles.badge} ${badgeClass(company.status)}`}>{displayStatus(company)}</span>
                 </>
               )}
             </p>
@@ -269,6 +284,7 @@ export default async function CompanyPage({ params }: Props) {
                   </Fragment>
                 ))}
               </dl>
+              <SourceNote company={company} />
             </div>
           </div>
         </div>
@@ -279,7 +295,7 @@ export default async function CompanyPage({ params }: Props) {
             <p className={styles.taxCode}>
               Mã số thuế: <strong>{displayTaxCode}</strong>
             </p>
-            {company?.status && <span className={`${styles.badge} ${styles[statusTone(company.status)]}`}>{company.status}</span>}
+            {company?.status && <span className={`${styles.badge} ${styles[statusTone(company.status)]}`}>{displayStatus(company)}</span>}
             {profile?.description && <p className={dirStyles.pheadLead}>{profile.description}</p>}
             {profile && (profile.publicPhone || profile.website || profile.publicZalo) && (
               <div className={`${dirStyles.act} ${dirStyles.pheadAct}`}>
@@ -329,6 +345,7 @@ export default async function CompanyPage({ params }: Props) {
               </Fragment>
             ))}
           </dl>
+          <SourceNote company={company} />
 
           <div className={dirStyles.claimBox}>
             <p>
