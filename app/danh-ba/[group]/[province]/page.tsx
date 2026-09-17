@@ -12,6 +12,7 @@ import {
 } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { REL_EXTERNAL_SPONSORED } from "@/lib/relAttrs";
 import { LogoTile } from "../../../components/LogoTile";
 import siteStyles from "../../../components/site.module.css";
 import dirStyles from "../../../components/directory.module.css";
@@ -80,7 +81,7 @@ function ProfileCard({ p }: { p: PublicProfile }) {
           <a
             href={`https://zalo.me/${p.publicZalo}`}
             target="_blank"
-            rel="noopener noreferrer"
+            rel={REL_EXTERNAL_SPONSORED}
             className={`${dirStyles.btn} ${dirStyles.btnGold}`}
           >
             Nhắn Zalo

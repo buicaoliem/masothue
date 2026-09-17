@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CONTACT_EMAIL, OPERATOR_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
+import { REL_EXTERNAL_INFO } from "@/lib/relAttrs";
 import siteStyles from "../components/site.module.css";
 
 export const metadata: Metadata = {
@@ -58,7 +59,7 @@ export default function PrivacyPolicyPage() {
           Địa chỉ IP khi bạn gửi form chỉ được lưu dưới dạng mã hoá một chiều (băm cùng khoá bí mật), không lưu IP
           gốc; mục đích duy nhất là chống gửi spam hàng loạt. Các form cũng dùng Cloudflare Turnstile để kiểm tra
           người gửi là người thật, không phải máy tự động — xem{" "}
-          <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel={REL_EXTERNAL_INFO}>
             chính sách bảo mật của Cloudflare
           </a>
           . Masothuedn.com hiện không dùng công cụ phân tích lượt truy cập hay cookie theo dõi cho mục đích quảng cáo.
