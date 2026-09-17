@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { SiteHeader } from "./components/SiteHeader";
@@ -13,6 +13,8 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = { metadataBase: new URL(SITE_URL), title: SITE_NAME };
+
+export const viewport: Viewport = { themeColor: "#1B4DB1" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

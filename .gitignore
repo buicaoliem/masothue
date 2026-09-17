@@ -10,3 +10,6 @@ next-env.d.ts
 
 # local Claude Code config
 .claude/
+
+# local preview output (not committed)
+/tmp/
