@@ -1,10 +1,18 @@
-// Short, self-terminating enrichment batch: vietqr first, esgoo fills what vietqr lacks.
-// Usage: tsx pipeline/scripts/enrich-batch.ts [--province <slug>] [--limit N]
-//   --province  e.g. ha-noi; omit for the whole store
-//   --limit     max codes this run (default 500, hard cap 500)
-// Each run processes at most --limit codes and exits. Rerun to continue from the checkpoint.
-// On a persistent 429 (one short backoff + one retry) it saves the checkpoint and exits.
-// Merge rule: only null columns are filled; existing values are never overwritten. No industries.
+// Slow-lane enrichment batch: vietqr first, esgoo fills what vietqr still lacks.
+// Usage: tsx pipeline/scripts/enrich-batch.ts [--province <slug>] [--limit N] [--spacing-ms N] [--max-minutes N] [--dry-run]
+//   --province     e.g. ha-noi; omit for the whole store
+//   --limit        max codes this run (default 500, hard cap 100000)
+//   --spacing-ms   min ms between two calls to the same host (default 5000)
+//   --max-minutes  stop cleanly at the checkpoint after this many minutes (default 0 = no limit)
+//   --dry-run      call the real sources and log what would change, but write nothing to the database
+// Each run processes at most --limit codes (or --max-minutes of wall time) and exits. Rerun to continue
+// from the checkpoint. Merge rule: only null columns are filled; existing values are never overwritten.
+// No phone, email, or ID-number fields are ever read or stored. No industries.
+//
+// 429 handling is per host, not per run: the first 429 on a host waits max(Retry-After, 60s) and retries
+// once. If that retry also 429s, the host is disabled for the rest of this run (the other host keeps
+// going). If both hosts end up disabled, the run saves its checkpoint and exits.
+import { pathToFileURL } from "node:url";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../db";
 import { PROVINCES, provinceFromAddress } from "../province";
@@ -12,59 +20,115 @@ import { EsgooSource } from "../sources/esgoo";
 import { VietqrSource } from "../sources/vietqr";
 import { BusinessSource, CompanyData, SourceTransportError } from "../sources/types";
 
-const HARD_CAP = 500;
-const CHECKPOINT_EVERY = 50;
-const INTERVAL_MS = 1_500; // spacing between calls to the same host
-const BACKOFF_MS = 30_000; // single wait after a 429
-const MAX_BACKOFF_MS = 60_000;
+export const HARD_CAP = 100_000;
+export const DEFAULT_LIMIT = 500;
+export const DEFAULT_SPACING_MS = 5_000;
+export const MIN_BLOCK_WAIT_MS = 60_000;
+const CHECKPOINT_EVERY = 100;
+const PROGRESS_EVERY = 100;
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-class RateLimited extends Error {}
+export const FILLABLE = ["name", "nameForeign", "nameShort", "address", "status", "activeDate", "representativeName"] as const;
+export type Fillable = (typeof FILLABLE)[number];
 
-const lastCall: Record<string, number> = {};
-async function call(source: BusinessSource, host: string, taxCode: string) {
-  const due = (lastCall[host] ?? 0) + INTERVAL_MS - Date.now();
+export type HostName = "vietqr" | "esgoo";
+export interface HostState {
+  blocked: boolean;
+  lastCall: number;
+}
+export const freshHostStates = (): Record<HostName, HostState> => ({
+  vietqr: { blocked: false, lastCall: 0 },
+  esgoo: { blocked: false, lastCall: 0 },
+});
+
+/** Waits until `spacingMs` has passed since the host's last call, then marks the call as made now. */
+export async function pace(state: HostState, spacingMs: number) {
+  const due = state.lastCall + spacingMs - Date.now();
   if (due > 0) await sleep(due);
-  lastCall[host] = Date.now();
-  return source.fetchByTaxCode(taxCode);
+  state.lastCall = Date.now();
 }
 
-/** Returns the fetch result, null on a non-429 transport error, or throws RateLimited after one retry. */
-async function fetchOnce(source: BusinessSource, host: string, taxCode: string) {
+export type HostFetch =
+  | { kind: "ok"; data: CompanyData }
+  | { kind: "miss" }
+  | { kind: "unavailable" } // host blocked, or just got blocked by this call
+  | { kind: "abort" }; // non-429 transport error: caller should leave the row untouched
+
+/**
+ * One field-fetch through a paced, breaker-protected host. On a 429 it waits and retries once;
+ * a second consecutive 429 disables the host (state.blocked = true) for the rest of the run.
+ */
+export async function fetchThroughHost(
+  source: BusinessSource,
+  host: HostName,
+  taxCode: string,
+  state: HostState,
+  spacingMs: number,
+  onCount429?: () => void,
+): Promise<HostFetch> {
+  if (state.blocked) return { kind: "unavailable" };
   for (let attempt = 0; attempt < 2; attempt++) {
+    await pace(state, spacingMs);
     try {
-      return await call(source, host, taxCode);
+      const r = await source.fetchByTaxCode(taxCode);
+      return r.kind === "OK" ? { kind: "ok", data: r.data } : { kind: "miss" };
     } catch (err) {
       if (!(err instanceof SourceTransportError)) throw err;
-      if (err.httpStatus !== 429) return null;
-      if (attempt === 1) throw new RateLimited(host);
-      const ra = source instanceof VietqrSource ? source.lastRetryAfter : null;
-      const wait = Math.min(MAX_BACKOFF_MS, Math.max(BACKOFF_MS, (ra ?? 0) * 1000));
-      console.warn(`[${host}] 429, waiting ${wait / 1000}s then retrying once`);
-      await sleep(wait);
+      if (err.httpStatus !== 429) return { kind: "abort" };
+      onCount429?.();
+      if (attempt === 0) {
+        const ra = source instanceof VietqrSource ? source.lastRetryAfter : null;
+        const wait = Math.max(MIN_BLOCK_WAIT_MS, (ra ?? 0) * 1000);
+        console.warn(`[${host}] 429, waiting ${wait / 1000}s then retrying once`);
+        await sleep(wait);
+        continue;
+      }
+      state.blocked = true;
+      console.warn(`[${host}] second 429 in a row — disabling this host for the rest of the run`);
+      return { kind: "unavailable" };
     }
   }
-  return null;
+  return { kind: "unavailable" };
 }
 
-const FILLABLE = ["name", "nameForeign", "nameShort", "address", "status", "activeDate", "representativeName"] as const;
-const stats = { processed: 0, ok: 0, sourceMiss: 0, networkError: 0, skipped: 0, provinces: {} as Record<string, number> };
-
-async function processCode(taxCode: string, vietqr: VietqrSource, esgoo: EsgooSource) {
-  const results: CompanyData[] = [];
-  for (const [source, host] of [
-    [vietqr, "vietqr"],
-    [esgoo, "esgoo"],
-  ] as const) {
-    const r = await fetchOnce(source, host, taxCode);
-    if (r === null) {
-      stats.networkError++; // stays PENDING
-      return;
+/** Fills only currently-null fields of `current` from `data`, mutating `merged`/`fill` in place. Returns true if anything filled. */
+export function applyFill(merged: Record<string, unknown>, fill: Record<string, unknown>, data: CompanyData): boolean {
+  let any = false;
+  for (const f of FILLABLE) {
+    if (merged[f] != null) continue;
+    const v = data[f];
+    if (v != null) {
+      merged[f] = v;
+      fill[f] = v;
+      any = true;
     }
-    if (r.kind === "OK") results.push(r.data);
   }
+  return any;
+}
 
+export function shouldStopForTime(startedAtMs: number, maxMinutes: number, nowMs = Date.now()): boolean {
+  return maxMinutes > 0 && nowMs - startedAtMs >= maxMinutes * 60_000;
+}
+
+const stats = {
+  processed: 0,
+  filled: 0,
+  ok: 0,
+  skipped: 0,
+  networkError: 0,
+  count429: 0,
+  provinces: {} as Record<string, number>,
+};
+
+async function processCode(
+  taxCode: string,
+  vietqr: VietqrSource,
+  esgoo: EsgooSource,
+  hostStates: Record<HostName, HostState>,
+  spacingMs: number,
+  dryRun: boolean,
+) {
   const current = await prisma.company.findUnique({
     where: { taxCode },
     select: { enrichStatus: true, provinceSlug: true, ...Object.fromEntries(FILLABLE.map((f) => [f, true])) },
@@ -76,11 +140,23 @@ async function processCode(taxCode: string, vietqr: VietqrSource, esgoo: EsgooSo
 
   const fill: Record<string, unknown> = {};
   const merged = { ...current } as Record<string, unknown>;
-  for (const f of FILLABLE) {
-    if (merged[f] != null) continue;
-    const v = results.map((r) => r[f]).find((x) => x != null);
-    if (v != null) merged[f] = fill[f] = v;
+  const missing = () => FILLABLE.some((f) => merged[f] == null);
+
+  let filledAny = false;
+  for (const [source, host] of [
+    [vietqr, "vietqr"],
+    [esgoo, "esgoo"],
+  ] as const) {
+    if (host === "esgoo" && !missing()) break; // vietqr already has everything fillable
+    const res = await fetchThroughHost(source, host, taxCode, hostStates[host], spacingMs, () => stats.count429++);
+    if (res.kind === "abort") {
+      stats.networkError++; // stays PENDING, retried next run
+      return;
+    }
+    if (res.kind === "ok" && applyFill(merged, fill, res.data)) filledAny = true;
   }
+  if (filledAny) stats.filled++;
+
   if (merged.provinceSlug == null) {
     const province = provinceFromAddress(merged.address as string | null);
     if (province) {
@@ -94,7 +170,10 @@ async function processCode(taxCode: string, vietqr: VietqrSource, esgoo: EsgooSo
 
   const complete = Boolean(merged.name && merged.address);
   if (complete) stats.ok++;
-  else stats.sourceMiss++;
+  if (dryRun) {
+    if (filledAny) console.log(`[dry-run] ${taxCode} would fill ${Object.keys(fill).join(", ")} -> ${complete ? "OK" : "SOURCE_MISS"}`);
+    return;
+  }
   const w = await prisma.company.updateMany({
     where: { taxCode, enrichStatus: "PENDING" },
     data: { ...fill, enrichStatus: complete ? "OK" : "SOURCE_MISS", lastEnrichedAt: new Date() },
@@ -108,22 +187,38 @@ function parseArgs() {
     const i = args.indexOf(k);
     return i >= 0 ? args[i + 1] : undefined;
   };
+  const dryRun = args.includes("--dry-run");
   const slug = get("--province");
   const limitRaw = get("--limit");
-  const limit = limitRaw === undefined ? HARD_CAP : Number(limitRaw);
+  const limit = limitRaw === undefined ? DEFAULT_LIMIT : Number(limitRaw);
+  const spacingRaw = get("--spacing-ms");
+  const spacingMs = spacingRaw === undefined ? DEFAULT_SPACING_MS : Number(spacingRaw);
+  const maxMinutesRaw = get("--max-minutes");
+  const maxMinutes = maxMinutesRaw === undefined ? 0 : Number(maxMinutesRaw);
   const province = slug ? PROVINCES.find((p) => p.slug === slug) : undefined;
-  if ((slug && !province) || !Number.isInteger(limit) || limit <= 0) {
-    console.error("usage: enrich-batch.ts [--province <slug>] [--limit N<=500]");
+  if (
+    (slug && !province) ||
+    !Number.isInteger(limit) ||
+    limit <= 0 ||
+    !Number.isFinite(spacingMs) ||
+    spacingMs < 0 ||
+    !Number.isFinite(maxMinutes) ||
+    maxMinutes < 0
+  ) {
+    console.error("usage: enrich-batch.ts [--province <slug>] [--limit N<=100000] [--spacing-ms N] [--max-minutes N] [--dry-run]");
     process.exit(1);
   }
-  return { province, limit: Math.min(limit, HARD_CAP) };
+  return { province, limit: Math.min(limit, HARD_CAP), spacingMs, maxMinutes, dryRun };
 }
 
 async function main() {
-  const { province, limit } = parseArgs();
+  const { province, limit, spacingMs, maxMinutes, dryRun } = parseArgs();
   const scope = `enrich-batch:${province?.slug ?? "all"}`;
-  const cp = await prisma.ingestCheckpoint.upsert({ where: { scope }, create: { scope }, update: {} });
-  let cursor = cp.cursor;
+  // Dry runs never touch the checkpoint: read the existing cursor (if any) without creating or moving it.
+  const cp = dryRun
+    ? await prisma.ingestCheckpoint.findUnique({ where: { scope } })
+    : await prisma.ingestCheckpoint.upsert({ where: { scope }, create: { scope }, update: {} });
+  let cursor = cp?.cursor ?? null;
 
   // Province filter: known slug, or (slug unknown) address mentions the province name.
   const provinceWhere: Prisma.CompanyWhereInput = province
@@ -132,48 +227,87 @@ async function main() {
 
   const vietqr = new VietqrSource();
   const esgoo = new EsgooSource();
+  const hostStates = freshHostStates();
   const t0 = Date.now();
-  console.log(`start scope=${scope} cursor=${cursor ?? "(beginning)"} limit=${limit}`);
+  console.log(
+    `start scope=${scope} cursor=${cursor ?? "(beginning)"} limit=${limit} spacingMs=${spacingMs} maxMinutes=${maxMinutes || "none"}${dryRun ? " DRY-RUN (no writes)" : ""}`,
+  );
 
   const save = (status: string) =>
-    prisma.ingestCheckpoint.update({ where: { scope }, data: { cursor, status } });
+    dryRun ? Promise.resolve() : prisma.ingestCheckpoint.update({ where: { scope }, data: { cursor, status } });
 
-  let blocked = false;
+  const progress = () => {
+    const elapsedMin = (Date.now() - t0) / 60_000;
+    const perHour = elapsedMin > 0 ? Math.round((stats.processed / elapsedMin) * 60) : 0;
+    console.log(
+      `${stats.processed} done | filled ${stats.filled} ok ${stats.ok} skipped ${stats.skipped} | 429s ${stats.count429} | ` +
+        `${elapsedMin.toFixed(1)} min elapsed | ~${perHour} codes/hour | cursor ${cursor}`,
+    );
+  };
+
+  let bothHostsBlocked = false;
+  let timeUp = false;
   let exhausted = false;
-  try {
-    while (stats.processed < limit) {
-      const batch = await prisma.company.findMany({
-        where: { enrichStatus: "PENDING", ...provinceWhere, ...(cursor ? { taxCode: { gt: cursor } } : {}) },
-        select: { taxCode: true },
-        orderBy: { taxCode: "asc" },
-        take: Math.min(CHECKPOINT_EVERY, limit - stats.processed),
-      });
-      if (batch.length === 0) {
-        exhausted = true;
-        break;
-      }
-      for (const { taxCode } of batch) {
-        await processCode(taxCode, vietqr, esgoo);
-        stats.processed++;
-        cursor = taxCode;
-      }
-      await save("pending");
-      console.log(`${stats.processed} done | ok ${stats.ok} miss ${stats.sourceMiss} netErr ${stats.networkError} | cursor ${cursor}`);
+  let lastProgressAt = 0;
+  outer: while (stats.processed < limit) {
+    const batch = await prisma.company.findMany({
+      where: { enrichStatus: "PENDING", ...provinceWhere, ...(cursor ? { taxCode: { gt: cursor } } : {}) },
+      select: { taxCode: true },
+      orderBy: { taxCode: "asc" },
+      take: Math.min(CHECKPOINT_EVERY, limit - stats.processed),
+    });
+    if (batch.length === 0) {
+      exhausted = true;
+      break;
     }
-  } catch (err) {
-    if (!(err instanceof RateLimited)) throw err;
-    blocked = true; // cursor is the last fully processed code, so the blocked one is retried next run
+    for (const { taxCode } of batch) {
+      await processCode(taxCode, vietqr, esgoo, hostStates, spacingMs, dryRun);
+      stats.processed++;
+      cursor = taxCode;
+
+      if (stats.processed - lastProgressAt >= PROGRESS_EVERY) {
+        progress();
+        lastProgressAt = stats.processed;
+      }
+      if (hostStates.vietqr.blocked && hostStates.esgoo.blocked) {
+        bothHostsBlocked = true;
+        break outer;
+      }
+      if (shouldStopForTime(t0, maxMinutes)) {
+        timeUp = true;
+        break outer;
+      }
+    }
+    await save("pending");
   }
 
   await save(exhausted ? "done" : "pending");
-  if (blocked) console.log(`bị khóa (${stats.processed} mã đã xử), chạy lại sau`);
+  if (bothHostsBlocked) console.log("cả hai nguồn đều bị chặn (429) — đã lưu điểm dừng, chạy lại sau");
+  else if (timeUp) console.log(`hết thời gian cho phép (--max-minutes ${maxMinutes}) — đã lưu điểm dừng`);
   else if (exhausted) console.log("hết mã PENDING trong phạm vi này");
-  console.log(JSON.stringify({ scope, ...stats, minutes: +((Date.now() - t0) / 60_000).toFixed(2), blocked, exhausted, cursor }));
+  progress();
+  console.log(
+    JSON.stringify({
+      scope,
+      ...stats,
+      minutes: +((Date.now() - t0) / 60_000).toFixed(2),
+      spacingMs,
+      maxMinutes,
+      dryRun,
+      blockedHosts: { vietqr: hostStates.vietqr.blocked, esgoo: hostStates.esgoo.blocked },
+      bothHostsBlocked,
+      timeUp,
+      exhausted,
+      cursor,
+    }),
+  );
 }
 
-main()
-  .catch((err) => {
-    console.error(err instanceof Error ? err.message : "enrich-batch failed");
-    process.exitCode = 1;
-  })
-  .finally(() => prisma.$disconnect());
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  main()
+    .catch((err) => {
+      console.error(err instanceof Error ? err.message : "enrich-batch failed");
+      process.exitCode = 1;
+    })
+    .finally(() => prisma.$disconnect());
+}
