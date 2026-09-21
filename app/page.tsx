@@ -36,7 +36,7 @@ const fmtDate = (d: Date) =>
 
 export default async function Home() {
   const [fresh, industries, legalForms, dataAsOf] = await Promise.all([
-    orEmpty(getNewCompanies({ limit: SEO_CONFIG.homeNewCompanies }), { total: 0, rows: [] }),
+    orEmpty(getNewCompanies({ limit: SEO_CONFIG.homeNewCompanies, withTotal: false }), { total: 0, rows: [] }),
     orEmpty(topIndexableIndustries(12), []),
     orEmpty(listLegalForms(SEO_CONFIG.taxonomyMinCompanies), []),
     orEmpty(getDataAsOf(), null),

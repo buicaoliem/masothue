@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fragment, type ReactNode } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getCompanySafe, getNearbyCompanies } from "@/lib/company";
+import { getCompanySafe, getNearbyCompanies, TAX_CODE_RE } from "@/lib/company";
 import { getCompanyIndustries } from "@/lib/industry/service";
 import { isCompanyProfileIndexable } from "@/lib/seo/indexability";
 import { buildCompanyMetadata, buildPageMetadata } from "@/lib/seo/metadata";
@@ -10,7 +10,7 @@ import { industryPath, legalFormPath, provincePath, statusPath } from "@/lib/seo
 import { classifyStatus, legalFormSlug } from "@/lib/seo/taxonomy";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { serializeJsonLd } from "@/lib/seo/jsonld";
-import { findDirectoryGroup, getProfile, type PublicProfile } from "@/lib/directory";
+import { findDirectoryGroup, type PublicProfile } from "@/lib/directory";
 import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -20,7 +20,7 @@ import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
 import { REL_EXTERNAL_SPONSORED, REL_EXTERNAL_UGC } from "@/lib/relAttrs";
 import { LogoTile } from "../components/LogoTile";
 import { CopyButton } from "./CopyButton";
-import { loadCompanyPageData } from "./data";
+import { getProfileOnce, loadCompanyPageData } from "./data";
 import styles from "./company.module.css";
 import dirStyles from "../components/directory.module.css";
 import siteStyles from "../components/site.module.css";
@@ -77,7 +77,7 @@ function resolveDisplay(company: Company | null, profile: PublicProfile | null) 
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { taxCode } = await params;
-  const [company, profile] = await Promise.all([getCompanySafe(taxCode), getProfile(taxCode)]);
+  const [company, profile] = await Promise.all([getCompanySafe(taxCode), getProfileOnce(taxCode)]);
   if (!company && !profile) return {};
   if (company) return buildCompanyMetadata({ taxCode: company.taxCode, name: company.name }, isCompanyProfileIndexable(company));
   // Directory-only page (no registry row): indexable only when the approved profile passes the directory rule.
@@ -157,17 +157,29 @@ function displayStatus(c: Company): string | null {
 
 export default async function CompanyPage({ params }: Props) {
   const { taxCode } = await params;
+  // The industries query needs only the tax code, so it starts now and overlaps the company/profile reads.
+  const industriesPromise = TAX_CODE_RE.test(taxCode)
+    ? getCompanyIndustries(taxCode).catch((err) => {
+        console.error("industries lookup failed", err instanceof Error ? err.message : err);
+        return null;
+      })
+    : Promise.resolve(null);
   const data = await loadCompanyPageData(taxCode);
   if (data.notFound) notFound();
   const { company, profile, isPaid } = data;
 
   const group = profile ? findDirectoryGroup(profile.groupSlug) : null;
-  const sameGroup = profile ? await getSameGroupProfiles(profile.groupSlug, profile.provinceSlug, taxCode, 6) : [];
+  // Everything left is independent given the company row: one round trip, not three.
+  const [sameGroup, industriesRaw, nearby] = await Promise.all([
+    profile ? getSameGroupProfiles(profile.groupSlug, profile.provinceSlug, taxCode, 6) : Promise.resolve([]),
+    industriesPromise,
+    company?.provinceSlug ? getNearbyCompanies(company.provinceSlug, company.taxCode) : Promise.resolve([]),
+  ]);
 
   const { name, address, province } = resolveDisplay(company, profile);
   const displayTaxCode = company?.taxCode ?? profile?.mst ?? taxCode;
 
-  const industries = company ? await getCompanyIndustries(company.taxCode) : null;
+  const industries = company ? industriesRaw : null;
   // Unified view over CompanyIndustry + the compact registered-industry sets (see lib/industry/service.ts).
   const primaryIndustry = industries?.primary ?? null;
   const otherIndustries = industries?.registered ?? [];
@@ -233,7 +245,6 @@ export default async function CompanyPage({ params }: Props) {
   const invoiceRows: [string, string][] = company ? [["Tên công ty", company.name], ["Mã số thuế", company.taxCode], ["Địa chỉ", company.address]] : [];
 
   const faq = company ? buildFaq(company) : [];
-  const nearby = company?.provinceSlug ? await getNearbyCompanies(company.provinceSlug, company.taxCode) : [];
 
   return (
     <main className={styles.page}>

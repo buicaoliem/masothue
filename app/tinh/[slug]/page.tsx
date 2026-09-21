@@ -7,7 +7,7 @@ import { buildProvinceMetadata } from "@/lib/seo/metadata";
 import { STATUS_PAGES } from "@/lib/seo/taxonomy";
 import { industryPath, newCompaniesPath, parsePage, provinceIndustryPath, provincePath, statusPath } from "@/lib/seo/urls";
 import { listIndexableProvinceIndustries } from "@/lib/industry/seo";
-import { countCompanies, getNewCompanies, getStatusBreakdown, listCompanies, LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
+import { getNewCompanies, getProvinceListableTotal, getStatusBreakdown, listProvinceCompanies, LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
 import { CompanyList } from "../../components/CompanyList";
 import { LinkChips } from "../../components/LinkChips";
 import { TaxonomyList } from "../../components/TaxonomyList";
@@ -25,7 +25,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const province = findProvince(slug);
   const page = parsePage((await searchParams).trang);
   if (!province || !page) return {};
-  const total = await countCompanies({ provinceSlug: slug });
+  const total = await getProvinceListableTotal(slug);
   return buildProvinceMetadata(province, page, isTaxonomyPageIndexable({ kind: "province", total, page }));
 }
 
@@ -35,7 +35,7 @@ export default async function ProvinceHub({ params, searchParams }: Props) {
   const page = parsePage((await searchParams).trang);
   if (!province || !page) notFound();
 
-  const { total, rows } = await listCompanies({ provinceSlug: slug }, page);
+  const { total, rows } = await listProvinceCompanies(slug, page);
   if (page > Math.max(1, Math.ceil(total / LIST_PAGE_SIZE))) notFound();
 
   const first = page === 1;
@@ -43,7 +43,7 @@ export default async function ProvinceHub({ params, searchParams }: Props) {
     ? await Promise.all([
         getStatusBreakdown(slug),
         listIndexableProvinceIndustries(slug).then((l) => l.sort((a, b) => b.companyCount - a.companyCount).slice(0, 12)),
-        getNewCompanies({ provinceSlug: slug, limit: 6 }),
+        getNewCompanies({ provinceSlug: slug, limit: 6, withTotal: false }),
       ])
     : [null, [], { total: 0, rows: [] }];
 

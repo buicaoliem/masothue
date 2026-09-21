@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getCompanySafe } from "@/lib/company";
 import { getActivePlacements, getProfile, type ActivePlacement, type PublicProfile } from "@/lib/directory";
 
@@ -14,7 +15,10 @@ type Deps = {
   getActivePlacements: (groupSlug: string, provinceSlug: string) => Promise<ActivePlacement[]>;
 };
 
-const DEFAULT_DEPS: Deps = { getCompanySafe, getProfile, getActivePlacements };
+/** Request-scoped: generateMetadata() and the page both need the profile; it is queried once per request. */
+export const getProfileOnce = cache((taxCode: string) => getProfile(taxCode));
+
+const DEFAULT_DEPS: Deps = { getCompanySafe, getProfile: getProfileOnce, getActivePlacements };
 
 /**
  * Loads the data for /[taxCode]. Hidden companies and companies with a pending/approved removal

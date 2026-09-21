@@ -4,7 +4,7 @@ import { PROVINCES } from "@/pipeline/province";
 import {
   getCompaniesByIndustry,
   getIndustryContext,
-  getIndustryProvinceDistribution,
+  listProvinceStatsForIndustry,
   getIndustryStat,
   getRelatedIndustries,
   INDUSTRY_LIST_MAX_PAGES,
@@ -12,7 +12,6 @@ import {
 import { evaluateIndustrySeoQuality, evaluateProvinceIndustrySeoQuality } from "@/lib/seo/industry-quality";
 import { buildIndustryMetadata } from "@/lib/seo/metadata";
 import { industryPath, parseIndustrySlug, parsePage, provinceIndustryPath, provincePath } from "@/lib/seo/urls";
-import { getProvinceIndustryStat } from "@/lib/industry/service";
 import { LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
 import { LinkChips } from "../../components/LinkChips";
 import { TaxonomyList } from "../../components/TaxonomyList";
@@ -54,17 +53,14 @@ export default async function IndustryHub({ params, searchParams }: Props) {
   const { rows } = await getCompaniesByIndustry(stat.code, { page });
 
   const [distribution, related] =
-    page === 1 ? await Promise.all([getIndustryProvinceDistribution(stat.code), getRelatedIndustries(stat.code)]) : [[], []];
+    page === 1 ? await Promise.all([listProvinceStatsForIndustry(stat.code), getRelatedIndustries(stat.code)]) : [[], []];
   const provinceName = (slug: string) => PROVINCES.find((p) => p.slug === slug)?.displayName ?? slug;
 
-  // Only link to landing pages that pass the quality rule; the others are still reachable from the list below.
-  const distributionLinks = await Promise.all(
-    distribution.map(async (d) => {
-      const ps = await getProvinceIndustryStat(d.provinceSlug, stat.code);
-      const ok = ps ? evaluateProvinceIndustrySeoQuality(ps).indexable : false;
-      return { href: ok ? provinceIndustryPath(d.provinceSlug, stat.code, stat.name) : provincePath(d.provinceSlug), label: `${provinceName(d.provinceSlug)} (${n(d.companyCount)})` };
-    }),
-  );
+  // Only link to landing pages that pass the quality rule; the others fall back to the province hub.
+  const distributionLinks = distribution.map((d) => ({
+    href: evaluateProvinceIndustrySeoQuality(d).indexable ? provinceIndustryPath(d.provinceSlug, stat.code, stat.name) : provincePath(d.provinceSlug),
+    label: `${provinceName(d.provinceSlug)} (${n(d.companyCount)})`,
+  }));
 
   // Semantics: "registered" = holds this code among its registered industries; "primary" only where a source says so.
   const lead =

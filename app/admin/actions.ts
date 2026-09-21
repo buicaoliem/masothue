@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   approveSubmission,
   createPlacement,
@@ -51,7 +51,10 @@ export async function approveRemovalAction(id: string): Promise<Result> {
   await assertAdmin();
   const r = await approveRemoval(id);
   revalidatePath("/admin");
-  if (r.ok && r.taxCode) revalidatePath(`/${r.taxCode}`);
+  if (r.ok && r.taxCode) {
+    revalidatePath(`/${r.taxCode}`);
+    revalidateTag("removals"); // lists/sitemaps drop the company immediately, not after the 60 s cache
+  }
   return r;
 }
 

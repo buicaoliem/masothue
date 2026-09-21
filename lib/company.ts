@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/pipeline/db";
 import { ensureEnriched } from "@/lib/enrich";
@@ -39,10 +40,15 @@ export const LISTABLE = {
 } as const;
 
 /** Tax codes with an APPROVED removal request; PENDING does not hide anything (prevents abuse). */
-async function approvedRemovalTaxCodes(): Promise<string[]> {
+const loadApprovedRemovalTaxCodes = async (): Promise<string[]> => {
   const rows = await prisma.removalRequest.findMany({ where: { status: "APPROVED" }, select: { taxCode: true } });
   return rows.map((r) => r.taxCode);
-}
+};
+
+// List pages, sitemaps and counts exclude these; the list is tiny and read on nearly every request, so it is
+// cached briefly (60 s, and dropped at once by revalidateTag("removals") when an admin approves a request).
+// The company page itself never uses this cache: isApprovedRemoval() below is always a live query.
+const approvedRemovalTaxCodes = unstable_cache(loadApprovedRemovalTaxCodes, ["approved-removals"], { revalidate: 60, tags: ["removals"] });
 
 /** True when this exact tax code has an APPROVED removal request. */
 async function isApprovedRemoval(taxCode: string): Promise<boolean> {
@@ -121,10 +127,16 @@ export async function findCompanyForLookup(taxCode: string): Promise<MstLookupIn
  */
 export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany | null> => {
   if (!TAX_CODE_RE.test(taxCode)) return null;
-  if (await isApprovedRemoval(taxCode)) return null;
-  if ((await ensureEnriched(taxCode)) === "unavailable") throw new EnrichUnavailableError(taxCode);
-  const company = await findCompany(taxCode);
-  if (company?.enrichStatus === "PENDING" && !company.isHidden) throw new EnrichUnavailableError(taxCode);
+  // Independent reads go out together: one round trip instead of two.
+  const [removed, first] = await Promise.all([isApprovedRemoval(taxCode), findCompany(taxCode)]);
+  if (removed) return null;
+  let company = first;
+  // Only a PENDING row needs the enrichment path (and a second read); everything else is served as read.
+  if (company?.enrichStatus === "PENDING" && !company.isHidden) {
+    if ((await ensureEnriched(taxCode)) === "unavailable") throw new EnrichUnavailableError(taxCode);
+    company = await findCompany(taxCode);
+    if (company?.enrichStatus === "PENDING" && !company.isHidden) throw new EnrichUnavailableError(taxCode);
+  }
   return showable(company);
 });
 
@@ -140,15 +152,15 @@ export async function getCompanySafe(taxCode: string): Promise<ShowableCompany |
   }
 }
 
-/** Up to `limit` other enriched companies in the same province, for the "nearby" block. */
+/** Up to `limit` other enriched companies in the same province, for the "nearby" block. One query (removal exclusion in SQL). */
 export async function getNearbyCompanies(provinceSlug: string | null, excludeTaxCode: string, limit = 5) {
   if (!provinceSlug) return [];
-  return prisma.company.findMany({
-    where: await listableWhere({ provinceSlug, taxCode: { not: excludeTaxCode } }),
-    select: { taxCode: true, name: true, address: true },
-    orderBy: { updatedAt: "desc" },
-    take: limit,
-  }) as Promise<ListedCompany[]>;
+  return prisma.$queryRaw<ListedCompany[]>`
+    SELECT c."taxCode", c.name, c.address FROM "Company" c
+    WHERE c."provinceSlug" = ${provinceSlug} AND c."taxCode" <> ${excludeTaxCode}
+      AND c."isHidden" = false AND c."enrichStatus" = 'OK' AND c.name IS NOT NULL AND c.address IS NOT NULL
+      AND NOT EXISTS (SELECT 1 FROM "RemovalRequest" r WHERE r."taxCode" = c."taxCode" AND r.status = 'APPROVED')
+    ORDER BY c."updatedAt" DESC LIMIT ${limit}`;
 }
 
 export const PROVINCE_PAGE_SIZE = 50;

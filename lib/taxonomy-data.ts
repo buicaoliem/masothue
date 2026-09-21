@@ -73,14 +73,15 @@ export async function legalTypesForSlug(slug: string): Promise<string[]> {
 // ---- new companies ----------------------------------------------------------------------
 
 /** Newest registrations, ordered by the real registration date (activeDate), never by import or update time. */
-export async function getNewCompanies(opts: { provinceSlug?: string; limit: number; page?: number }) {
+export async function getNewCompanies(opts: { provinceSlug?: string; limit: number; page?: number; withTotal?: boolean }) {
   const where = await listableWhere({
     activeDate: { not: null, lte: new Date() },
     ...(opts.provinceSlug ? { provinceSlug: opts.provinceSlug } : {}),
   });
   const page = opts.page ?? 1;
+  // Homepage / hub modules only need the rows; the COUNT over ~200k rows (~250 ms) is skipped unless asked for.
   const [total, rows] = await Promise.all([
-    prisma.company.count({ where }),
+    opts.withTotal === false ? Promise.resolve(0) : prisma.company.count({ where }),
     prisma.company.findMany({
       where,
       select: { ...LIST_SELECT, activeDate: true, provinceSlug: true },
@@ -126,3 +127,23 @@ export const listProvinceCounts = cached("province-counts", async (): Promise<{ 
   });
   return groups.map((g) => ({ provinceSlug: g.provinceSlug!, total: g._count._all }));
 });
+
+/** Listable companies in one province, from the hourly-cached per-province counts (same source as the sitemap). */
+export async function getProvinceListableTotal(provinceSlug: string): Promise<number> {
+  return (await listProvinceCounts()).find((p) => p.provinceSlug === provinceSlug)?.total ?? 0;
+}
+
+/** One page of a province hub: the total is the cached count, so only the rows are queried. */
+export async function listProvinceCompanies(provinceSlug: string, page: number) {
+  const [total, rows] = await Promise.all([
+    getProvinceListableTotal(provinceSlug),
+    prisma.company.findMany({
+      where: await listableWhere({ provinceSlug }),
+      select: LIST_SELECT,
+      orderBy: { taxCode: "asc" },
+      skip: (page - 1) * LIST_PAGE_SIZE,
+      take: LIST_PAGE_SIZE,
+    }) as Promise<ListedRow[]>,
+  ]);
+  return { total, rows };
+}
