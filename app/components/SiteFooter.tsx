@@ -4,6 +4,14 @@ import styles from "./site.module.css";
 
 const LINKS = [
   { label: "Giới thiệu", href: "/gioi-thieu" },
+  { label: "Doanh nghiệp mới", href: "/doanh-nghiep-moi" },
+  { label: "Ngành nghề", href: "/nganh" },
+  { label: "Hướng dẫn", href: "/huong-dan" },
+  { label: "Thống kê", href: "/thong-ke" },
+  { label: "Nguồn dữ liệu", href: "/nguon-du-lieu" },
+  { label: "Phương pháp dữ liệu", href: "/phuong-phap-du-lieu" },
+  { label: "Chính sách biên tập", href: "/chinh-sach-bien-tap" },
+  { label: "Liên hệ", href: "/lien-he" },
   { label: "Điều khoản", href: "/dieu-khoan" },
   { label: "Chính sách bảo mật", href: "/chinh-sach-bao-mat" },
   { label: "Yêu cầu gỡ thông tin", href: "/yeu-cau-go-thong-tin" },

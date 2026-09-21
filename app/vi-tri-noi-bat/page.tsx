@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { SITE_NAME } from "@/lib/site";
 import { SponsorForm } from "./SponsorForm";
@@ -19,7 +20,7 @@ export default async function FeaturedPlacementPage({ searchParams }: Props) {
   return (
     <main className={siteStyles.page}>
       <div className={siteStyles.crumb}>
-        <a href="/danh-ba">Danh bạ</a> / Vị trí nổi bật
+        <Link href="/danh-ba">Danh bạ</Link> / Vị trí nổi bật
       </div>
       <h1 className={siteStyles.title}>Đưa doanh nghiệp lên đầu ngành</h1>
       <p className={siteStyles.lead}>Mỗi trang ngành theo tỉnh có tối đa 3 vị trí &quot;Đứng đầu ngành&quot;.</p>

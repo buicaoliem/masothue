@@ -36,16 +36,20 @@ model Company {
   lastEnrichedAt     DateTime?
   isHidden           Boolean      @default(false) // true = 404 and left out of every list/sitemap
   dataSource         String? // bulk-import origin, e.g. "opendata-hcm" (pipeline/scripts/import-opendata.ts)
-  dataAsOf           DateTime?    @db.Date // "last updated" date of that dataset on the publisher's portal
+  dataAsOf           DateTime?    @db.Date // "last updated" date of that dataset on the publisher's portal (source freshness)
+  dataUpdatedAt      DateTime? // when a public-facing field of this row last actually changed (record freshness; drives sitemap lastmod). updatedAt also moves on technical writes.
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 
-  industries CompanyIndustry[]
+  industries    CompanyIndustry[]
+  industrySets  CompanyIndustrySet[]
   changes    CompanyChange[]
 
   @@index([provinceSlug])
   @@index([status])
   @@index([enrichStatus])
+  @@index([legalType])
+  // Partial indexes on listable rows (province+taxCode, activeDate desc) live only in migration 20260921130000.
 }
 
 // SOURCE_MISS = the queried source had no data for this tax code.
@@ -56,17 +60,87 @@ enum EnrichStatus {
   SOURCE_MISS
 }
 
+// Source of truth for a company's industries. `code` is the VSIC code (identity); `name` is the
+// name as the source spelled it (canonical display name lives in IndustryCatalog).
+// isPrimary: at most one row per company (partial unique index in the migration).
+// Company.mainIndustry is a display cache of the primary row (see lib/industry/sync.ts).
 model CompanyIndustry {
-  id        String  @id @default(cuid())
-  companyId String
-  code      String
-  name      String
-  isPrimary Boolean @default(false)
+  id              String    @id @default(cuid())
+  companyId       String
+  code            String
+  name            String
+  isPrimary       Boolean   @default(false)
+  source          String? // e.g. "opendata-sonla"; "legacy-main-industry" for rows backfilled from Company.mainIndustry
+  sourceUpdatedAt DateTime? @db.Date // dataset date of that source
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@unique([companyId, code])
+  @@index([code, companyId])
+}
+
+// Compact storage for dense "registered industries" lists (HCM open data: ~20 codes per company, no primary marker).
+// One row per (company, source) with a sorted, de-duplicated text[] of VSIC codes instead of ~20 CompanyIndustry rows.
+// Names live in IndustryCatalog. NEVER implies a primary industry. Read through lib/industry/service.ts only.
+model CompanyIndustrySet {
+  companyId       String
+  source          String
+  codes           String[]
+  sourceUpdatedAt DateTime? @db.Date
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@id([companyId, source])
+  @@index([codes], type: Gin)
+}
+
+// Derived aggregates over listable companies, rebuilt by `npm run data:rebuild-industry-stats`.
+// companyCount = distinct companies holding the code in ANY storage; primaryCount = those with it as explicit primary;
+// registeredCount = companyCount - primaryCount (registered / secondary only).
+model IndustryStat {
+  code            String   @id
+  companyCount    Int
+  primaryCount    Int
+  registeredCount Int
+  provinceCount   Int
+  sourceCount     Int
+  updatedAt       DateTime
+
+  @@index([companyCount])
+}
+
+model ProvinceIndustryStat {
+  provinceSlug                 String
+  code                         String
+  companyCount                 Int
+  primaryCount                 Int
+  registeredCount              Int
+  provinceCompanyCount         Int // listable companies in the province
+  provinceIndustryCompanyCount Int // ...of which have industry data (denominator of saturation)
+  saturationRatio              Float // companyCount / provinceIndustryCompanyCount
+  sourceCount                  Int
+  updatedAt                    DateTime
+
+  @@id([provinceSlug, code])
   @@index([code])
+}
+
+// Canonical industry reference, derived from observed source data (no external VSIC file is bundled).
+// level = code length (2..5); parentCode = code prefix, set only when that prefix exists in the catalog.
+model IndustryCatalog {
+  code       String   @id
+  name       String
+  level      Int
+  parentCode String?
+  source     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([parentCode])
 }
 
 model CompanyChange {

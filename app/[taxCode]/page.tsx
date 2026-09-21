@@ -3,6 +3,13 @@ import { Fragment, type ReactNode } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCompanySafe, getNearbyCompanies } from "@/lib/company";
+import { getCompanyIndustries } from "@/lib/industry/service";
+import { isCompanyProfileIndexable } from "@/lib/seo/indexability";
+import { buildCompanyMetadata, buildPageMetadata } from "@/lib/seo/metadata";
+import { industryPath, legalFormPath, provincePath, statusPath } from "@/lib/seo/urls";
+import { classifyStatus, legalFormSlug } from "@/lib/seo/taxonomy";
+import { Breadcrumb } from "../components/Breadcrumb";
+import { serializeJsonLd } from "@/lib/seo/jsonld";
 import { findDirectoryGroup, getProfile, type PublicProfile } from "@/lib/directory";
 import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
@@ -59,22 +66,6 @@ function buildFaq(c: Company): { q: string; a: string }[] {
   return faq;
 }
 
-const DESCRIPTION_MAX = 160;
-
-/** Meta description from fields that have data, cut at a word boundary to ~160 chars. */
-function buildDescription(c: Company): string {
-  const parts = [`${c.name} - Mã số thuế ${c.taxCode}`, `Địa chỉ: ${c.address}`];
-  // Skip the province when the address already spells it out.
-  if (c.province && !c.address.toLowerCase().includes(c.province.replace(/^TP\.\s*/, "").toLowerCase())) {
-    parts.push(c.province);
-  }
-  if (c.status) parts.push(`Tình trạng: ${c.status}`);
-  const text = `${parts.join(". ")}.`;
-  if (text.length <= DESCRIPTION_MAX) return text;
-  const cut = text.slice(0, DESCRIPTION_MAX - 1);
-  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s.,:;-]+$/, "")}…`;
-}
-
 /** Name/address/province, preferring the registry row and falling back to the approved profile. */
 function resolveDisplay(company: Company | null, profile: PublicProfile | null) {
   const name = company?.name ?? profile?.companyName ?? "";
@@ -88,26 +79,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { taxCode } = await params;
   const [company, profile] = await Promise.all([getCompanySafe(taxCode), getProfile(taxCode)]);
   if (!company && !profile) return {};
-  const url = `${SITE_URL}/${taxCode}`;
-  if (company) {
-    const title = `${company.name} - Mã số thuế ${company.taxCode} | ${SITE_NAME}`;
-    const description = buildDescription(company);
-    return {
-      title,
-      description,
-      alternates: { canonical: url },
-      openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "vi_VN" },
-    };
-  }
+  if (company) return buildCompanyMetadata({ taxCode: company.taxCode, name: company.name }, isCompanyProfileIndexable(company));
+  // Directory-only page (no registry row): indexable only when the approved profile passes the directory rule.
   const { name } = resolveDisplay(company, profile);
-  const title = `${name} - Mã số thuế ${taxCode} | ${SITE_NAME}`;
-  const description = profile!.description;
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "vi_VN" },
-  };
+  return buildPageMetadata({
+    title: `${taxCode} - ${name} | Mã số thuế`,
+    description: profile!.description,
+    path: `/${taxCode}`,
+    index: true,
+  });
 }
 
 function buildOrganizationJsonLd(c: Company) {
@@ -128,7 +108,7 @@ function buildOrganizationJsonLd(c: Company) {
   };
 }
 
-const jsonLd = (data: object) => JSON.stringify(data).replace(/</g, "\\u003c");
+const jsonLd = serializeJsonLd;
 
 // Static service strip; link targets live in lib/config.ts.
 const SERVICES: { key: ServiceKey; title: string; desc: string }[] = [
@@ -154,6 +134,16 @@ function SourceNote({ company }: { company: Company | null }) {
   );
 }
 
+/** Only real timestamps: the source dataset date, else the last time this system synced the record. */
+function Freshness({ company }: { company: Company | null }) {
+  if (!company) return null;
+  if (company.dataAsOf) return <p className={dirStyles.note}>Cập nhật dữ liệu gần nhất: {formatDate(company.dataAsOf)} (ngày dữ liệu của nguồn).</p>;
+  if (company.lastEnrichedAt) {
+    return <p className={dirStyles.note}>Thời điểm hệ thống đồng bộ gần nhất: {formatDate(company.lastEnrichedAt)}.</p>;
+  }
+  return null;
+}
+
 function badgeClass(status: string): string {
   const tone = statusTone(status);
   return tone === "active" ? dirStyles.badgeOk : dirStyles.badgeOff;
@@ -177,29 +167,72 @@ export default async function CompanyPage({ params }: Props) {
   const { name, address, province } = resolveDisplay(company, profile);
   const displayTaxCode = company?.taxCode ?? profile?.mst ?? taxCode;
 
+  const industries = company ? await getCompanyIndustries(company.taxCode) : null;
+  // Unified view over CompanyIndustry + the compact registered-industry sets (see lib/industry/service.ts).
+  const primaryIndustry = industries?.primary ?? null;
+  const otherIndustries = industries?.registered ?? [];
+  const shownOtherIndustries = otherIndustries.slice(0, 20);
+  const legalSlug = company?.legalType ? legalFormSlug(company.legalType) : "";
+  const statusPage = company?.status ? classifyStatus(company.status) : undefined;
+  const provinceSlug = company?.provinceSlug ?? profile?.provinceSlug ?? null;
+
+  // Optional rows appear only when the source provided the field; nothing is inferred.
   const kvRows: [string, ReactNode][] = [
     ["Mã số thuế", displayTaxCode],
-    ["Tình trạng", (company && displayStatus(company)) ?? <Missing />],
+    ...(company?.nameForeign ? ([["Tên quốc tế", company.nameForeign]] as [string, ReactNode][]) : []),
+    ...(company?.nameShort ? ([["Tên viết tắt", company.nameShort]] as [string, ReactNode][]) : []),
+    [
+      "Tình trạng",
+      company?.status ? (
+        statusPage ? <Link href={statusPath(statusPage.slug)}>{displayStatus(company)}</Link> : displayStatus(company)
+      ) : (
+        <Missing />
+      ),
+    ],
     ["Ngày thành lập", company?.activeDate ? formatDate(company.activeDate) : <Missing />],
-    ["Địa chỉ trụ sở", address || <Missing />],
+    [
+      "Địa chỉ trụ sở",
+      address ? (
+        <>
+          {address}
+          {provinceSlug && province && (
+            <>
+              {" "}
+              (<Link href={provincePath(provinceSlug)}>{province}</Link>)
+            </>
+          )}
+        </>
+      ) : (
+        <Missing />
+      ),
+    ],
     ["Người đại diện", company?.representativeName ?? <Missing />],
-    ["Ngành nghề chính", company?.mainIndustry ?? <Missing />],
-    ["Loại hình", company?.legalType ?? <Missing />],
+    ...(primaryIndustry || company?.mainIndustry || otherIndustries.length === 0
+      ? ([
+          [
+            "Ngành nghề chính",
+            primaryIndustry ? (
+              <Link href={industryPath(primaryIndustry.code, primaryIndustry.name)}>
+                {primaryIndustry.code} - {primaryIndustry.name}
+              </Link>
+            ) : company?.mainIndustry ? (
+              company.mainIndustry
+            ) : (
+              <Missing />
+            ),
+          ],
+        ] as [string, ReactNode][])
+      : []),
+    [
+      "Loại hình",
+      company?.legalType ? legalSlug ? <Link href={legalFormPath(legalSlug)}>{company.legalType}</Link> : company.legalType : <Missing />,
+    ],
+    ...(company?.taxOffice ? ([["Cơ quan thuế quản lý", company.taxOffice]] as [string, ReactNode][]) : []),
   ];
 
   const invoiceRows: [string, string][] = company ? [["Tên công ty", company.name], ["Mã số thuế", company.taxCode], ["Địa chỉ", company.address]] : [];
 
   const faq = company ? buildFaq(company) : [];
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faq.map(({ q, a }) => ({
-      "@type": "Question",
-      name: q,
-      acceptedAnswer: { "@type": "Answer", text: a },
-    })),
-  };
-
   const nearby = company?.provinceSlug ? await getNearbyCompanies(company.provinceSlug, company.taxCode) : [];
 
   return (
@@ -214,12 +247,13 @@ export default async function CompanyPage({ params }: Props) {
         </Link>
       </div>
 
-      {profile && group && (
-        <div className={dirStyles.crumb}>
-          <Link href="/">Trang chủ</Link> / <Link href={`/danh-ba/tinh/${profile.provinceSlug}`}>{province}</Link> /{" "}
-          <Link href={`/danh-ba/${profile.groupSlug}/${profile.provinceSlug}`}>{group.label}</Link>
-        </div>
-      )}
+      <Breadcrumb
+        items={[
+          ...(provinceSlug && province ? [{ name: province, path: provincePath(provinceSlug) }] : []),
+          ...(profile && group ? [{ name: group.label, path: `/danh-ba/${profile.groupSlug}/${profile.provinceSlug}` }] : []),
+          { name, path: `/${displayTaxCode}` },
+        ]}
+      />
 
       {isPaid && profile ? (
         <div className={`${dirStyles.pp} ${dirStyles.ppPaid}`}>
@@ -285,6 +319,7 @@ export default async function CompanyPage({ params }: Props) {
                 ))}
               </dl>
               <SourceNote company={company} />
+              <Freshness company={company} />
             </div>
           </div>
         </div>
@@ -346,6 +381,25 @@ export default async function CompanyPage({ params }: Props) {
             ))}
           </dl>
           <SourceNote company={company} />
+          <Freshness company={company} />
+          {shownOtherIndustries.length > 0 && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>{primaryIndustry ? "Ngành nghề đăng ký khác" : "Ngành nghề đăng ký"}</h2>
+              <ul>
+                {shownOtherIndustries.map((i) => (
+                  <li key={i.code}>
+                    <Link href={industryPath(i.code, i.name)}>
+                      {i.code} - {i.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {otherIndustries.length > shownOtherIndustries.length && (
+                <p className={dirStyles.note}>Và {otherIndustries.length - shownOtherIndustries.length} ngành khác theo đăng ký.</p>
+              )}
+              {!primaryIndustry && <p className={dirStyles.note}>Nguồn dữ liệu không cho biết ngành chính của doanh nghiệp này.</p>}
+            </section>
+          )}
 
           <div className={dirStyles.claimBox}>
             <p>
@@ -402,7 +456,6 @@ export default async function CompanyPage({ params }: Props) {
                   </details>
                 ))}
               </div>
-              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }} />
             </section>
           )}
 
@@ -464,7 +517,7 @@ export default async function CompanyPage({ params }: Props) {
       )}
 
       <p className={dirStyles.note}>
-        Thông tin lấy từ nguồn đăng ký doanh nghiệp công khai. Chủ doanh nghiệp có thể{" "}
+        Thông tin lấy từ nguồn đăng ký doanh nghiệp công khai, chưa được xác minh riêng (xem <Link href="/nguon-du-lieu">nguồn dữ liệu</Link>). Chủ doanh nghiệp có thể{" "}
         <Link href={`/yeu-cau-go-thong-tin?mst=${displayTaxCode}`}>yêu cầu gỡ thông tin</Link>.
       </p>
     </main>

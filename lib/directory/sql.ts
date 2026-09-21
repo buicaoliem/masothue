@@ -18,6 +18,7 @@ export function prismaSql(client: PrismaClient): Sql {
   });
   return {
     ...wrap(client),
-    transaction: (fn) => client.$transaction((tx) => fn(wrap(tx))),
+    // Long-running maintenance (stats rebuild) needs more than Prisma's default 5 s interactive-transaction timeout.
+    transaction: (fn) => client.$transaction((tx) => fn(wrap(tx)), { timeout: 300_000, maxWait: 20_000 }),
   };
 }

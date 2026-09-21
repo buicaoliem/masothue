@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Script from "next/script";
 import { useActionState, useMemo, useState } from "react";
 import { DIRECTORY_GROUPS } from "@/lib/directory/groups";
@@ -77,9 +78,9 @@ export function ProfileForm({ initialMst, initialCompanyName, initialAddress }: 
           vẫn giữ nguyên cho tới khi duyệt xong.
         </p>
         <div className={dirStyles.act}>
-          <a className={dirStyles.btnGhost + " " + dirStyles.btn} href="/danh-ba">
+          <Link className={dirStyles.btnGhost + " " + dirStyles.btn} href="/danh-ba">
             Về danh bạ
-          </a>
+          </Link>
         </div>
       </div>
     );

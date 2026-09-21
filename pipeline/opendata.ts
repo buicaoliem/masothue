@@ -301,6 +301,7 @@ export async function processBatch(
            "enrichStatus" = CASE
              WHEN COALESCE(c.name, v.name) IS NOT NULL AND COALESCE(c.address, v.address) IS NOT NULL THEN 'OK'::"EnrichStatus"
              ELSE c."enrichStatus" END,
+           "dataUpdatedAt" = now(),
            "updatedAt" = now()
          FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::text[], $7::text[], $8::text[])
            AS v(tax, name, address, status, rep, active, industry, legal)

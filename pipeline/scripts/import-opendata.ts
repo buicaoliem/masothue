@@ -4,18 +4,10 @@
 //   --offset  first data row (0-based); default: the saved checkpoint, else 0
 //   --apply   write changes; without it this is a read-only DRY RUN
 // Files are read from tmp/opendata/ (not committed). Only whitelisted fields are ever read out of a row.
-import { createReadStream } from "node:fs";
-import { join } from "node:path";
-import * as XLSX from "xlsx";
 import { prismaSql } from "@/lib/directory/sql";
 import { prisma } from "../db";
-import { SOURCES, parseCsv, runImport, type ImportStats, type SourceKey } from "../opendata";
-
-const FILES: Record<SourceKey, string> = {
-  hcm: "hcmc/DanhSachDangHoatDong.csv",
-  sonla: "sonla/DuLieuDN.xls",
-  quangngai: "quangngai/danh-sach-doanh-nghiep.xls",
-};
+import { openSourceRows as openRows } from "../files";
+import { SOURCES, runImport, type ImportStats, type SourceKey } from "../opendata";
 
 function parseArgs(argv: string[]) {
   const get = (name: string) => {
@@ -32,21 +24,6 @@ function parseArgs(argv: string[]) {
     return n;
   };
   return { source: source as SourceKey, limit: num("limit") ?? 1000, offset: num("offset"), apply: argv.includes("--apply") };
-}
-
-/** Header + data rows as raw cells. The whitelist mapper in runImport picks the allowed columns. */
-async function openRows(source: SourceKey): Promise<{ header: string[]; rows: AsyncIterable<unknown[]> | Iterable<unknown[]> }> {
-  const path = join(process.cwd(), "tmp", "opendata", FILES[source]);
-  if (source === "hcm") {
-    const it = parseCsv(createReadStream(path, { encoding: "utf8" }))[Symbol.asyncIterator]();
-    const first = await it.next();
-    const header = (first.value ?? []).map((h: string) => h.replace(/^﻿/, ""));
-    return { header, rows: { [Symbol.asyncIterator]: () => it } };
-  }
-  const wb = XLSX.readFile(path);
-  const all = XLSX.utils.sheet_to_json<unknown[]>(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: null });
-  const [header, ...rows] = all;
-  return { header: (header ?? []).map((h) => String(h ?? "")), rows: rows.filter((r) => r.some((c) => c !== null)) };
 }
 
 function summary(s: ImportStats) {

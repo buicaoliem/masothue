@@ -60,7 +60,7 @@ function buildMstPath(
   const unitsPerEm = font.unitsPerEm;
   // Cap height (height of capital letters) approximated via ascender, since
   // opentype.js doesn't expose a direct "capHeight" for all fonts reliably.
-  const os2CapHeight = (font.tables as any)?.os2?.sCapHeight;
+  const os2CapHeight = (font.tables as { os2?: { sCapHeight?: number } })?.os2?.sCapHeight;
   const capHeightFontUnits = os2CapHeight && os2CapHeight > 0 ? os2CapHeight : font.ascender * 0.72;
   const fontSize = (capHeightUnits / capHeightFontUnits) * unitsPerEm;
 

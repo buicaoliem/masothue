@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { searchCompaniesByName, SEARCH_LIMIT, TAX_CODE_RE } from "@/lib/company";
+import { buildNoindexMetadata } from "@/lib/seo/metadata";
 import { SITE_NAME } from "@/lib/site";
 import { CompanyList } from "../components/CompanyList";
 import { SearchForm } from "../components/SearchForm";
@@ -9,10 +10,8 @@ import styles from "../components/site.module.css";
 type Props = { searchParams: Promise<{ q?: string | string[] }> };
 
 // Result pages are query-driven: keep them out of the index.
-export const metadata: Metadata = {
-  title: `Kết quả tìm kiếm | ${SITE_NAME}`,
-  robots: { index: false, follow: true },
-};
+// noindex,follow and deliberately NO canonical: never point a query URL at another URL.
+export const metadata: Metadata = buildNoindexMetadata(`Kết quả tìm kiếm | ${SITE_NAME}`);
 
 export default async function SearchPage({ searchParams }: Props) {
   const raw = (await searchParams).q;

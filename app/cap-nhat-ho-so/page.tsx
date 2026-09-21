@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getCompanyForPrefillSafe } from "@/lib/company";
 import { validateMst } from "@/lib/tools/mst";
@@ -23,7 +24,7 @@ export default async function UpdateProfilePage({ searchParams }: Props) {
   return (
     <main className={siteStyles.page}>
       <div className={siteStyles.crumb}>
-        <a href="/danh-ba">Danh bạ</a> / Cập nhật hồ sơ
+        <Link href="/danh-ba">Danh bạ</Link> / Cập nhật hồ sơ
       </div>
       <h1 className={siteStyles.title}>Cập nhật hồ sơ doanh nghiệp</h1>
       <p className={siteStyles.lead}>

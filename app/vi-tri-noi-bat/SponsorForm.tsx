@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Script from "next/script";
 import { useActionState, useState } from "react";
 import { DIRECTORY_GROUPS } from "@/lib/directory/groups";
@@ -33,9 +34,9 @@ export function SponsorForm({ initialGroupSlug, initialProvinceSlug, initialMst,
         <h2>Đã nhận yêu cầu</h2>
         <p>Chúng tôi sẽ gọi lại để báo giá.</p>
         <div className={dirStyles.act}>
-          <a className={dirStyles.btnGhost + " " + dirStyles.btn} href="/danh-ba">
+          <Link className={dirStyles.btnGhost + " " + dirStyles.btn} href="/danh-ba">
             Về danh bạ
-          </a>
+          </Link>
         </div>
       </div>
     );
