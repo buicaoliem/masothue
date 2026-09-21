@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { STATUS_PAGES } from "@/lib/seo/taxonomy";
-import { statusPath } from "@/lib/seo/urls";
+import { legalFormPath, statusPath } from "@/lib/seo/urls";
 import type { StatusBreakdown } from "@/lib/taxonomy-data";
 import { industryPath } from "@/lib/seo/urls";
 import type { Crumb } from "@/lib/seo/jsonld";
@@ -43,6 +43,9 @@ export function StatsView(props: {
   /** Industries that are the EXPLICIT primary industry of the most companies. Registered != primary. */
   primaryTop: IndustryTop[];
   dataAsOf: Date | null;
+  legalForms?: { slug: string; label: string; total: number }[];
+  /** Newest registrations in scope (real registration dates), with the hub that lists more. */
+  newCompanies?: { rows: { taxCode: string; name: string; activeDate: Date | null }[]; moreHref: string };
   links?: { href: string; label: string }[];
 }) {
   const { breakdown: b } = props;
@@ -83,6 +86,44 @@ export function StatsView(props: {
           </tbody>
         </table>
       </section>
+
+      {props.legalForms && props.legalForms.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Loại hình doanh nghiệp phổ biến</h2>
+          <ul className={styles.list}>
+            {props.legalForms.map((f) => (
+              <li key={f.slug}>
+                <Link href={legalFormPath(f.slug)} className={styles.card}>
+                  <span className={styles.cardName}>{f.label}</span>
+                  <span className={styles.cardMeta}>{n(f.total)} doanh nghiệp</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {props.newCompanies && props.newCompanies.rows.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Doanh nghiệp có ngày cấp mã số thuế gần đây nhất</h2>
+          <ul className={styles.list}>
+            {props.newCompanies.rows.map((c) => (
+              <li key={c.taxCode}>
+                <Link href={`/${c.taxCode}`} className={styles.card}>
+                  <span className={styles.cardName}>{c.name}</span>
+                  <span className={styles.cardMeta}>
+                    MST {c.taxCode}
+                    {c.activeDate ? ` · Cấp ngày ${fmt(c.activeDate)}` : ""}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.moreRow}>
+            <Link href={props.newCompanies.moreHref}>Xem tất cả doanh nghiệp mới</Link>
+          </div>
+        </section>
+      )}
 
       {props.registeredTop.length > 0 && (
         <section className={styles.section}>

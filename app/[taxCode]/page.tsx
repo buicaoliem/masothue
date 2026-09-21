@@ -492,6 +492,9 @@ export default async function CompanyPage({ params }: Props) {
               <Link href={`/tinh/${company.provinceSlug}`} className={styles.moreLink}>
                 Xem thêm doanh nghiệp tại {company.province} →
               </Link>
+              <Link href={`/doanh-nghiep-moi/${company.provinceSlug}`} className={styles.moreLink}>
+                Doanh nghiệp mới tại {company.province} →
+              </Link>
             </div>
           )}
 

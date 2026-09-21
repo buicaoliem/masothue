@@ -11,6 +11,8 @@
     "lint": "eslint .",
     "test": "tsx --test \"lib/**/*.test.ts\" \"pipeline/**/*.test.ts\" \"app/**/*.test.ts\"",
     "perf:production": "tsx scripts/perf-production.ts",
+    "seo:gsc-report": "tsx scripts/gsc-report.ts",
+    "seo:ctr-report": "tsx scripts/ctr-report.ts",
     "seo:smoke": "tsx scripts/seo-smoke.ts",
     "seo:sitemap-check": "tsx scripts/sitemap-check.ts",
     "test:tncn": "tsx --test lib/tools/pit.test.ts",

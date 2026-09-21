@@ -1,6 +1,7 @@
 import { listIndustryStats } from "@/lib/industry/service";
 import { buildStaticMetadata } from "@/lib/seo/metadata";
-import { getDataAsOf, getStatusBreakdown } from "@/lib/taxonomy-data";
+import { getDataAsOf, getNewCompanies, getStatusBreakdown, listLegalForms } from "@/lib/taxonomy-data";
+import { newCompaniesPath } from "@/lib/seo/urls";
 import { StatsView } from "../../components/StatsView";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +13,13 @@ export const metadata = buildStaticMetadata({
 });
 
 export default async function NationalStats() {
-  const [breakdown, stats, dataAsOf] = await Promise.all([getStatusBreakdown(), listIndustryStats(), getDataAsOf()]);
+  const [breakdown, stats, dataAsOf, legalForms, fresh] = await Promise.all([
+    getStatusBreakdown(),
+    listIndustryStats(),
+    getDataAsOf(),
+    listLegalForms(10),
+    getNewCompanies({ limit: 8, withTotal: false }),
+  ]);
   const registeredTop = stats.slice(0, 15).map((s) => ({ code: s.code, name: s.name, count: s.companyCount }));
   const primaryTop = stats
     .filter((s) => s.primaryCount > 0)
@@ -31,6 +38,8 @@ export default async function NationalStats() {
       registeredTop={registeredTop}
       primaryTop={primaryTop}
       dataAsOf={dataAsOf}
+      legalForms={legalForms.slice(0, 6)}
+      newCompanies={{ rows: fresh.rows, moreHref: newCompaniesPath() }}
       links={[
         { href: "/doanh-nghiep-moi", label: "Doanh nghiệp mới thành lập" },
         { href: "/nganh", label: "Tất cả ngành nghề" },

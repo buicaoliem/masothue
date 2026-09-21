@@ -13,3 +13,6 @@ next-env.d.ts
 
 # local preview output (not committed)
 /tmp/
+
+# Search Console exports (may contain query data); the tooling reads them, they are never committed
+/data/gsc/

@@ -147,3 +147,20 @@ export async function listProvinceCompanies(provinceSlug: string, page: number) 
   ]);
   return { total, rows };
 }
+
+/** Legal forms inside one province (top by company count), same slugging as the national list. */
+export async function listProvinceLegalForms(provinceSlug: string, limit = 6): Promise<LegalFormCount[]> {
+  const groups = await prisma.company.groupBy({
+    by: ["legalType"],
+    where: await listableWhere({ provinceSlug, legalType: { not: null } }),
+    _count: { _all: true },
+  });
+  const bySlug = new Map<string, LegalFormCount>();
+  for (const g of groups) {
+    const slug = g.legalType ? legalFormSlug(g.legalType) : "";
+    if (!slug) continue;
+    const prev = bySlug.get(slug);
+    bySlug.set(slug, { slug, label: prev?.label ?? g.legalType!, total: (prev?.total ?? 0) + g._count._all });
+  }
+  return [...bySlug.values()].sort((a, b) => b.total - a.total).slice(0, limit);
+}

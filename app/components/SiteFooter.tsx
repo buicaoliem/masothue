@@ -6,6 +6,8 @@ const LINKS = [
   { label: "Giới thiệu", href: "/gioi-thieu" },
   { label: "Doanh nghiệp mới", href: "/doanh-nghiep-moi" },
   { label: "Ngành nghề", href: "/nganh" },
+  { label: "Tình trạng", href: "/trang-thai" },
+  { label: "Loại hình", href: "/loai-hinh" },
   { label: "Hướng dẫn", href: "/huong-dan" },
   { label: "Thống kê", href: "/thong-ke" },
   { label: "Nguồn dữ liệu", href: "/nguon-du-lieu" },
