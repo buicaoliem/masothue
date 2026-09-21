@@ -16,7 +16,7 @@
 Công cụ kiểm tra chữ số kiểm tra
 
 ## Sources required
-Thông tư 105/2020/TT-BTC
+Thông tư 90/2026/TT-BTC (cấu trúc MST, hiện hành); Thông tư 105/2020/TT-BTC chỉ là nguồn lịch sử (đã hết hiệu lực từ 06/02/2025, thay bằng Thông tư 86/2024/TT-BTC)
 
 ## Potential cannibalization
 Ranh giới với ma-so-thue-la-gi đã nêu; nếu GSC cho thấy hai bài tranh cùng query, gộp

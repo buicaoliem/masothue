@@ -11,6 +11,8 @@ const EXT = /\.(ts|tsx|md)$/;
 /** pattern → why it is stale */
 const STALE: [RegExp, string][] = [
   [/01\/2021\/NĐ-CP/, "Nghị định 01/2021/NĐ-CP hết hiệu lực 01/07/2025 (thay bằng 168/2025/NĐ-CP)"],
+  [/105\/2020\/TT-BTC/, "Thông tư 105/2020/TT-BTC hết hiệu lực 06/02/2025 (thay bằng 86/2024/TT-BTC, nay là 90/2026/TT-BTC)"],
+  [/86\/2024\/TT-BTC/, "Thông tư 86/2024/TT-BTC hết hiệu lực 01/07/2026 (thay bằng 90/2026/TT-BTC)"],
   [/27\/2018\/QĐ-TTg/, "Quyết định 27/2018/QĐ-TTg hết hiệu lực 15/11/2025 (thay bằng 36/2025/QĐ-TTg)"],
   [/\b21 ngành cấp 1\b|A đến U\b|\bA-U\b/, "hệ 2018 có 21 ngành cấp 1 (A-U); hệ 2025 có 22 (A-V)"],
 ];

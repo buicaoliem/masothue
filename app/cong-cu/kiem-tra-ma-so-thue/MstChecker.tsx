@@ -63,7 +63,7 @@ export function MstChecker() {
 
           {result.kind === "not_in_directory" && (
             <span>
-              Mã số thuế <strong>{result.taxCode}</strong> hợp lệ — chưa có trong danh bạ.
+              Mã số thuế <strong>{result.taxCode}</strong> đúng cấu trúc và chữ số kiểm tra — chưa có trong danh bạ (chưa xác nhận đã được cấp).
             </span>
           )}
 

@@ -16,7 +16,7 @@
 Ô tìm kiếm trang chủ
 
 ## Sources required
-Thông tư 105/2020/TT-BTC (đã dùng trong công cụ kiểm tra MST)
+Thông tư 90/2026/TT-BTC (cấu trúc MST, hiện hành); Thông tư 105/2020/TT-BTC chỉ là nguồn lịch sử (đã hết hiệu lực từ 06/02/2025, thay bằng Thông tư 86/2024/TT-BTC)
 
 ## Potential cannibalization
 Trùng nhẹ với mst-10-so-va-13-so: bài này là định nghĩa, bài kia là phân biệt độ dài

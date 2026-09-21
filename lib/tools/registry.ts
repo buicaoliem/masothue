@@ -25,7 +25,7 @@ export const TOOLS: Tool[] = [
     name: "Kiểm tra mã số thuế",
     summary: "Kiểm tra mã số thuế 10 hoặc 13 số có hợp lệ không, tra cứu tên doanh nghiệp nếu có trong kho.",
     description:
-      "Kiểm tra mã số thuế (MST) 10 số hoặc 13 số có hợp lệ không theo chuẩn chữ số kiểm tra tại Thông tư 105/2020/TT-BTC. Nếu hợp lệ và có trong kho, hiện thêm tên và trạng thái doanh nghiệp.",
+      "Kiểm tra mã số thuế (MST) 10 số hoặc 13 số có hợp lệ không về cấu trúc và chữ số kiểm tra (cấu trúc MST theo Thông tư 90/2026/TT-BTC). Không thay thế tra cứu tình trạng người nộp thuế; nếu có trong kho, hiện thêm tên và trạng thái doanh nghiệp.",
     enabled: true,
   },
   {

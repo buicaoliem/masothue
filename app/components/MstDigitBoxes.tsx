@@ -51,9 +51,9 @@ export function mstMessage(hint: MstHint, context: "home" | "tool"): { tone: "" 
     case "ok":
       return {
         tone: "ok",
-        text: (hint.branch ? "Mã chi nhánh hợp lệ." : "Mã hợp lệ.") + (context === "home" ? " Bấm Tra cứu để mở hồ sơ." : ""),
+        text: (hint.branch ? "Mã chi nhánh đúng cấu trúc." : "Mã đúng cấu trúc và chữ số kiểm tra.") + (context === "home" ? " Bấm Tra cứu để mở hồ sơ." : ""),
       };
     case "bad":
-      return { tone: "bad", text: "Mã không hợp lệ, có thể gõ nhầm một chữ số." };
+      return { tone: "bad", text: "Sai chữ số kiểm tra hoặc cấu trúc, có thể gõ nhầm một chữ số." };
   }
 }

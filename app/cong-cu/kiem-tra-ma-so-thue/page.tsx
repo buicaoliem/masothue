@@ -10,11 +10,11 @@ export const metadata = toolMetadata(SLUG);
 const FAQ: { q: string; a: string }[] = [
   {
     q: "Mã số thuế hợp lệ là gì?",
-    a: "Mã số thuế hợp lệ gồm 10 chữ số (doanh nghiệp) hoặc 13 chữ số (đơn vị trực thuộc, gồm 10 số gốc và 3 số chi nhánh). Chữ số cuối cùng của 10 số gốc là chữ số kiểm tra, tính theo công thức quy định tại Thông tư 105/2020/TT-BTC. Nếu chữ số kiểm tra không khớp, mã số thuế đó không tồn tại.",
+    a: "Mã số thuế hợp lệ gồm 10 chữ số (doanh nghiệp) hoặc 13 chữ số (đơn vị trực thuộc, gồm 10 số gốc và 3 số chi nhánh). Cấu trúc mã số thuế theo Điều 5 Thông tư 90/2026/TT-BTC (hiệu lực từ 01/07/2026); chữ số thứ 10 là chữ số kiểm tra. Công cụ tính chữ số này bằng thuật toán modulus 11 đã được đối chiếu với dữ liệu mã số thuế thực tế; chúng tôi chưa dẫn được văn bản pháp luật công bố thuật toán này. Nếu chữ số kiểm tra không khớp, mã số thuế có thể bị nhập sai. Kết quả không chứng minh mã số thuế đã được cấp hay người nộp thuế đang hoạt động.",
   },
   {
     q: "Cách kiểm tra mã số thuế có hợp lệ không?",
-    a: "Nhập mã số thuế vào ô phía trên và bấm “Kiểm tra”. Công cụ kiểm tra định dạng và chữ số kiểm tra theo đúng quy định; nếu mã số thuế đã có trong danh bạ, công cụ hiện thêm tên và trạng thái doanh nghiệp.",
+    a: "Nhập mã số thuế vào ô phía trên và bấm “Kiểm tra”. Công cụ chỉ kiểm tra cấu trúc và chữ số kiểm tra, không thay thế việc tra cứu tình trạng người nộp thuế; nếu mã số thuế đã có trong danh bạ, công cụ hiện thêm tên và trạng thái doanh nghiệp.",
   },
   {
     q: "Mã số thuế 10 số và 13 số khác nhau thế nào?",
@@ -38,8 +38,9 @@ export default function Page() {
       slug={SLUG}
       intro={
         <p>
-          Kiểm tra mã số thuế (MST) 10 số hoặc 13 số có hợp lệ không, theo đúng chuẩn chữ số kiểm tra tại Thông tư
-          105/2020/TT-BTC. Mã số thuế hợp lệ và đã có trong <Link href="/">danh bạ doanh nghiệp</Link> sẽ hiện thêm
+          Kiểm tra mã số thuế (MST) 10 số hoặc 13 số có hợp lệ không, về cấu trúc và chữ số kiểm tra (cấu trúc MST theo
+          Điều 5 Thông tư 90/2026/TT-BTC). Kết quả không thay thế việc tra cứu tình trạng người nộp thuế và không cho biết mã số
+          thuế đã được cấp hay doanh nghiệp còn hoạt động. Mã số thuế đúng cấu trúc và đã có trong <Link href="/">danh bạ doanh nghiệp</Link> sẽ hiện thêm
           tên và trạng thái.
         </p>
       }

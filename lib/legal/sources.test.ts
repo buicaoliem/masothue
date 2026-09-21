@@ -45,3 +45,17 @@ test("legal-audit: flags unmarked stale citations, accepts historical ones, and 
   assert.equal(auditText("x.md", "Luật Doanh nghiệp 59/2020/QH14 và Luật 76/2025/QH15").length, 0);
   assert.deepEqual(auditRepo(), []);
 });
+
+import { LEGAL_SOURCES as SRC } from "./sources";
+test("tax registration circulars: 105/2020 and 86/2024 expired, 90/2026 current", () => {
+  assert.equal(SRC.taxRegistration2020.status, "expired");
+  assert.equal(SRC.taxRegistration2020.expiredAt, "2025-02-06");
+  assert.equal(SRC.taxRegistration2024.status, "expired");
+  assert.equal(SRC.taxRegistration2026.status, "in-force");
+});
+
+test("legal-audit flags 105/2020 and 86/2024 presented as current, accepts historical mentions", () => {
+  assert.equal(auditText("x.md", "Tính theo Thông tư 105/2020/TT-BTC.").length, 1);
+  assert.equal(auditText("x.md", "Áp dụng Thông tư 86/2024/TT-BTC hiện hành.").length, 1);
+  assert.equal(auditText("x.md", "Thông tư 105/2020/TT-BTC (đã hết hiệu lực từ 06/02/2025)").length, 0);
+});

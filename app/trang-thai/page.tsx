@@ -30,7 +30,7 @@ export default async function StatusIndex() {
       <section className={styles.section} id="danh-muc-trang-thai-mst">
         <h2 className={styles.sectionTitle}>Danh mục trạng thái mã số thuế</h2>
         <p style={{ maxWidth: 760, marginInline: "auto" }}>
-          Theo Phụ lục I của {legalCitation("taxRegistration2026")} (Bộ trưởng Bộ Tài chính ký ngày 30/06/2026, hiệu lực từ 01/07/2026, thay Thông tư 86/2024/TT-BTC).
+          Theo Phụ lục I của {legalCitation("taxRegistration2026")} (Bộ trưởng Bộ Tài chính ký ngày 30/06/2026, hiệu lực từ 01/07/2026, thay thế Thông tư 86/2024/TT-BTC, đã hết hiệu lực).
           Đây là trang tham khảo, không phải tư vấn pháp lý cho trường hợp cụ thể. Mỗi trạng thái có thể kèm các lý do chi tiết; mã 08 không có trong danh mục.
         </p>
         <table className={v.mapTable}>

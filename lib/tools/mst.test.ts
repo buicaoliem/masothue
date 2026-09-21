@@ -37,3 +37,13 @@ test("chi nhánh 000 -> fail", () => {
 test("chi nhánh nhưng phần gốc sai checksum -> fail", () => {
   assert.equal(validateMst("0101248140-001").valid, false);
 });
+
+test("hậu tố chi nhánh không đổi kết quả chữ số kiểm tra của 10 số gốc", () => {
+  for (const base of ["0300588569", "0101248141"]) {
+    for (const suffix of ["001", "002", "999"]) {
+      const r = validateMst(`${base}${suffix}`);
+      assert.equal(r.valid, true);
+    }
+    assert.equal(validateMst(`${base.slice(0, 9)}${(Number(base[9]) + 1) % 10}001`).valid, false);
+  }
+});

@@ -1,5 +1,9 @@
-// Validate MST (mã số thuế) format + check-digit per Thông tư 105/2020/TT-BTC.
-// Structure: 10-digit base (9 body digits + 1 check digit), optionally a 3-digit branch suffix.
+// Validate MST (mã số thuế) structure + check digit.
+// Structure (N1N2, N3..N9, N10 check digit, N11..N13 branch): Thông tư 90/2026/TT-BTC Điều 5 (current). That text
+// covers the structure only; it does not define the weights below.
+// Check-digit algorithm (modulus 11, weights 31,29,23,19,17,13,7,5,3): not traced to an official legal text. Verified
+// empirically against 5,000 real MSTs from the directory (0 mismatches). Do not claim a legal basis for the weights
+// until an official source is found. A passing check means "well-formed", never that the MST was issued or is active.
 
 export type MstValidation =
   | { valid: true; normalized: string; base: string; branch: string | null }
@@ -44,7 +48,7 @@ export function validateMst(raw: string): MstValidation {
   }
 
   if (checkDigit(base.slice(0, 9)) !== Number(base[9])) {
-    return { valid: false, reason: "Chữ số kiểm tra không khớp — mã số thuế không tồn tại." };
+    return { valid: false, reason: "Chữ số kiểm tra không khớp — có thể đã nhập sai một chữ số." };
   }
 
   return { valid: true, normalized: branch ? `${base}-${branch}` : base, base, branch };
