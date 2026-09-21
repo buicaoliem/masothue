@@ -47,6 +47,8 @@ async function discover() {
     legalForm: process.env.SMOKE_LEGAL_FORM ?? (await pick("taxonomy", /^\/loai-hinh\//)),
     province: process.env.SMOKE_PROVINCE ?? (await pick("provinces", /^\/tinh\//)),
     guide: process.env.SMOKE_GUIDE ?? (await pick("guides", /^\/huong-dan\//)),
+    vsic: process.env.SMOKE_VSIC ?? (await pick("vsic-2025", /^\/ma-nganh-2025\/[a-z0-9]/)),
+    taxStatus: process.env.SMOKE_TAX_STATUS ?? (await pick("guides", /^\/trang-thai\/mst\//)),
   };
 }
 
@@ -98,6 +100,15 @@ async function main() {
     routes.push({ label: "company", path: s.company, status: 200, indexable: true, minLinks: 3, breadcrumb: true });
     routes.push({ label: "company wrong slug", path: `${s.company}-ten-sai`, status: 301, redirectTo: s.company });
   } else fail("discovery", "no company found in sitemaps (empty database?)");
+  routes.push({ label: "vsic 2025 lookup", path: "/ma-nganh-2025", status: 200, indexable: true, minLinks: 20, breadcrumb: true });
+  routes.push({ label: "vsic converter", path: "/cong-cu/chuyen-doi-ma-nganh-2018-2025", status: 200, indexable: true });
+  routes.push({ label: "tax status reference", path: "/trang-thai", status: 200, indexable: true, breadcrumb: true });
+  routes.push({ label: "unknown vsic 2025", path: "/ma-nganh-2025/00000-khong-ton-tai", status: 404 });
+  routes.push({ label: "vsic wrong slug", path: "/ma-nganh-2025/01110-sai-slug", status: 301, redirectTo: "/ma-nganh-2025/01110-trong-lua" });
+  if (s.vsic) routes.push({ label: "vsic 2025 detail", path: s.vsic, status: 200, indexable: true, breadcrumb: true });
+  else fail("discovery", "no VSIC 2025 detail page in the vsic-2025 sitemap");
+  if (s.taxStatus) routes.push({ label: "tax status detail", path: s.taxStatus, status: 200, indexable: true, breadcrumb: true });
+  else fail("discovery", "no /trang-thai/mst page in the guides sitemap");
   if (s.province) routes.push({ label: "province", path: s.province, status: 200, breadcrumb: true });
   if (s.industry) routes.push({ label: "industry", path: s.industry, status: 200, indexable: true, breadcrumb: true });
   if (s.legalForm) routes.push({ label: "legal form", path: s.legalForm, status: 200, indexable: true, breadcrumb: true });

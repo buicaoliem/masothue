@@ -69,6 +69,14 @@ export const TOOLS: Tool[] = [
     enabled: true,
   },
   {
+    slug: "chuyen-doi-ma-nganh-2018-2025",
+    name: "Chuyển đổi mã ngành VSIC 2018 - 2025",
+    summary: "Tra mã ngành tương ứng giữa VSIC 2018 và VSIC 2025 theo bảng chuyển đổi chính thức.",
+    description:
+      "Chuyển đổi mã ngành giữa VSIC 2018 và VSIC 2025 (QĐ 36/2025/QĐ-TTg) theo bảng chuyển đổi chính thức của Cục Thống kê; hiện đủ mã tương ứng khi một mã tách hoặc gộp.",
+    enabled: true,
+  },
+  {
     slug: "tao-vietqr",
     name: "Tạo mã VietQR",
     summary: "Tạo mã QR chuyển khoản ngân hàng theo chuẩn VietQR.",

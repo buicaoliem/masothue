@@ -1,0 +1,31 @@
+.explorer { margin-top: 20px; }
+.searchRow { display: flex; gap: 8px; }
+.searchInput { flex: 1; min-width: 0; height: 48px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 10px; font: inherit; background: var(--bg); color: var(--ink); }
+.searchInput:focus { outline: none; border-color: var(--blue); }
+.hintLine { color: var(--muted); font-size: 0.85rem; margin: 6px 0 12px; }
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree ul { margin-left: 18px; border-left: 1px solid var(--line); padding-left: 10px; }
+.node { padding: 4px 0; }
+.row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.toggle { width: 26px; height: 26px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--blue); cursor: pointer; font: inherit; line-height: 1; }
+.spacer { width: 26px; flex-shrink: 0; }
+.code { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink); min-width: 3.2em; }
+.name { color: var(--ink); }
+.name a { color: var(--blue); }
+.lvl { font-size: 0.75rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 8px; }
+.mini { border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--blue); font: inherit; font-size: 0.8rem; padding: 2px 8px; cursor: pointer; }
+.results { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.result { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; }
+.empty { color: var(--muted); padding: 12px; background: var(--soft); border-radius: 8px; }
+.notice { padding: 12px 14px; background: var(--soft); border-radius: 8px; color: var(--ink); margin: 12px 0; }
+.warn { padding: 12px 14px; background: var(--goldbg); border: 1px solid var(--goldline); border-radius: 8px; color: var(--goldtext); margin: 12px 0; }
+.prov { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0; }
+.prov dt { color: var(--muted); }
+.prov dd { margin: 0; }
+.mapTable { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.95rem; }
+.mapTable th, .mapTable td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.mapTable th { color: var(--muted); font-weight: 600; font-size: 0.85rem; }
+.rel { display: inline-block; font-size: 0.75rem; border: 1px solid var(--line); border-radius: 999px; padding: 0 8px; color: var(--muted); white-space: nowrap; }
+.prose p, .prose li { max-width: 72ch; }
+.desc { white-space: pre-line; }
+.cols { display: grid; gap: 4px; padding-left: 0; list-style: none; }

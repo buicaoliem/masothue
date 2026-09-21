@@ -1,0 +1,108 @@
+{
+  "sources": [
+    {
+      "id": "cv3061-pl1",
+      "title": "Công văn 3061/CTK-CSCL, Phụ lục I: Bảng chuyển đổi VSIC 2025 - VSIC 2018 (Cục Thống kê, đăng ngày 26/12/2025)",
+      "url": "https://www.nso.gov.vn/wp-content/uploads/2025/12/Phu-luc-I.-VSIC-2025-2018.docx",
+      "file": "Phu-luc-I.-VSIC-2025-2018.docx",
+      "sha256": "f7da85e6b4de4d51ec30628dad796f9c105881dfbb91767600c0c74242439841",
+      "bytes": 279043,
+      "downloadedAt": "2026-09-21"
+    },
+    {
+      "id": "cv3061-pl2",
+      "title": "Công văn 3061/CTK-CSCL, Phụ lục II: Bảng chuyển đổi VSIC 2018 - VSIC 2025 (Cục Thống kê, đăng ngày 26/12/2025)",
+      "url": "https://www.nso.gov.vn/wp-content/uploads/2025/12/Phu-luc-II.-VSIC-2018-2025.docx",
+      "file": "Phu-luc-II.-VSIC-2018-2025.docx",
+      "sha256": "5040c92e37617a550293f17c26dc77f8ec480bfdf2ab13072fa39cf0a7a7c4f0",
+      "bytes": 333880,
+      "downloadedAt": "2026-09-21"
+    },
+    {
+      "id": "qd36-pl1",
+      "title": "Quyết định 36/2025/QĐ-TTg, Phụ lục I: Danh mục Hệ thống ngành kinh tế Việt Nam (bản trên Cổng thông tin quốc gia về đăng ký doanh nghiệp)",
+      "url": "https://dangkykinhdoanh.gov.vn/Images/FileVanBan/_12.9_PL1kinhtevietnam.docx",
+      "file": "QD36-_12.9_PL1kinhtevietnam.docx",
+      "sha256": "32c519e042530b3b39f4d51d0004aa094ee72938d58b0382e66d74903fcf9b90",
+      "bytes": 103887,
+      "downloadedAt": "2026-09-21"
+    },
+    {
+      "id": "qd36-pl2",
+      "title": "Quyết định 36/2025/QĐ-TTg, Phụ lục II: Nội dung ngành kinh tế Việt Nam (bản trên Cổng thông tin quốc gia về đăng ký doanh nghiệp)",
+      "url": "https://dangkykinhdoanh.gov.vn/Images/FileVanBan/_12.9_PL2kinhtevietnam.docx",
+      "file": "QD36-_12.9_PL2kinhtevietnam.docx",
+      "sha256": "9236ac473ddb01526da9fc0fdfb6accb7f1dd5dbc7a1b157178ad49f50e4489e",
+      "bytes": 613927,
+      "downloadedAt": "2026-09-21"
+    }
+  ],
+  "sourceRepairs": {
+    "cv3061-pl1": [
+      {
+        "row": 1250,
+        "cell": 4,
+        "expect": "58291",
+        "replaceWith": "58292",
+        "reason": "Code 58291 appears twice (rows 1249 and 1250). Row 1250 is named 'Xuất bản phần mềm ứng dụng', which is 58292 in Phụ lục I of QĐ 36/2025 (catalog cross-check)."
+      },
+      {
+        "row": 1487,
+        "cell": 8,
+        "expect": "ữ",
+        "replaceWith": "",
+        "reason": "Stray character 'ữ' in the level-3 code cell of a continuation row (next to 78302); no code is intended there."
+      }
+    ]
+  },
+  "stats": {
+    "2018->2025": {
+      "fromCodes": 1549,
+      "toCodes": 1606,
+      "pairs": 2204,
+      "level5Pairs": 1089,
+      "one_to_one": 1066,
+      "one_to_many": 347,
+      "many_to_one": 68,
+      "many_to_many": 723,
+      "level5": {
+        "one_to_one": 487,
+        "one_to_many": 171,
+        "many_to_one": 25,
+        "many_to_many": 406
+      },
+      "flagged": 1128,
+      "unmappedFrom": 0
+    },
+    "2025->2018": {
+      "fromCodes": 1606,
+      "toCodes": 1549,
+      "pairs": 2181,
+      "level5Pairs": 1079,
+      "one_to_one": 1079,
+      "one_to_many": 72,
+      "many_to_one": 333,
+      "many_to_many": 697,
+      "level5": {
+        "one_to_one": 492,
+        "one_to_many": 28,
+        "many_to_one": 165,
+        "many_to_many": 394
+      },
+      "flagged": 1056,
+      "unmappedFrom": 3
+    },
+    "crossCheck": {
+      "missingInTable": [],
+      "notInCatalog": []
+    }
+  },
+  "catalogCounts": [
+    22,
+    87,
+    259,
+    495,
+    743
+  ],
+  "contentCodes": 1283
+}

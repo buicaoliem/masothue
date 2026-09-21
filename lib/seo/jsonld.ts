@@ -46,13 +46,13 @@ export function organizationJsonLd() {
   };
 }
 
-export function articleJsonLd(a: { slug: string; title: string; description: string; published: string; modified: string }) {
+export function articleJsonLd(a: { slug: string; /** site path when the article is not under /huong-dan */ path?: string; title: string; description: string; published: string; modified: string }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: a.title,
     description: a.description,
-    mainEntityOfPage: absoluteUrl(`/huong-dan/${a.slug}`),
+    mainEntityOfPage: absoluteUrl(a.path ?? `/huong-dan/${a.slug}`),
     datePublished: a.published,
     dateModified: a.modified,
     inLanguage: "vi",
@@ -63,3 +63,18 @@ export function articleJsonLd(a: { slug: string; title: string; description: str
 
 /** Serializes for an inline <script>; "<" is escaped so data can never close the tag. */
 export const serializeJsonLd = (data: object) => JSON.stringify(data).replace(/</g, "\\u003c");
+
+/** Only for pages that are genuinely an interactive tool. No ratings, prices or fabricated fields. */
+export function webApplicationJsonLd(a: { name: string; path: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: a.name,
+    url: absoluteUrl(a.path),
+    description: a.description,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any",
+    inLanguage: "vi",
+    publisher: { "@type": "Organization", name: SITE_NAME, url: `${SITE_URL}/` },
+  };
+}

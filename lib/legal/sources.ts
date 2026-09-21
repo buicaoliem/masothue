@@ -95,6 +95,17 @@ export const LEGAL_SOURCES = {
     replacedBy: ["vsic2025"],
     verifiedAt: "2026-09-21",
   },
+  taxRegistration2026: {
+    key: "taxRegistration2026",
+    title: "Thông tư quy định về đăng ký thuế",
+    number: "90/2026/TT-BTC",
+    issuer: "Bộ trưởng Bộ Tài chính",
+    issuedAt: "2026-06-30",
+    effectiveAt: "2026-07-01",
+    status: "in-force",
+    officialUrl: "https://vanban.chinhphu.vn/?pageid=27160&docid=218839&classid=1",
+    verifiedAt: "2026-09-21",
+  },
 } as const satisfies Record<string, LegalSource>;
 
 export type LegalSourceKey = keyof typeof LEGAL_SOURCES;

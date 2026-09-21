@@ -23,6 +23,9 @@ import {
   listProvinceCounts,
 } from "@/lib/taxonomy-data";
 import { ENABLED_TOOLS } from "@/lib/tools/registry";
+import { TAX_STATUS_DETAIL_PAGES, taxStatusPath } from "@/lib/tax-status/catalog";
+import { VSIC_2025_ROOT, vsic2025Path } from "@/lib/vsic/catalog";
+import { listIndexableVsic2025 } from "@/lib/vsic/content";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +44,10 @@ async function pathsFor(section: SitemapSection): Promise<string[]> {
     case "tools":
       return ["/cong-cu", ...ENABLED_TOOLS.map((t) => `/cong-cu/${t.slug}`)];
     case "guides":
-      return GUIDES.map((g) => guidePath(g.slug));
+      return [...GUIDES.map((g) => guidePath(g.slug)), ...TAX_STATUS_DETAIL_PAGES.map((t) => taxStatusPath(t.detailSlug!))];
+    case "vsic-2025":
+      // Same rule as the page robots meta: isVsic2025PageIndexable via listIndexableVsic2025().
+      return [VSIC_2025_ROOT, ...listIndexableVsic2025().map(vsic2025Path)];
     case "provinces": {
       const counts = await listProvinceCounts();
       const paths: string[] = [];

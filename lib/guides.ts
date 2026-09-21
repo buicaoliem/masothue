@@ -219,6 +219,7 @@ export const GUIDES: readonly Guide[] = [
       { href: "/trang-thai/dang-hoat-dong", label: "Doanh nghiệp đang hoạt động" },
       { href: "/trang-thai/tam-ngung", label: "Doanh nghiệp tạm ngừng" },
       { href: "/trang-thai/ngung-hoat-dong", label: "Doanh nghiệp ngừng hoạt động, giải thể" },
+      { href: "/trang-thai#danh-muc-trang-thai-mst", label: "Danh mục trạng thái mã số thuế (Thông tư 90/2026/TT-BTC)" },
       { href: "/huong-dan/kiem-tra-doanh-nghiep-con-hoat-dong", label: "Cách kiểm tra doanh nghiệp còn hoạt động" },
       { href: "/cong-cu/kiem-tra-ma-so-thue", label: "Kiểm tra mã số thuế" },
     ],
@@ -278,6 +279,8 @@ export const GUIDES: readonly Guide[] = [
     ],
     related: [
       { href: "/nganh", label: "Tra cứu doanh nghiệp theo ngành nghề" },
+      { href: "/ma-nganh-2025", label: "Tra cứu mã ngành 2025 (VSIC 2025)" },
+      { href: "/cong-cu/chuyen-doi-ma-nganh-2018-2025", label: "Chuyển đổi mã ngành 2018 - 2025" },
       { href: "/huong-dan/nganh-nghe-chinh-va-nganh-nghe-dang-ky", label: "Ngành nghề chính và ngành nghề đăng ký" },
       { href: "/huong-dan/cach-tra-cuu-ma-nganh-cua-doanh-nghiep", label: "Cách tra cứu mã ngành của doanh nghiệp" },
       { href: "/thong-ke/doanh-nghiep-viet-nam", label: "Thống kê doanh nghiệp" },
@@ -332,6 +335,8 @@ export const GUIDES: readonly Guide[] = [
     ],
     related: [
       { href: "/nganh", label: "Tra cứu doanh nghiệp theo ngành nghề" },
+      { href: "/ma-nganh-2025", label: "Tra cứu mã ngành 2025 (VSIC 2025)" },
+      { href: "/cong-cu/chuyen-doi-ma-nganh-2018-2025", label: "Chuyển đổi mã ngành 2018 - 2025" },
       { href: "/thong-ke/doanh-nghiep-viet-nam", label: "Thống kê doanh nghiệp" },
       { href: "/huong-dan/ma-nganh-kinh-te-la-gi", label: "Mã ngành kinh tế là gì" },
       { href: "/nguon-du-lieu", label: "Nguồn dữ liệu" },
@@ -372,6 +377,8 @@ export const GUIDES: readonly Guide[] = [
     ],
     related: [
       { href: "/nganh", label: "Tra cứu doanh nghiệp theo ngành nghề" },
+      { href: "/ma-nganh-2025", label: "Tra cứu mã ngành 2025 (VSIC 2025)" },
+      { href: "/cong-cu/chuyen-doi-ma-nganh-2018-2025", label: "Chuyển đổi mã ngành 2018 - 2025" },
       { href: "/", label: "Tra cứu doanh nghiệp theo mã số thuế" },
       { href: "/huong-dan/ma-nganh-kinh-te-la-gi", label: "Mã ngành kinh tế là gì" },
       { href: "/huong-dan/nganh-nghe-chinh-va-nganh-nghe-dang-ky", label: "Ngành nghề chính và ngành nghề đăng ký" },

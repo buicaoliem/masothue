@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { GUIDES } from "./guides";
 
 const slugs = new Set(GUIDES.map((g) => g.slug));
-const staticPaths = new Set(["/", "/nganh", "/loai-hinh", "/trang-thai", "/thong-ke", "/thong-ke/doanh-nghiep-viet-nam", "/nguon-du-lieu", "/phuong-phap-du-lieu", "/huong-dan"]);
+const staticPaths = new Set(["/", "/nganh", "/loai-hinh", "/trang-thai", "/trang-thai#danh-muc-trang-thai-mst", "/ma-nganh-2025", "/thong-ke", "/thong-ke/doanh-nghiep-viet-nam", "/nguon-du-lieu", "/phuong-phap-du-lieu", "/huong-dan"]);
 
 test("guides: at least the five pillar articles exist with answer, sources and a real date", () => {
   for (const s of ["ma-so-doanh-nghiep-co-phai-ma-so-thue", "trang-thai-hoat-dong-cua-doanh-nghiep", "ma-nganh-kinh-te-la-gi", "nganh-nghe-chinh-va-nganh-nghe-dang-ky", "cach-tra-cuu-ma-nganh-cua-doanh-nghiep"]) {
@@ -20,7 +20,7 @@ test("guides: every internal link resolves to a guide, a tool, a taxonomy hub or
   const ok = (href: string) =>
     staticPaths.has(href) ||
     (href.startsWith("/huong-dan/") && slugs.has(href.slice("/huong-dan/".length))) ||
-    /^\/cong-cu\/[a-z-]+$/.test(href) ||
+    /^\/cong-cu\/[a-z0-9-]+$/.test(href) ||
     /^\/trang-thai\/(dang-hoat-dong|tam-ngung|ngung-hoat-dong)$/.test(href) ||
     /^\/tinh\/[a-z-]+$/.test(href);
   for (const g of GUIDES) {

@@ -32,6 +32,7 @@
     "data:import-industries": "dotenv -e .env.local -- tsx pipeline/scripts/import-industries.ts",
     "data:vsic-classify": "dotenv -e .env.local -- tsx pipeline/scripts/vsic-classify.ts",
     "data:vsic-diff": "tsx scripts/vsic-diff.ts",
+    "data:vsic-build": "tsx scripts/vsic-build.ts",
     "data:industry-benchmark": "dotenv -e .env.local -- tsx pipeline/scripts/industry-storage-benchmark.ts",
     "data:rebuild-industry-stats": "dotenv -e .env.local -- tsx pipeline/scripts/rebuild-industry-stats.ts",
     "seo:industry-quality-report": "dotenv -e .env.local -- tsx pipeline/scripts/industry-quality-report.ts",

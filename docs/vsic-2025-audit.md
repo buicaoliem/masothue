@@ -95,3 +95,19 @@ only in 2025). This is an evidence-based finding, not a declared one; the site s
 - Guide `ma-nganh-kinh-te-la-gi` rewritten for Quyết định 36/2025/QĐ-TTg (22/87/259/495/743) with a section on which system the stored data uses.
 - Version label on `/nganh`, `/nganh/{code}-{slug}`, company pages and `/nguon-du-lieu`.
 - `npm run content:legal-audit` and unit tests guard against unmarked `01/2021/NĐ-CP`, `27/2018/QĐ-TTg`, `A-U`/`21 ngành`, and `59/2020/QH14` without `76/2025/QH15`.
+
+
+## 8. Update (2026-09-21, phase 2): official conversion table found
+
+Section 3 and 6 above said the official 2018 -> 2025 table was not found. It exists: Cục Thống kê, Công văn 3061/CTK-CSCL, Phụ lục I
+(2025 -> 2018) and Phụ lục II (2018 -> 2025), posted 26/12/2025 at https://www.nso.gov.vn/tin-tuc-thong-ke/2025/12/xay-dung-bang-chuyen-doi-he-thong-nganh-kinh-te-viet-nam/.
+Raw files and sha256 are in `data/vsic/raw` and `data/vsic/vsic-sources.json`; `npm run data:vsic-build` rebuilds
+`vsic-mapping.json`, `vsic2025-catalog.json`, `vsic2025-content.json`. Parser: `lib/vsic/conversion-parser.ts`. No company membership was migrated.
+
+Corrections to sections 3-4 based on the official table (2018 names are now official, not OCR/observed):
+- `02101`: official 2018 name is "Trồng rừng và chăm sóc rừng cây thân gỗ", mapped 1:1 to 02101 in 2025. The earlier claim that 02101 changed meaning came from source-data spelling and is withdrawn.
+- `1104` (2018 "Sản xuất đồ uống không cồn, nước khoáng") maps 1:1 to 1105; the 2025 code 1104 is "Sản xuất mạch nha ủ men bia" (that part was right).
+- `4669` -> 4679, `4511` -> 4661 (1:1, same name, moved code); `6201` -> 6211 and 6219 (1:N, marked *).
+- The 2018 side of the official table lists 21/88/242/464/734 codes by level. Section 3 quoted 486 level-4 codes for QĐ 27/2018; the table has 464 and the 22 difference is unresolved.
+Two defects of the official files are repaired explicitly (documented in `scripts/vsic-build.ts`, verified by exact text match): a stray character in Phụ lục I row 1487 and a duplicated code 58291 in row 1250 (should be 58292, checked against QĐ 36/2025 Phụ lục I).
+The QĐ 36/2025 Phụ lục I/II used for the catalog are the files on dangkykinhdoanh.gov.vn (`_12.9_PL1/PL2kinhtevietnam.docx`); Phụ lục II carries a blank number/date header. The 2025 code set equals the code set of the official conversion table (cross-check in the build).

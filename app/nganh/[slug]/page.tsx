@@ -14,6 +14,8 @@ import { evaluateIndustrySeoQuality, evaluateProvinceIndustrySeoQuality } from "
 import { buildIndustryMetadata } from "@/lib/seo/metadata";
 import { industryPath, parseIndustrySlug, parsePage, provinceIndustryPath, provincePath } from "@/lib/seo/urls";
 import { LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
+import { officialTargetsFor2018 } from "@/lib/vsic/convert";
+import { VsicMappingTable } from "../../ma-nganh-2025/VsicMappingTable";
 import { LinkChips } from "../../components/LinkChips";
 import { TaxonomyList } from "../../components/TaxonomyList";
 import styles from "../../components/site.module.css";
@@ -55,6 +57,7 @@ export default async function IndustryHub({ params, searchParams }: Props) {
 
   const [distribution, related] =
     page === 1 ? await Promise.all([listProvinceStatsForIndustry(stat.code), getRelatedIndustries(stat.code)]) : [[], []];
+  const vsic2025 = page === 1 ? officialTargetsFor2018(stat.code) : [];
   const provinceName = (slug: string) => PROVINCES.find((p) => p.slug === slug)?.displayName ?? slug;
 
   // Only link to landing pages that pass the quality rule; the others fall back to the province hub.
@@ -94,6 +97,15 @@ export default async function IndustryHub({ params, searchParams }: Props) {
         </ul>
         <p style={{ color: "var(--muted)" }}>{CLASSIFICATION_NOTE}</p>
       </section>
+      {vsic2025.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Xem mã tương ứng trong VSIC 2025</h2>
+          <VsicMappingTable mappings={vsic2025} caption={`Mã VSIC 2025 tương ứng với ${stat.code} (VSIC 2018) theo bảng chuyển đổi chính thức`} />
+          {(vsic2025.length > 1 || vsic2025.some((m) => m.relationship !== "one_to_one" || m.flagged)) && (
+            <p style={{ color: "var(--muted)" }}>Cần đối chiếu hoạt động thực tế để chọn mã phù hợp; chúng tôi không chọn hộ.</p>
+          )}
+        </section>
+      )}
       {distributionLinks.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Phân bố theo tỉnh, thành phố</h2>
