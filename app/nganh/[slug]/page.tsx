@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CLASSIFICATION_LABEL, CLASSIFICATION_NOTE } from "@/lib/industry/classification";
 import { notFound, permanentRedirect } from "next/navigation";
 import { PROVINCES } from "@/pipeline/province";
 import {
@@ -89,7 +90,9 @@ export default async function IndustryHub({ params, searchParams }: Props) {
           <li>Doanh nghiệp có đăng ký ngành này: {n(stat.companyCount)}</li>
           {stat.primaryCount > 0 && <li>Doanh nghiệp có ngành chính là ngành này: {n(stat.primaryCount)}</li>}
           <li>Số tỉnh, thành phố có doanh nghiệp đăng ký: {n(stat.provinceCount)}</li>
+          <li>Hệ thống ngành: {CLASSIFICATION_LABEL}</li>
         </ul>
+        <p style={{ color: "var(--muted)" }}>{CLASSIFICATION_NOTE}</p>
       </section>
       {distributionLinks.length > 0 && (
         <section className={styles.section}>

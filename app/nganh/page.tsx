@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CLASSIFICATION_NOTE } from "@/lib/industry/classification";
 import { listIndexableIndustries } from "@/lib/industry/seo";
 import { buildStaticMetadata } from "@/lib/seo/metadata";
 import { industryPath } from "@/lib/seo/urls";
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = buildStaticMetadata({
   title: "Tra cứu doanh nghiệp theo ngành nghề",
-  description: "Danh sách ngành nghề (mã VSIC) có doanh nghiệp trong dữ liệu: chọn ngành để xem doanh nghiệp, mã số thuế và phân bố theo tỉnh.",
+  description: "Danh sách ngành nghề (mã ngành kinh tế) có doanh nghiệp trong dữ liệu: chọn ngành để xem doanh nghiệp, mã số thuế và phân bố theo tỉnh.",
   path: "/nganh",
 });
 
@@ -20,6 +21,7 @@ export default async function IndustriesIndex() {
     <main className={styles.page}>
       <Breadcrumb items={[{ name: "Ngành nghề", path: "/nganh" }]} />
       <h1 className={styles.title}>Tra cứu doanh nghiệp theo ngành nghề</h1>
+      <p className={styles.lead}>{CLASSIFICATION_NOTE}</p>
       {industries.length === 0 ? (
         <p className={styles.empty}>Chưa có ngành nào đủ dữ liệu để hiển thị.</p>
       ) : (

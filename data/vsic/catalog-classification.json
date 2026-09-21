@@ -1,0 +1,5368 @@
+{
+ "generatedAt": "2026-09-21T13:06:21.131Z",
+ "summary": {
+  "totalCatalogCodes": 585,
+  "sameNameIn2025": 323,
+  "nameDiffersIn2025": 150,
+  "absentIn2025": 81,
+  "unknown": 31
+ },
+ "sources": [
+  {
+   "source": "opendata-quangngai",
+   "distinctCodes": 492,
+   "memberships": 40121,
+   "codesOnlyIn2018List": 66,
+   "membershipsOnlyIn2018List": 2990,
+   "codesOnlyIn2025List": 2,
+   "codesInBoth": 401,
+   "sampleOnly2018": [
+    "8560",
+    "31009",
+    "55101",
+    "8211",
+    "9639",
+    "46613",
+    "9632",
+    "9000",
+    "4669",
+    "4530",
+    "11041",
+    "4799",
+    "0231",
+    "9102",
+    "9631"
+   ],
+   "sampleOnly2025": [
+    "0230",
+    "0130"
+   ]
+  },
+  {
+   "source": "opendata-sonla",
+   "distinctCodes": 256,
+   "memberships": 3823,
+   "codesOnlyIn2018List": 36,
+   "membershipsOnlyIn2018List": 264,
+   "codesOnlyIn2025List": 1,
+   "codesInBoth": 210,
+   "sampleOnly2018": [
+    "4511",
+    "9511",
+    "9632",
+    "8219",
+    "9620",
+    "3100",
+    "4513",
+    "8010",
+    "6820",
+    "9639",
+    "4541",
+    "7830",
+    "5820",
+    "4542",
+    "4789"
+   ],
+   "sampleOnly2025": [
+    "0130"
+   ]
+  },
+  {
+   "source": "opendata-hcm",
+   "distinctCodes": 526,
+   "memberships": 3804692,
+   "codesOnlyIn2018List": 69,
+   "membershipsOnlyIn2018List": 497683,
+   "codesOnlyIn2025List": 2,
+   "codesInBoth": 427,
+   "sampleOnly2018": [
+    "0131",
+    "0132",
+    "0221",
+    "0231",
+    "0232",
+    "0722",
+    "2610",
+    "3100",
+    "35115",
+    "35116",
+    "4511",
+    "4512",
+    "4513",
+    "4520",
+    "4530"
+   ],
+   "sampleOnly2025": [
+    "0130",
+    "0230"
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "code": "0111",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng lúa",
+   "name2025": "Trồng lúa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0112",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng ngô và cây lương thực có hạt khác",
+   "name2025": "Trồng ngô và cây lương thực có hạt khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0113",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây lấy củ có chất bột",
+   "name2025": "Trồng cây lấy củ có chất bột",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0114",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây mía",
+   "name2025": "Trồng cây mía",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0115",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây thuốc lá, thuốc lào",
+   "name2025": "Trồng cây thuốc lá, thuốc lào",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0116",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây lấy sợi",
+   "name2025": "Trồng cây lấy sợi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0117",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây có hạt chứa dầu",
+   "name2025": "Trồng cây có hạt chứa dầu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0118",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng rau, đậu các loại và trồng hoa",
+   "name2025": "Trồng rau, đậu các loại và trồng hoa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "01183",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng hoa, cây cảnh",
+   "name2025": "Trồng hoa hàng năm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0119",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây hàng năm khác",
+   "name2025": "Trồng cây hàng năm khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0121",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây ăn quả",
+   "name2025": "Trồng cây ăn quả",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0122",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây lấy quả chứa dầu",
+   "name2025": "Trồng cây lấy quả chứa dầu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0123",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây điều",
+   "name2025": "Trồng cây điều",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0124",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây hồ tiêu",
+   "name2025": "Trồng cây hồ tiêu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0125",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây cao su",
+   "name2025": "Trồng cây cao su",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0126",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây cà phê",
+   "name2025": "Trồng cây cà phê",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0127",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây chè",
+   "name2025": "Trồng cây chè",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0128",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây gia vị, cây dược liệu, cây hương liệu lâu năm",
+   "name2025": "Trồng cây gia vị, cây dược liệu, cây hương liệu lâu năm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0129",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng cây lâu năm khác",
+   "name2025": "Trồng cây lâu năm  khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0130",
+   "existsIn2018": "unverified",
+   "existsIn2025": true,
+   "name2018": "Nhân và chăm sóc cây giống nông nghiệp",
+   "name2025": "Nhân và chăm sóc cây giống nông nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0131",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Nhân và chăm sóc cây giống hàng năm",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "0132",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Nhân và chăm sóc cây giống lâu năm",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "0141",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chăn nuôi trâu, bò",
+   "name2025": "Chăn nuôi trâu, bò và sản xuất giống trâu, bò",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0142",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chăn nuôi ngựa, lừa, la",
+   "name2025": "Chăn nuôi ngựa, lừa, la và sản xuất giống ngựa, lừa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0144",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chăn nuôi dê, cừu",
+   "name2025": "Chăn nuôi dê, cừu, hươu, nai và sản xuất giống dê, cừu, hươu, nai",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0145",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chăn nuôi lợn và sản xuất giống lợn",
+   "name2025": "Chăn nuôi lợn và sản xuất giống lợn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0146",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chăn nuôi gia cầm",
+   "name2025": "Chăn nuôi gia cầm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0149",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chăn nuôi khác",
+   "name2025": "Chăn nuôi khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0150",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng trọt, chăn nuôi hỗn hợp",
+   "name2025": "Trồng trọt, chăn nuôi hỗn hợp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0161",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ trồng trọt",
+   "name2025": "Hoạt động dịch vụ trồng trọt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0162",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ chăn nuôi",
+   "name2025": "Hoạt động dịch vụ chăn nuôi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0163",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ sau thu hoạch",
+   "name2025": "Hoạt động dịch vụ sau thu hoạch",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0164",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xử lý hạt giống để nhân giống",
+   "name2025": "Xử lý hạt giống để nhân giống",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0170",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Săn bắt, đánh bẫy và hoạt động dịch vụ có liên quan",
+   "name2025": "Săn bắt, đánh bẫy và hoạt động dịch vụ có liên quan",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0210",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng rừng và chăm sóc rừng",
+   "name2025": "Trồng rừng, chăm sóc rừng và ươm giống cây lâm nghiệp",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "02101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Ươm giống cây lâm nghiệp",
+   "name2025": "Trồng rừng và chăm sóc rừng cây thân gỗ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "02102",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Trồng rừng và chăm sóc rừng lấy gỗ",
+   "name2025": "Trồng rừng và chăm sóc rừng họ tre",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0220",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác gỗ",
+   "name2025": "Khai thác gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0221",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Khai thác gỗ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "0222",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Khai thác lâm sản khác trừ gỗ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "0230",
+   "existsIn2018": "unverified",
+   "existsIn2025": true,
+   "name2018": "Thu nhặt sản phẩm từ rừng không phải gỗ và lâm sản khác",
+   "name2025": "Khai thác, thu nhặt lâm sản trừ gỗ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0231",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Khai thác lâm sản khác trừ gỗ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "0232",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Thu nhặt lâm sản khác trừ gỗ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "0240",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ lâm nghiệp",
+   "name2025": "Hoạt động dịch vụ lâm nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0311",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác thuỷ sản biển",
+   "name2025": "Khai thác thủy sản biển",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0312",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác thuỷ sản nội địa",
+   "name2025": "Khai thác thủy sản nội địa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0321",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nuôi trồng thuỷ sản biển",
+   "name2025": "Nuôi trồng thủy sản biển",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0322",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nuôi trồng thuỷ sản nội địa",
+   "name2025": "Nuôi trồng thủy sản nội địa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "03221",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nuôi trồng thuỷ sản nước lợ",
+   "name2025": "Nuôi cá",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "03222",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nuôi trồng thuỷ sản nước ngọt",
+   "name2025": "Nuôi tôm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0323",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất giống thuỷ sản",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "0510",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác và thu gom than cứng",
+   "name2025": "Khai thác và thu gom than cứng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0520",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác và thu gom than non",
+   "name2025": "Khai thác và thu gom than non",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0610",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác dầu thô",
+   "name2025": "Khai thác dầu thô",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0620",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác khí đốt tự nhiên",
+   "name2025": "Khai thác khí đốt tự nhiên",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0710",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác quặng sắt",
+   "name2025": "Khai thác quặng sắt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0721",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác quặng uranium và quặng thorium",
+   "name2025": "Khai thác quặng uranium và quặng thorium",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0722",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Khai thác quặng kim loại khác không chứa sắt",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "0730",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác quặng kim loại quí hiếm",
+   "name2025": "Khai thác quặng kim loại quý hiếm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "07300",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác quặng kim loại quí hiếm",
+   "name2025": "Khai thác quặng kim loại quý hiếm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0810",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác đá, cát, sỏi, đất sét",
+   "name2025": "Khai thác đá, cát, sỏi, đất sét",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "08101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác đá",
+   "name2025": "Khai thác đá",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "08102",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác cát, sỏi",
+   "name2025": "Khai thác cát",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "08103",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác đất sét",
+   "name2025": "Khai thác sỏi",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0891",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác khoáng hoá chất và khoáng phân bón",
+   "name2025": "Khai thác khoáng hóa chất và khoáng phân bón",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "08910",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác khoáng hoá chất và khoáng phân bón",
+   "name2025": "Khai thác khoáng hóa chất và khoáng phân bón",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "0892",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác và thu gom than bùn",
+   "name2025": "Khai thác và thu gom than bùn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0893",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác muối",
+   "name2025": "Khai thác muối",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0899",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai khoáng khác chưa được phân vào đâu",
+   "name2025": "Khai khoáng khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0910",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ khai thác dầu thô và khí tự nhiên",
+   "name2025": "Hoạt động dịch vụ hỗ trợ khai thác dầu thô và khí tự nhiên",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "0990",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ khai khoáng khác",
+   "name2025": "Hoạt động dịch vụ hỗ trợ khai khoáng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1010",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chế biến, bảo quản thịt và các sản phẩm từ thịt",
+   "name2025": "Chế biến, bảo quản thịt và các sản phẩm từ thịt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1020",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chế biến, bảo quản thuỷ sản và các sản phẩm từ thuỷ sản",
+   "name2025": "Chế biến, bảo quản thủy sản và các sản phẩm từ thủy sản",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "10204",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Chế biến và bảo quản nước mắm",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "1030",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chế biến và bảo quản rau quả",
+   "name2025": "Chế biến và bảo quản rau quả",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1040",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất dầu, mỡ động, thực vật",
+   "name2025": "Sản xuất dầu, mỡ động, thực vật",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1050",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chế biến sữa và các sản phẩm từ sữa",
+   "name2025": "Chế biến sữa và các sản phẩm từ sữa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1061",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xay xát và sản xuất bột thô",
+   "name2025": "Xay xát và sản xuất bột thô",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1062",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất tinh bột và các sản phẩm từ tinh bột",
+   "name2025": "Sản xuất tinh bột và các sản phẩm từ tinh bột",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1071",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các loại bánh từ bột",
+   "name2025": "Sản xuất các loại bánh từ bột",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1072",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đường",
+   "name2025": "Sản xuất đường",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1073",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất ca cao, sôcôla và bánh kẹo",
+   "name2025": "Sản xuất ca cao, sôcôla và bánh kẹo",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1074",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất mì ống, mỳ sợi và sản phẩm tương tự",
+   "name2025": "Sản xuất mì ống, mỳ sợi và sản phẩm tương tự",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1075",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất món ăn, thức ăn chế biến sẵn",
+   "name2025": "Sản xuất món ăn, thức ăn chế biến sẵn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1076",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất chè",
+   "name2025": "Sản xuất chè",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1077",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất cà phê",
+   "name2025": "Sản xuất cà phê",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1079",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thực phẩm khác chưa được phân vào đâu",
+   "name2025": "Sản xuất thực phẩm khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1080",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thức ăn gia súc, gia cầm và thuỷ sản",
+   "name2025": "Sản xuất thức ăn gia súc, gia cầm và thủy sản",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "10800",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thức ăn gia súc, gia cầm và thuỷ sản",
+   "name2025": "Sản xuất thức ăn gia súc, gia cầm và thủy sản",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "1101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chưng, tinh cất và pha chế các loại rượu mạnh",
+   "name2025": "Chưng, tinh cất và pha chế các loại rượu mạnh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1102",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất rượu vang",
+   "name2025": "Sản xuất rượu vang",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1103",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bia và mạch nha ủ men bia",
+   "name2025": "Sản xuất bia",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "1104",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ uống không cồn, nước khoáng",
+   "name2025": "Sản xuất mạch nha ủ men bia",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "11041",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sản xuất nước khoáng, nước tinh khiết đóng chai",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "1200",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm thuốc lá",
+   "name2025": "Sản xuất sản phẩm thuốc lá",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1311",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sợi",
+   "name2025": "Sản xuất sợi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1312",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất vải dệt thoi",
+   "name2025": "Sản xuất vải dệt thoi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1313",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoàn thiện sản phẩm dệt",
+   "name2025": "Hoàn thiện sản phẩm dệt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "13130",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoàn thiện sản phẩm dệt",
+   "name2025": "Hoàn thiện sản phẩm dệt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1321",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất vải dệt kim, vải đan móc và vải không dệt khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "1322",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất hàng may sẵn (trừ trang phục)",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "1323",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất thảm, chăn đệm",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "1324",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất các loại dây bện và lưới",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "1329",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất các loại hàng dệt khác chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "1391",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất vải dệt kim, vải đan móc và vải không dệt khác",
+   "name2025": "Sản xuất vải dệt kim, vải đan móc và vải không dệt khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1392",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất hàng dệt sẵn (trừ trang phục)",
+   "name2025": "Sản xuất hàng dệt sẵn (trừ trang phục)",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1393",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thảm, chăn, đệm",
+   "name2025": "Sản xuất thảm, chăn, đệm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1394",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các loại dây bện và lưới",
+   "name2025": "Sản xuất các loại dây bện và lưới",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1399",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các loại hàng dệt khác chưa được phân vào đâu",
+   "name2025": "Sản xuất các loại hàng dệt khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1410",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "May trang phục (trừ trang phục từ da lông thú)",
+   "name2025": "Sản xuất trang phục (trừ trang phục từ da lông thú)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "1420",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm từ da lông thú",
+   "name2025": "Sản xuất sản phẩm từ da lông thú",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1430",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất trang phục dệt kim, đan móc",
+   "name2025": "Sản xuất trang phục đan móc",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "1511",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Thuộc, sơ chế da; sơ chế và nhuộm da lông thú",
+   "name2025": "Thuộc, sơ chế da; sơ chế và nhuộm da lông thú",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1512",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất vali, túi xách và các loại tương tự, sản xuất yên đệm",
+   "name2025": "Sản xuất vali, túi xách và các loại tương tự, sản xuất yên đệm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1520",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất giày, dép",
+   "name2025": "Sản xuất giày, dép",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1610",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cưa, xẻ, bào gỗ và bảo quản gỗ",
+   "name2025": "Cưa, xẻ, bào gỗ và bảo quản gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "16101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cưa, xẻ và bào gỗ",
+   "name2025": "Cưa, xẻ và bào gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "16102",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bảo quản gỗ",
+   "name2025": "Bảo quản gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1621",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất gỗ dán, gỗ lạng, ván ép và ván mỏng khác",
+   "name2025": "Sản xuất gỗ dán, gỗ lạng, ván ép và ván mỏng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "16210",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất gỗ dán, gỗ lạng, ván ép và ván mỏng khác",
+   "name2025": "Sản xuất gỗ dán, gỗ lạng, ván ép và ván mỏng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1622",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ gỗ xây dựng",
+   "name2025": "Sản xuất đồ gỗ xây dựng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "16220",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ gỗ xây dựng",
+   "name2025": "Sản xuất đồ gỗ xây dựng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1623",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bao bì bằng gỗ",
+   "name2025": "Sản xuất bao bì bằng gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "16230",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bao bì bằng gỗ",
+   "name2025": "Sản xuất bao bì bằng gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1629",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm khác từ gỗ",
+   "name2025": "Sản xuất sản phẩm khác từ gỗ; sản xuất sản phẩm từ tre, nứa, rơm, rạ và vật liệu tết bện",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "16291",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm khác từ gỗ",
+   "name2025": "Sản xuất sản phẩm khác từ gỗ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1701",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bột giấy, giấy và bìa",
+   "name2025": "Sản xuất bột giấy, giấy và bìa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "17010",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bột giấy, giấy và bìa",
+   "name2025": "Sản xuất bột giấy, giấy và bìa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1702",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất giấy nhăn, bìa nhăn, bao bì từ giấy và bìa",
+   "name2025": "Sản xuất giấy nhăn, bìa nhăn, bao bì từ giấy và bìa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "17021",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bao bì bằng giấy, bìa",
+   "name2025": "Sản xuất bao bì bằng giấy, bìa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "17022",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất giấy nhăn và bìa nhăn",
+   "name2025": "Sản xuất giấy nhăn và bìa nhăn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1709",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các sản phẩm khác từ giấy và bìa chưa được phân vào đâu",
+   "name2025": "Sản xuất các sản phẩm khác từ giấy và bìa chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1811",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "In ấn",
+   "name2025": "In ấn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1812",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ liên quan đến in",
+   "name2025": "Dịch vụ liên quan đến in",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "18120",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ liên quan đến in-;Đối với ngành nghề kinh doanh có điều kiện, Doanh Nghiệp chỉ được kinh doanh khi có đủ điều kiện theo quy định của pháp luật",
+   "name2025": "Dịch vụ liên quan đến in",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "1820",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sao chép bản ghi các loại",
+   "name2025": "Sao chép bản ghi các loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1910",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất than cốc",
+   "name2025": "Sản xuất than cốc",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "1920",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm dầu mỏ tinh chế",
+   "name2025": "Sản xuất sản phẩm dầu mỏ tinh chế; sản xuất sản phẩm nhiên liệu hóa thạch",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2011",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất hoá chất cơ bản",
+   "name2025": "Sản xuất hóa chất cơ bản",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2012",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất phân bón và hợp chất ni tơ",
+   "name2025": "Sản xuất phân bón và hợp chất ni tơ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2013",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất plastic và cao su tổng hợp dạng nguyên sinh",
+   "name2025": "Sản xuất plastic và cao su tổng hợp dạng nguyên sinh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2021",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thuốc trừ sâu và sản phẩm hoá chất khác dùng trong nông nghiệp",
+   "name2025": "Sản xuất thuốc trừ sâu và sản phẩm hóa chất khác dùng trong nông nghiệp",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2022",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sơn, véc ni và các chất sơn, quét tương tự",
+   "name2025": "Sản xuất sơn, véc ni và các chất sơn, quét tương tự; sản xuất mực in và ma tít",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "20221",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sơn, véc ni và các chất sơn, quét tương tự, ma tít",
+   "name2025": "Sản xuất sơn, véc ni và các chất sơn, quét tương tự, ma tít",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2023",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất mỹ phẩm, xà phòng, chất tẩy rửa, làm bóng và chế phẩm vệ sinh",
+   "name2025": "Sản xuất mỹ phẩm, nước hoa, xà phòng, chất tẩy rửa, làm bóng và chế phẩm vệ sinh",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2029",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm hoá chất khác chưa được phân vào đâu",
+   "name2025": "Sản xuất sản phẩm hóa chất khác chưa được phân vào đâu",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2030",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sợi nhân tạo",
+   "name2025": "Sản xuất sợi nhân tạo",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2100",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thuốc, hoá dược và dược liệu",
+   "name2025": "Sản xuất thuốc, hóa dược và dược liệu",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2211",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất săm, lốp cao su",
+   "name2025": "Sản xuất săm, lốp cao su; đắp và tái chế lốp cao su",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2212",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất sản phẩm khác từ cao su",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "2219",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm khác từ cao su",
+   "name2025": "Sản xuất sản phẩm khác từ cao su",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2220",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm từ plastic",
+   "name2025": "Sản xuất sản phẩm từ plastic",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2310",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thuỷ tinh và sản phẩm từ thuỷ tinh",
+   "name2025": "Sản xuất thủy tinh và sản phẩm từ thủy tinh",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2391",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm chịu lửa",
+   "name2025": "Sản xuất sản phẩm chịu lửa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2392",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất vật liệu xây dựng từ đất sét",
+   "name2025": "Sản xuất vật liệu xây dựng từ đất sét",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "23920",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất vật liệu xây dựng từ đất sét",
+   "name2025": "Sản xuất vật liệu xây dựng từ đất sét",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2393",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm gốm sứ khác",
+   "name2025": "Sản xuất sản phẩm gốm sứ khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2394",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất xi măng, vôi và thạch cao",
+   "name2025": "Sản xuất xi măng, vôi và thạch cao",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2395",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bê tông và các sản phẩm từ xi măng và thạch cao",
+   "name2025": "Sản xuất bê tông và các sản phẩm từ bê tông, xi măng và thạch cao",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "23950",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bê tông và các sản phẩm từ xi măng và thạch cao",
+   "name2025": "Sản xuất bê tông và các sản phẩm từ bê tông, xi măng và thạch cao",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2396",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cắt tạo dáng và hoàn thiện đá",
+   "name2025": "Cắt, tạo dáng và hoàn thiện đá",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2399",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm từ chất khoáng phi kim loại khác chưa được phân vào đâu",
+   "name2025": "Sản xuất sản phẩm từ chất khoáng phi kim loại khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2410",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sắt, thép, gang",
+   "name2025": "Sản xuất sắt, thép, gang",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "24100",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sắt, thép, gang",
+   "name2025": "Sản xuất sắt, thép, gang",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2420",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất kim loại màu và kim loại quý",
+   "name2025": "Sản xuất kim loại quý và kim loại màu",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "24200",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất kim loại màu và kim loại quý",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "2431",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đúc sắt, thép",
+   "name2025": "Đúc sắt, thép",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2432",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đúc kim loại màu",
+   "name2025": "Đúc kim loại màu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2511",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các cấu kiện kim loại",
+   "name2025": "Sản xuất các cấu kiện kim loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "25110",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các cấu kiện kim loại",
+   "name2025": "Sản xuất các cấu kiện kim loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2512",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thùng, bể chứa và dụng cụ chứa đựng bằng kim loại",
+   "name2025": "Sản xuất thùng, bể chứa và dụng cụ chứa đựng bằng kim loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2513",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất nồi hơi (trừ nồi hơi trung tâm)",
+   "name2025": "Sản xuất nồi hơi (trừ nồi hơi trung tâm)",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2520",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất vũ khí và đạn dược",
+   "name2025": "Sản xuất vũ khí và đạn dược",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2591",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Rèn, dập, ép và cán kim loại",
+   "name2025": "Rèn, dập, ép và cán kim loại; luyện bột kim loại",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2592",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Gia công cơ khí",
+   "name2025": "Gia công cơ khí; xử lý và tráng phủ kim loại",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "25920",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Gia công cơ khí; xử lý và tráng phủ kim loại",
+   "name2025": "Gia công cơ khí; xử lý và tráng phủ kim loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2593",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất dao kéo, dụng cụ cầm tay và đồ kim loại thông dụng",
+   "name2025": "Sản xuất dao kéo, dụng cụ cầm tay và đồ kim loại thông dụng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2599",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm khác bằng kim loại chưa được phân vào đâu",
+   "name2025": "Sản xuất sản phẩm khác bằng kim loại chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2610",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sản xuất linh kiện điện tử",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "2620",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy vi tính và thiết bị ngoại vi của máy vi tính",
+   "name2025": "Sản xuất máy tính và thiết bị ngoại vi của máy tính",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2630",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị truyền thông",
+   "name2025": "Sản xuất thiết bị truyền thông",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2640",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất sản phẩm điện tử dân dụng",
+   "name2025": "Sản xuất sản phẩm điện tử dân dụng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2651",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị đo lường, kiểm tra, định hướng và điều khiển",
+   "name2025": "Sản xuất thiết bị đo lường, kiểm tra, định hướng và điều khiển",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2652",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồng hồ",
+   "name2025": "Sản xuất đồng hồ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2660",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị bức xạ, thiết bị điện tử trong y học, điện liệu pháp",
+   "name2025": "Sản xuất thiết bị bức xạ, thiết bị điện tử trong y học, điện liệu pháp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2670",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị và dụng cụ quang học",
+   "name2025": "Sản xuất thiết bị và dụng cụ quang học",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2680",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất băng, đĩa từ tính và quang học",
+   "name2025": "Sản xuất băng, đĩa từ tính và quang học",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2710",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất mô tơ, máy phát, biến thế điện, thiết bị phân phối và điều khiển điện",
+   "name2025": "Sản xuất mô tơ, máy phát, biến thế điện, thiết bị phân phối và điều khiển điện",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2720",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất pin và ắc quy",
+   "name2025": "Sản xuất pin và ắc quy",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2731",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất dây cáp, sợi cáp quang học",
+   "name2025": "Sản xuất dây cáp, sợi cáp quang học",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2732",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất dây, cáp điện và điện tử khác",
+   "name2025": "Sản xuất dây, cáp điện và điện tử khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2733",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị dây dẫn điện các loại",
+   "name2025": "Sản xuất thiết bị dây dẫn điện các loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2740",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị điện chiếu sáng",
+   "name2025": "Sản xuất thiết bị điện chiếu sáng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2750",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ điện dân dụng",
+   "name2025": "Sản xuất đồ điện dân dụng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2790",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị điện khác",
+   "name2025": "Sản xuất thiết bị điện khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2811",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất động cơ, tua bin (trừ động cơ máy bay, ô tô, mô tô và xe máy)",
+   "name2025": "Sản xuất động cơ, tua bin (trừ động cơ máy bay, ô tô, mô tô và xe máy)",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2812",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị sử dụng năng lượng chiết lưu",
+   "name2025": "Sản xuất thiết bị sử dụng năng lượng chiết lưu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2813",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy bơm, máy nén, vòi và van khác",
+   "name2025": "Sản xuất máy bơm, máy nén, vòi và van khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2814",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất bi, bánh răng, hộp số, các bộ phận điều khiển và truyền chuyển động",
+   "name2025": "Sản xuất bi, bánh răng, hộp số, các bộ phận điều khiển và truyền chuyển động",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2815",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất lò nướng, lò luyện và lò nung",
+   "name2025": "Sản xuất lò nướng, lò luyện và lò nung",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2816",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất các thiết bị nâng, hạ và bốc xếp",
+   "name2025": "Sản xuất các thiết bị nâng, hạ và bốc xếp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2817",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy móc và thiết bị văn phòng (trừ máy vi tính và thiết bị ngoại vi của máy vi tính)",
+   "name2025": "Sản xuất máy móc và thiết bị văn phòng (trừ máy tính và thiết bị ngoại vi của máy tính)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2818",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất dụng cụ cầm tay chạy bằng mô tơ hoặc khí nén",
+   "name2025": "Sản xuất dụng cụ cầm tay chạy bằng mô tơ hoặc khí nén",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2819",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy thông dụng khác",
+   "name2025": "Sản xuất máy thông dụng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2821",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy nông nghiệp và lâm nghiệp",
+   "name2025": "Sản xuất máy nông nghiệp và lâm nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2822",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy công cụ và máy tạo hình kim loại",
+   "name2025": "Sản xuất máy công cụ và máy tạo hình kim loại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2823",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy luyện kim",
+   "name2025": "Sản xuất máy móc, thiết bị cho ngành luyện kim",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2824",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy khai thác mỏ và xây dựng",
+   "name2025": "Sản xuất máy khai thác mỏ và xây dựng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2825",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy chế biến thực phẩm, đồ uống và thuốc lá",
+   "name2025": "Sản xuất máy chế biến thực phẩm, đồ uống và thuốc lá",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2826",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy cho ngành dệt, may và da",
+   "name2025": "Sản xuất máy cho ngành dệt, may và da",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2829",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy chuyên dụng khác",
+   "name2025": "Sản xuất máy chuyên dụng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "2910",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất xe có động cơ",
+   "name2025": "Sản xuất ô tô và xe có động cơ khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2920",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thân xe có động cơ, rơ moóc và bán rơ moóc",
+   "name2025": "Sản xuất thân xe ô tô và xe có động cơ khác, rơ moóc và bán rơ moóc",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "2930",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất phụ tùng và bộ phận phụ trợ cho xe ô tô và xe có động cơ khác",
+   "name2025": "Sản xuất phụ tùng và bộ phận phụ trợ cho xe ô tô và xe có động cơ khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3011",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đóng tàu và cấu kiện nổi",
+   "name2025": "Đóng tàu và cấu kiện nổi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3012",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đóng thuyền, xuồng thể thao và giải trí",
+   "name2025": "Đóng thuyền, xuồng thể thao và giải trí",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3020",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đầu máy xe lửa, xe điện và toa xe",
+   "name2025": "Sản xuất đầu máy xe lửa, xe điện, toa xe và phương tiện, thiết bị chuyên dùng trên đường ray",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3030",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất máy bay, tàu vũ trụ và máy móc liên quan",
+   "name2025": "Sản xuất máy bay, tàu vũ trụ và máy móc liên quan",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3040",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất xe cơ giới chiến đấu dùng trong quân đội",
+   "name2025": "Sản xuất xe cơ giới chiến đấu dùng trong quân đội",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3091",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất mô tô, xe máy",
+   "name2025": "Sản xuất mô tô, xe máy",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3092",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất xe đạp và xe cho người tàn tật",
+   "name2025": "Sản xuất xe đạp và xe cho người khuyết tật",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3099",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất phương tiện và thiết bị vận tải khác chưa được phân vào đâu",
+   "name2025": "Sản xuất phương tiện và thiết bị vận tải khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3100",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sản xuất giường, tủ, bàn, ghế",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "31009",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sản xuất giường, tủ, bàn, ghế bằng vật liệu khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "3211",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ kim hoàn và chi tiết liên quan",
+   "name2025": "Sản xuất đồ kim hoàn và chi tiết liên quan",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3212",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ giả kim hoàn và chi tiết liên quan",
+   "name2025": "Sản xuất đồ giả kim hoàn và chi tiết liên quan",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3220",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất nhạc cụ",
+   "name2025": "Sản xuất nhạc cụ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3230",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất dụng cụ thể dục, thể thao",
+   "name2025": "Sản xuất dụng cụ thể dục, thể thao",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3240",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất đồ chơi, trò chơi",
+   "name2025": "Sản xuất đồ chơi, trò chơi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3250",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất thiết bị, dụng cụ y tế, nha khoa, chỉnh hình và phục hồi chức năng",
+   "name2025": "Sản xuất thiết bị, dụng cụ y tế, nha khoa, chỉnh hình và phục hồi chức năng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3290",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất khác chưa được phân vào đâu",
+   "name2025": "Sản xuất khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3311",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa các sản phẩm kim loại đúc sẵn",
+   "name2025": "Sửa chữa,  bảo dưỡng các sản phẩm kim loại đúc sẵn",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3312",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa máy móc, thiết bị",
+   "name2025": "Sửa chữa, bảo dưỡng máy móc, thiết bị",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "33120",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa máy móc, thiết bị",
+   "name2025": "Sửa chữa, bảo dưỡng máy móc, thiết bị",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3313",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa thiết bị điện tử và quang học",
+   "name2025": "Sửa chữa, bảo dưỡng  thiết bị điện tử và quang học",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3314",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa thiết bị điện",
+   "name2025": "Sửa chữa, bảo dưỡng thiết bị điện",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3315",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa và bảo dưỡng phương tiện vận tải (trừ ô tô, mô tô, xe máy và xe có động cơ khác)",
+   "name2025": "Sửa chữa, bảo dưỡng phương tiện vận tải (trừ ô tô, mô tô, xe máy và xe có động cơ khác)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3319",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa thiết bị khác",
+   "name2025": "Sửa chữa, bảo dưỡng thiết bị khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3320",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt máy móc và thiết bị công nghiệp",
+   "name2025": "Lắp đặt máy móc và thiết bị công nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "33200",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt máy móc và thiết bị công nghiệp",
+   "name2025": "Lắp đặt máy móc và thiết bị công nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3510",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Sản xuất, truyền tải và phân phối điện",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "3511",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất điện",
+   "name2025": "Sản xuất điện từ nguồn năng lượng không tái tạo",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "35113",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nhiệt điện khí - Nhóm này gồm hoạt động sản xuất điện từ khí thiên nhiên",
+   "name2025": "Điện hạt nhân",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "35115",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Điện gió - Nhóm này gồm hoạt động sản xuất điện từ năng lượng gió",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "35116",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Điện mặt trời - Nhóm này gồm hoạt động sản xuất điện từ năng lượng mặt trời",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "35119",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Điện khác - Nhóm này gồm hoạt động sản xuất điện từ các dạng năng lượng khác, chưa được phân vào đâu: sóng biển, thủy triều, diezen; Doanh nghiệp phải thực hiện đúng các quy định của pháp luật về đất đai, xây dựng, phòng cháy chữa cháy, bảo vệ môi trường, các quy định khác của pháp luật liên quan đến hoạt động của doanh nghiệp và các điều kiện kinh doanh đối với ngành nghề kinh doanh có điều kiện",
+   "name2025": "Sản xuất điện từ nguồn năng lượng không tái tạo khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3512",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Truyền tải và phân phối điện",
+   "name2025": "Sản xuất điện từ nguồn năng lượng tái tạo",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3520",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất khí đốt, phân phối nhiên liệu khí bằng đường ống",
+   "name2025": "Sản xuất khí đốt, phân phối nhiên liệu khí bằng đường ống",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3530",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sản xuất, phân phối hơi nước, nước nóng, điều hoà không khí và sản xuất nước đá",
+   "name2025": "Sản xuất, phân phối hơi nước, nước nóng, điều hoà không khí và sản xuất nước đá",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3600",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Khai thác, xử lý và cung cấp nước",
+   "name2025": "Khai thác, xử lý và cung cấp nước",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3700",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Thoát nước và xử lý nước thải",
+   "name2025": "Thoát nước và xử lý nước thải",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "37002",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xử lý nước thải",
+   "name2025": "Xử lý nước thải",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3811",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Thu gom rác thải không độc hại",
+   "name2025": "Thu gom rác thải không độc hại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3812",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Thu gom rác thải độc hại",
+   "name2025": "Thu gom rác thải độc hại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3821",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xử lý và tiêu huỷ rác thải không độc hại",
+   "name2025": "Xử lý và tiêu hủy rác thải không độc hại",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3822",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xử lý và tiêu huỷ rác thải độc hại",
+   "name2025": "Xử lý và tiêu hủy rác thải độc hại",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "3830",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Tái chế phế liệu",
+   "name2025": "Tái chế phế liệu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "3900",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xử lý ô nhiễm và hoạt động quản lý chất thải khác",
+   "name2025": "Xử lý ô nhiễm và hoạt động quản lý chất thải khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4100",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng nhà các loại",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "41000",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng nhà các loại",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "4101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng nhà để ở",
+   "name2025": "Xây dựng nhà để ở",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4102",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng nhà không để ở",
+   "name2025": "Xây dựng nhà không để ở",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4210",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình đường sắt và đường bộ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "42101",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình đường sắt",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "42102",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình đường bộ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "4211",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình đường sắt",
+   "name2025": "Xây dựng công trình đường sắt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4212",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình đường bộ",
+   "name2025": "Xây dựng công trình đường bộ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4220",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình công ích",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "42200",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình công ích",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "4221",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình điện",
+   "name2025": "Xây dựng công trình điện",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4222",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình cấp, thoát nước",
+   "name2025": "Xây dựng công trình cấp, thoát nước",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4223",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình viễn thông, thông tin liên lạc",
+   "name2025": "Xây dựng công trình viễn thông, thông tin liên lạc",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4229",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình công ích khác",
+   "name2025": "Xây dựng công trình công ích khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4290",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình kỹ thuật dân dụng khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "42900",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Xây dựng công trình kỹ thuật dân dụng khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "4291",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình thủy",
+   "name2025": "Xây dựng công trình thủy",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4292",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình khai khoáng",
+   "name2025": "Xây dựng công trình khai khoáng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4293",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình chế biến, chế tạo",
+   "name2025": "Xây dựng công trình chế biến, chế tạo",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4299",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xây dựng công trình kỹ thuật dân dụng khác",
+   "name2025": "Xây dựng công trình kỹ thuật dân dụng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4311",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Phá dỡ",
+   "name2025": "Phá dỡ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4312",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chuẩn bị mặt bằng",
+   "name2025": "Chuẩn bị mặt bằng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4321",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống điện",
+   "name2025": "Lắp đặt hệ thống điện",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "43210",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống điện",
+   "name2025": "Lắp đặt hệ thống điện",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4322",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống cấp, thoát nước, hệ thống sưởi và điều hoà không khí",
+   "name2025": "Lắp đặt hệ thống cấp, thoát nước, hệ thống sưởi và điều hoà không khí",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "43221",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống cấp, thoát nước",
+   "name2025": "Lắp đặt hệ thống cấp, thoát nước",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "43222",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống lò sưởi và điều hoà không khí",
+   "name2025": "Lắp đặt hệ thống sưởi và điều hoà không khí",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4329",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống xây dựng khác",
+   "name2025": "Lắp đặt hệ thống xây dựng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "43290",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Lắp đặt hệ thống xây dựng khác",
+   "name2025": "Lắp đặt hệ thống xây dựng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4330",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoàn thiện công trình xây dựng",
+   "name2025": "Hoàn thiện công trình xây dựng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "43300",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoàn thiện công trình xây dựng",
+   "name2025": "Hoàn thiện công trình xây dựng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4390",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động xây dựng chuyên dụng khác",
+   "name2025": "Hoạt động xây dựng chuyên dụng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "43900",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động xây dựng chuyên dụng khác",
+   "name2025": "Hoạt động xây dựng chuyên dụng khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4511",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn ô tô và xe có động cơ khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4512",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ ô tô con (loại 9 chỗ ngồi trở xuống)",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4513",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Đại lý ô tô và xe có động cơ khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4520",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bảo dưỡng, sửa chữa ô tô và xe có động cơ khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4530",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán phụ tùng và các bộ phận phụ trợ của ô tô và xe có động cơ khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "45301",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn phụ tùng và các bộ phận phụ trợ của ô tô và xe có động cơ khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "45303",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Đại lý phụ tùng và các bộ phận phụ trợ của ô tô và xe có động cơ khác-;Doanh nghiệp phải thực hiện đúng các quy định của pháp luật về đất đai, xây dựng, phòng cháy chữa cháy, bảo vệ môi trường, các quy định khác của pháp luật hiện hành và các điều kiện kinh doanh đối với ngành nghề kinh doanh có điều kiện",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4541",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán mô tô, xe máy",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4542",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bảo dưỡng và sửa chữa mô tô, xe máy",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4543",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán phụ tùng và các bộ phận phụ trợ của mô tô, xe máy",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4610",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đại lý, môi giới, đấu giá",
+   "name2025": "Đại lý, môi giới, đấu giá hàng hóa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "46101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đại lý",
+   "name2025": "Đại lý bán hàng hóa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4620",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn nông, lâm sản nguyên liệu (trừ gỗ, tre, nứa) và động vật sống",
+   "name2025": "Bán buôn nông, lâm sản nguyên liệu (trừ gỗ, tre, nứa) và động vật sống",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46201",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn thóc, ngô và các loại hạt ngũ cốc khác",
+   "name2025": "Bán buôn thóc, ngô và các loại hạt ngũ cốc khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46202",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn hoa và cây",
+   "name2025": "Bán buôn hoa và cây",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46209",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn nông, lâm sản nguyên liệu khác (trừ gỗ, tre, nứa)",
+   "name2025": "Bán buôn nông, lâm sản nguyên liệu khác (trừ gỗ, tre, nứa)",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4631",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn gạo, lúa mỳ, hạt ngũ cốc khác, bột mỳ",
+   "name2025": "Bán buôn gạo, lúa mỳ, sản phẩm từ ngũ cốc khác, bột mỳ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4632",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn thực phẩm",
+   "name2025": "Bán buôn thực phẩm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46324",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn cà phê",
+   "name2025": "Bán buôn cà phê",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46326",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn đường, sữa và các sản phẩm sữa, bánh kẹo và các sản phẩm chế biến từ ngũ cốc, bột, tinh bột",
+   "name2025": "Bán buôn đường, sữa và các sản phẩm sữa, bánh kẹo và các sản phẩm chế biến từ ngũ cốc, bột, tinh bột",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46329",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn thực phẩm khác",
+   "name2025": "Bán buôn thực phẩm khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4633",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn đồ uống",
+   "name2025": "Bán buôn đồ uống",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46331",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn đồ uống có cồn",
+   "name2025": "Bán buôn đồ uống có cồn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46332",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn đồ uống không có cồn",
+   "name2025": "Bán buôn đồ uống không có cồn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4634",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn sản phẩm thuốc lá, thuốc lào",
+   "name2025": "Bán buôn sản phẩm thuốc lá, thuốc lào",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46340",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn sản phẩm thuốc lá, thuốc lào",
+   "name2025": "Bán buôn sản phẩm thuốc lá, thuốc lào",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4641",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn vải, hàng may mặc, giày dép",
+   "name2025": "Bán buôn vải, hàng may mặc, giày dép",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4649",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn đồ dùng khác cho gia đình",
+   "name2025": "Bán buôn đồ dùng khác cho gia đình",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46493",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn nước hoa, hàng mỹ phẩm và chế phẩm vệ sinh",
+   "name2025": "Bán buôn nước hoa, hàng mỹ phẩm và chế phẩm vệ sinh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46495",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn đồ điện gia dụng, đèn và bộ đèn điện",
+   "name2025": "Bán buôn đồ điện gia dụng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "46497",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn sách, báo, tạp chí, văn phòng phẩm",
+   "name2025": "Bán buôn sách, báo, tạp chí, văn phòng phẩm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4651",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy vi tính, thiết bị ngoại vi và phần mềm",
+   "name2025": "Bán buôn máy tính, thiết bị ngoại vi và phần mềm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "46510",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy vi tính, thiết bị ngoại vi và phần mềm",
+   "name2025": "Bán buôn máy tính, thiết bị ngoại vi và phần mềm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4652",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn thiết bị và linh kiện điện tử, viễn thông",
+   "name2025": "Bán buôn thiết bị và linh kiện điện tử, viễn thông",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46520",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn thiết bị và linh kiện điện tử, viễn thông-;Doanh nghiệp phải thực hiện đúng các quy định của pháp luật về đất đai, xây dựng, phòng cháy chữa cháy, bảo vệ môi trường, các quy định khác của pháp luật hiện hành và các điều kiện kinh doanh đối với ngành nghề kinh doanh có điều kiện",
+   "name2025": "Bán buôn thiết bị và linh kiện điện tử, viễn thông",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4653",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy móc, thiết bị và phụ tùng máy nông nghiệp",
+   "name2025": "Bán buôn máy móc, thiết bị và phụ tùng máy nông nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46530",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy móc, thiết bị và phụ tùng máy nông nghiệp",
+   "name2025": "Bán buôn máy móc, thiết bị và phụ tùng máy nông nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4659",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy móc, thiết bị và phụ tùng máy khác",
+   "name2025": "Bán buôn máy móc, thiết bị và phụ tùng máy khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46591",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy móc, thiết bị và phụ tùng máy khai khoáng, xây dựng",
+   "name2025": "Bán buôn máy móc, thiết bị và phụ tùng máy khai khoáng, xây dựng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46592",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy móc, thiết bị điện, vật liệu điện (máy phát điện, động cơ điện, dây điện và thiết bị khác dùng trong mạch điện)",
+   "name2025": "Bán buôn máy móc, thiết bị điện, vật liệu điện (máy phát điện, động cơ điện, dây điện và thiết bị khác dùng trong mạch điện)",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "46594",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn máy móc, thiết bị và phụ tùng máy văn phòng (trừ máy vi tính và thiết bị ngoại vi)",
+   "name2025": "Bán buôn máy móc, thiết bị và phụ tùng máy văn phòng (trừ máy tính và thiết bị ngoại vi)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4661",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn nhiên liệu rắn, lỏng, khí và các sản phẩm liên quan",
+   "name2025": "Bán buôn ô tô và xe có động cơ khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "46613",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn xăng dầu và các sản phẩm liên quan",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "46614",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn khí đốt và các sản phẩm liên quan",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4662",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn kim loại và quặng kim loại",
+   "name2025": "Bán buôn phụ tùng và các bộ phận phụ trợ của ô tô và xe có động cơ khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "46622",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn sắt, thép",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "46623",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn kim loại khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4663",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn vật liệu, thiết bị lắp đặt khác trong xây dựng",
+   "name2025": "Bán buôn mô tô, xe máy, phụ tùng và các bộ phận phụ trợ của mô tô, xe máy",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "46633",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn gạch xây, ngói, đá, cát, sỏi",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "46635",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn sơn, vécni",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "46637",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn đồ ngũ kim",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "46639",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn vật liệu, thiết bị lắp đặt khác trong xây dựng",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4669",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn chuyên doanh khác chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "46692",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán buôn hóa chất khác (trừ loại sử dụng trong nông nghiệp)",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4690",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán buôn tổng hợp",
+   "name2025": "Bán buôn tổng hợp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4711",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào chiếm tỷ trọng lớn trong các cửa hàng kinh doanh tổng hợp",
+   "name2025": "Bán lẻ tổng hợp với lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào chiếm tỷ trọng lớn",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4719",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ khác trong các cửa hàng kinh doanh tổng hợp",
+   "name2025": "Bán lẻ tổng hợp khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4721",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ lương thực trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ lương thực",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4722",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ thực phẩm trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ thực phẩm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4723",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ đồ uống trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ đồ uống",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4724",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ sản phẩm thuốc lá, thuốc lào trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ sản phẩm thuốc lá, thuốc lào",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4730",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ nhiên liệu động cơ trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ nhiên liệu động cơ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4741",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ máy vi tính, thiết bị ngoại vi, phần mềm và thiết bị viễn thông trong các cửa hàng chuyên doanh",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4742",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ thiết bị nghe nhìn trong các cửa hàng chuyên doanh",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "47420",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ thiết bị nghe nhìn trong các cửa hàng chuyên doanh",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4751",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ vải, len, sợi, chỉ khâu và hàng dệt khác trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ vải, len, sợi, chỉ khâu và hàng dệt khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4752",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ đồ ngũ kim, sơn, kính và thiết bị lắp đặt khác trong xây dựng trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ đồ ngũ kim, sơn, kính, vật liệu và thiết bị lắp đặt khác trong xây dựng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "47523",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ kính xây dựng trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ kính xây dựng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "47524",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ xi măng, gạch xây, ngói, đá, cát sỏi và vật liệu xây dựng khác trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ xi măng, gạch xây, ngói, đá, cát sỏi, sắt thép và vật liệu xây dựng khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4753",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ thảm, đệm, chăn, màn, rèm, vật liệu phủ tường và sàn trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ thảm, đệm, chăn, màn, rèm, vật liệu phủ tường và sàn",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "47530",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ thảm, đệm, chăn, màn, rèm, vật liệu phủ tường và sàn trong các cửa hàng chuyên doanh-;Doanh nghiệp phải thực hiện đúng các quy định của pháp luật về đất đai, xây dựng, phòng cháy chữa cháy, bảo vệ môi trường, các quy định khác của pháp luật hiện hành và các điều kiện kinh doanh đối với ngành nghề kinh doanh có điều kiện",
+   "name2025": "Bán lẻ thảm, đệm, chăn, màn, rèm, vật liệu phủ tường và sàn",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4759",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ đồ điện gia dụng, giường, tủ, bàn, ghế và đồ nội thất tương tự, đèn và bộ đèn điện, đồ dùng gia đình khác chưa được phân vào đâu trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ đồ điện gia dụng, giường, tủ, bàn, ghế và đồ nội thất tương tự, đèn và bộ đèn điện, đồ dùng gia đình khác chưa được phân vào đâu",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "47594",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ nhạc cụ trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ nhạc cụ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4761",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ sách, báo, tạp chí văn phòng phẩm trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ sách, báo, tạp chí, văn phòng phẩm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4762",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ băng đĩa âm thanh, hình ảnh (kể cả băng, đĩa trắng) trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ thiết bị, dụng cụ thể dục, thể thao",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4763",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ thiết bị, dụng cụ thể dục, thể thao trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ trò chơi, đồ chơi",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4764",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ trò chơi, đồ chơi trong các cửa hàng chuyên doanh",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4771",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ hàng may mặc, giày dép, hàng da và giả da trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ hàng may mặc, giày, dép, hàng da và giả da",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "47711",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ hàng may mặc trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ hàng may mặc",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4772",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ thuốc, dụng cụ y tế, mỹ phẩm và vật phẩm vệ sinh trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ thuốc, dụng cụ y tế, mỹ phẩm và vật phẩm vệ sinh",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4773",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ hàng hóa khác mới trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ hàng hóa khác mới (trừ ô tô, mô tô, xe máy và các bộ phận phụ trợ)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4774",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ hàng hóa đã qua sử dụng trong các cửa hàng chuyên doanh",
+   "name2025": "Bán lẻ hàng hóa đã qua sử dụng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4781",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào lưu động hoặc tại chợ",
+   "name2025": "Bán lẻ ô tô và xe có động cơ khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4782",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ hàng dệt, may sẵn, giày dép lưu động hoặc tại chợ",
+   "name2025": "Bán lẻ phụ tùng và các bộ phận phụ trợ của ô tô và xe có động cơ khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4783",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bán lẻ thiết bị công nghệ thông tin liên lạc lưu động hoặc tại chợ",
+   "name2025": "Bán lẻ mô tô, xe máy, phụ tùng và các bộ phận phụ trợ của mô tô, xe máy",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4784",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ thiết bị gia đình khác lưu động hoặc tại chợ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4785",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ hàng văn hóa, giải trí lưu động hoặc tại chợ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4789",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ hàng hóa khác lưu động hoặc tại chợ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4791",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ theo yêu cầu đặt hàng qua bưu điện hoặc internet",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4799",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Bán lẻ hình thức khác chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "4911",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách đường sắt",
+   "name2025": "Vận tải hành khách đường sắt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4912",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hàng hóa đường sắt",
+   "name2025": "Vận tải hàng hóa đường sắt",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4920",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Vận tải bằng xe buýt",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "4921",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách bằng xe buýt trong nội thành",
+   "name2025": "Vận tải hành khách bằng xe buýt trong nội thành",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4922",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách bằng xe buýt giữa nội thành và ngoại thành, liên tỉnh",
+   "name2025": "Vận tải hành khách bằng xe buýt giữa nội thành và ngoại thành, liên tỉnh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4929",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách bằng xe buýt loại khác",
+   "name2025": "Vận tải hành khách bằng xe buýt loại khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4931",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách đường bộ trong nội thành, ngoại thành (trừ vận tải bằng xe buýt)",
+   "name2025": "Vận tải hành khách đường bộ trong nội thành, ngoại thành (trừ vận tải bằng xe buýt)",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "49312",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách bằng taxi",
+   "name2025": "Vận tải hành khách bằng mô tô, xe máy và xe có động cơ khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "4932",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách đường bộ khác",
+   "name2025": "Vận tải hành khách đường bộ khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "49321",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách bằng xe khách nội tỉnh, liên tỉnh",
+   "name2025": "Vận tải hành khách bằng xe khách nội tỉnh, liên tỉnh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "49329",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách đường bộ khác chưa được phân vào đâu",
+   "name2025": "Vận tải hành khách đường bộ khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4933",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hàng hóa bằng đường bộ",
+   "name2025": "Vận tải hàng hóa bằng đường bộ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "4940",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải đường ống",
+   "name2025": "Vận tải đường ống",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5011",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách ven biển và viễn dương",
+   "name2025": "Vận tải hành khách ven biển và viễn dương",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5012",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hàng hóa ven biển và viễn dương",
+   "name2025": "Vận tải hàng hóa ven biển và viễn dương",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "50121",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hàng hóa ven biển",
+   "name2025": "Vận tải hàng hóa ven biển",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5021",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách đường thuỷ nội địa",
+   "name2025": "Vận tải hành khách đường thủy nội địa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5022",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hàng hóa đường thuỷ nội địa",
+   "name2025": "Vận tải hàng hóa đường thủy nội địa",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5110",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hành khách hàng không",
+   "name2025": "Vận tải hành khách hàng không",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5120",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vận tải hàng hóa hàng không",
+   "name2025": "Vận tải hàng hóa hàng không",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5210",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Kho bãi và lưu giữ hàng hóa",
+   "name2025": "Kho bãi và lưu giữ hàng hóa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5221",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường sắt và đường bộ",
+   "name2025": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường sắt",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5222",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường thủy",
+   "name2025": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường thủy",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5223",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải hàng không",
+   "name2025": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải hàng không",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5224",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bốc xếp hàng hóa",
+   "name2025": "Bốc xếp hàng hóa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5225",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường bộ",
+   "name2025": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường bộ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5229",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ khác liên quan đến vận tải",
+   "name2025": "Hoạt động dịch vụ hỗ trợ khác liên quan đến vận tải",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5310",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bưu chính",
+   "name2025": "Bưu chính",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5320",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Chuyển phát",
+   "name2025": "Chuyển phát",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5510",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ lưu trú ngắn ngày",
+   "name2025": "Khách sạn và dịch vụ lưu trú tương tự",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "55101",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Khách sạn",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "55103",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Nhà khách, nhà nghỉ kinh doanh dịch vụ lưu trú ngắn ngày",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "5590",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cơ sở lưu trú khác",
+   "name2025": "Cơ sở lưu trú khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5610",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nhà hàng và các dịch vụ ăn uống phục vụ lưu động",
+   "name2025": "Nhà hàng và các dịch vụ ăn uống phục vụ lưu động",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "56101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nhà hàng, quán ăn, hàng ăn uống",
+   "name2025": "Nhà hàng, quán ăn, hàng ăn uống (trừ cửa hàng ăn uống thuộc chuỗi cửa hàng ăn nhanh)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5621",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cung cấp dịch vụ ăn uống theo hợp đồng không thường xuyên với khách hàng",
+   "name2025": "Cung cấp dịch vụ ăn uống theo hợp đồng không thường xuyên với khách hàng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "56210",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cung cấp dịch vụ ăn uống theo hợp đồng không thường xuyên với khách hàng (phục vụ tiệc, hội họp, đám cưới...)",
+   "name2025": "Cung cấp dịch vụ ăn uống theo hợp đồng không thường xuyên với khách hàng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5629",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ ăn uống khác",
+   "name2025": "Dịch vụ ăn uống khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "56290",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ ăn uống khác",
+   "name2025": "Dịch vụ ăn uống khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5630",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ phục vụ đồ uống",
+   "name2025": "Dịch vụ phục vụ đồ uống",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "56301",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Quán rượu, bia, quầy bar",
+   "name2025": "Quán rượu, bia, quầy bar",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5811",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xuất bản sách",
+   "name2025": "Xuất bản sách",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5812",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xuất bản các danh mục chỉ dẫn và địa chỉ",
+   "name2025": "Xuất bản báo",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5813",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Xuất bản báo, tạp chí và các ấn phẩm định kỳ",
+   "name2025": "Xuất bản tạp chí và các ấn phẩm định kỳ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5819",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động xuất bản khác",
+   "name2025": "Hoạt động xuất bản khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5820",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Xuất bản phần mềm",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "5911",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động sản xuất phim điện ảnh, phim video và chương trình truyền hình",
+   "name2025": "Hoạt động sản xuất phim điện ảnh, video và chương trình truyền hình",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5912",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động hậu kỳ",
+   "name2025": "Hoạt động hậu kỳ phim điện ảnh, video và chương trình truyền hình",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5913",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động phát hành phim điện ảnh, phim video và chương trình truyền hình",
+   "name2025": "Hoạt động phát hành phim điện ảnh, video và chương trình truyền hình",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "5914",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động chiếu phim",
+   "name2025": "Hoạt động chiếu phim",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "5920",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động ghi âm và xuất bản âm nhạc",
+   "name2025": "Hoạt động ghi âm và xuất bản âm nhạc",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6010",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động phát thanh",
+   "name2025": "Hoạt động phát thanh và phân phối âm thanh",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6021",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động truyền hình",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6022",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Chương trình cáp, vệ tinh và các chương trình thuê bao khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6110",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động viễn thông có dây",
+   "name2025": "Hoạt động viễn thông có dây, không dây và vệ tinh",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6120",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động viễn thông không dây",
+   "name2025": "Hoạt động bán lại dịch vụ viễn thông và dịch vụ trung gian cho hoạt động viễn thông",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6130",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động viễn thông vệ tinh",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6190",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động viễn thông khác",
+   "name2025": "Hoạt động viễn thông khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "61901",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động của các điểm truy cập internet",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6201",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Lập trình máy vi tính",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6202",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Tư vấn máy vi tính và quản trị hệ thống máy vi tính",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6209",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động dịch vụ công nghệ thông tin và dịch vụ khác liên quan đến máy vi tính",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6311",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Xử lý dữ liệu, cho thuê và các hoạt động liên quan",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6312",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Cổng thông tin",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6321",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Hoạt động thông tấn",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "6329",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Dịch vụ thông tin khác chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "6391",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động thông tấn",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6399",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Dịch vụ thông tin khác chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6419",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động trung gian tiền tệ khác",
+   "name2025": "Hoạt động trung gian tiền tệ khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6491",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động cho thuê tài chính",
+   "name2025": "Hoạt động cho thuê tài chính",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6492",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động cấp tín dụng khác",
+   "name2025": "Hoạt động tài trợ thương mại quốc tế",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6499",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ tài chính khác chưa được phân vào đâu (trừ bảo hiểm và bảo hiểm xã hội)",
+   "name2025": "Hoạt động dịch vụ tài chính khác chưa được phân vào đâu (trừ bảo hiểm và hoạt động quỹ hưu trí)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6511",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bảo hiểm nhân thọ",
+   "name2025": "Bảo hiểm nhân thọ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6512",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Bảo hiểm phi nhân thọ",
+   "name2025": "Bảo hiểm phi nhân thọ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6612",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Môi giới hợp đồng hàng hoá và chứng khoán",
+   "name2025": "Môi giới hợp đồng hàng hóa và chứng khoán",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6619",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động hỗ trợ dịch vụ tài chính chưa được phân vào đâu",
+   "name2025": "Hoạt động hỗ trợ dịch vụ tài chính chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6621",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đánh giá rủi ro và thiệt hại",
+   "name2025": "Đánh giá rủi ro và thiệt hại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6622",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của đại lý và môi giới bảo hiểm",
+   "name2025": "Hoạt động của đại lý và môi giới bảo hiểm",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6629",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động hỗ trợ khác cho bảo hiểm và bảo hiểm xã hội",
+   "name2025": "Hoạt động hỗ trợ khác cho bảo hiểm và quỹ hưu trí",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "6630",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động quản lý quỹ",
+   "name2025": "Hoạt động quản lý quỹ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6810",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Kinh doanh bất động sản, quyền sử dụng đất thuộc chủ sở hữu, chủ sử dụng hoặc đi thuê",
+   "name2025": "Kinh doanh bất động sản, quyền sử dụng đất thuộc chủ sở hữu, chủ sử dụng hoặc đi thuê",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6820",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Tư vấn, môi giới, đấu giá bất động sản, đấu giá quyền sử dụng đất",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "6910",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động pháp luật",
+   "name2025": "Hoạt động pháp luật",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "6920",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động liên quan đến kế toán, kiểm toán và tư vấn về thuế",
+   "name2025": "Hoạt động liên quan đến kế toán, kiểm toán và tư vấn về thuế",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7010",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của trụ sở văn phòng",
+   "name2025": "Hoạt động của trụ sở văn phòng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7020",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động tư vấn quản lý",
+   "name2025": "Hoạt động tư vấn quản lý kinh doanh và hoạt động tư vấn quản lý khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "7110",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động kiến trúc và tư vấn kỹ thuật có liên quan",
+   "name2025": "Hoạt động kiến trúc và tư vấn kỹ thuật có liên quan",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7120",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Kiểm tra và phân tích kỹ thuật",
+   "name2025": "Kiểm tra và phân tích kỹ thuật",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7210",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Nghiên cứu và phát triển thực nghiệm khoa học tự nhiên và kỹ thuật",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "7211",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học tự nhiên",
+   "name2025": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học tự nhiên",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7212",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học kỹ thuật và công nghệ",
+   "name2025": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học kỹ thuật và công nghệ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7213",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học y, dược",
+   "name2025": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học y, dược",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7214",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học nông nghiệp",
+   "name2025": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học nông nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7220",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Nghiên cứu và phát triển thực nghiệm khoa học xã hội và nhân văn",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "7221",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học xã hội",
+   "name2025": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học xã hội",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7222",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học nhân văn",
+   "name2025": "Nghiên cứu khoa học và phát triển công nghệ trong lĩnh vực khoa học nhân văn",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7310",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Quảng cáo",
+   "name2025": "Quảng cáo",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "73100",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Quảng cáo",
+   "name2025": "Quảng cáo",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7320",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu thị trường và thăm dò dư luận",
+   "name2025": "Nghiên cứu thị trường và thăm dò dư luận",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "73200",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Nghiên cứu thị trường và thăm dò dư luận-;Đối với ngành nghề kinh doanh có điều kiện, Doanh nghiệp chỉ được kinh doanh khi có đủ điều kiện theo quy định của pháp luật",
+   "name2025": "Nghiên cứu thị trường và thăm dò dư luận",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "7410",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động thiết kế chuyên dụng",
+   "name2025": "Hoạt động thiết kế chuyên dụng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7420",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động nhiếp ảnh",
+   "name2025": "Hoạt động nhiếp ảnh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "74200",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động nhiếp ảnh",
+   "name2025": "Hoạt động nhiếp ảnh",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7490",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động chuyên môn, khoa học và công nghệ khác chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "7500",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động thú y",
+   "name2025": "Hoạt động thú y",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7710",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê xe có động cơ",
+   "name2025": "Cho thuê xe có động cơ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "77101",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê ôtô",
+   "name2025": "Cho thuê ô tô",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "7721",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê thiết bị thể thao, vui chơi giải trí",
+   "name2025": "Cho thuê thiết bị thể thao, vui chơi giải trí",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7722",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Cho thuê băng, đĩa video",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "7729",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê đồ dùng cá nhân và gia đình khác",
+   "name2025": "Cho thuê đồ dùng cá nhân và gia đình khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7730",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê máy móc, thiết bị và đồ dùng hữu hình khác không kèm người điều khiển",
+   "name2025": "Cho thuê máy móc, thiết bị và đồ dùng hữu hình khác không kèm người điều khiển",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "77303",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê máy móc, thiết bị văn phòng (kể cả máy vi tính)",
+   "name2025": "Cho thuê máy móc, thiết bị văn phòng (kể cả máy tính) không kèm người điều khiển",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "77309",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê máy móc, thiết bị và đồ dùng hữu hình khác chưa được phân vào đâu-;Doanh nghiệp phải thực hiện đúng các quy định của pháp luật về đất đai, xây dựng, phòng cháy chữa cháy, bảo vệ môi trường, các quy định khác của pháp luật hiện hành và các điều kiện kinh doanh đối với ngành nghề kinh doanh có điều kiện",
+   "name2025": "Cho thuê máy móc, thiết bị và đồ dùng hữu hình khác không kèm người điều khiển chưa được phân vào đâu",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "7740",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Cho thuê tài sản vô hình phi tài chính",
+   "name2025": "Cho thuê tài sản vô hình phi tài chính",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7810",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các trung tâm, đại lý tư vấn, giới thiệu và môi giới lao động, việc làm",
+   "name2025": "Hoạt động của các trung tâm giới thiệu việc làm",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "7820",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Cung ứng lao động tạm thời",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "7830",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Cung ứng và quản lý nguồn lao động",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "7911",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đại lý du lịch",
+   "name2025": "Đại lý lữ hành",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "79110",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đại lý du lịch",
+   "name2025": "Đại lý lữ hành",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "7912",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Điều hành tua du lịch",
+   "name2025": "Điều hành tua du lịch",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "7920",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Dịch vụ hỗ trợ liên quan đến quảng bá và tổ chức tua du lịch",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "7990",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ đặt chỗ và các dịch vụ hỗ trợ liên quan đến quảng bá và tổ chức tua du lịch",
+   "name2025": "Hoạt động liên quan đến du lịch khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8010",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động bảo vệ cá nhân",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8020",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Dịch vụ hệ thống bảo đảm an toàn",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8030",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Dịch vụ điều tra",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8110",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ hỗ trợ tổng hợp",
+   "name2025": "Dịch vụ hỗ trợ tổng hợp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8121",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vệ sinh chung nhà cửa",
+   "name2025": "Vệ sinh chung nhà cửa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8129",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Vệ sinh công nghiệp và các công trình chuyên biệt",
+   "name2025": "Dịch vụ vệ sinh khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8130",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ chăm sóc và duy trì cảnh quan",
+   "name2025": "Dịch vụ cảnh quan",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8211",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Dịch vụ hành chính văn phòng tổng hợp",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8219",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Photo, chuẩn bị tài liệu và các hoạt động hỗ trợ văn phòng đặc biệt khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "82191",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Photo, chuẩn bị tài liệu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8220",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ liên quan đến các cuộc gọi",
+   "name2025": "Hoạt động dịch vụ liên quan đến các cuộc gọi",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8230",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Tổ chức giới thiệu và xúc tiến thương mại",
+   "name2025": "Tổ chức giới thiệu và xúc tiến thương mại",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8291",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ thanh toán, tín dụng",
+   "name2025": "Hoạt động dịch vụ hỗ trợ thanh toán, tín dụng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8292",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ đóng gói",
+   "name2025": "Dịch vụ đóng gói",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8299",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động dịch vụ hỗ trợ kinh doanh khác còn lại chưa được phân vào đâu",
+   "name2025": "Hoạt động dịch vụ hỗ trợ kinh doanh khác còn lại chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8412",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động quản lý nhà nước trong các lĩnh vực y tế, giáo dục, văn hoá và các dịch vụ xã hội khác (trừ bảo đảm xã hội bắt buộc)",
+   "name2025": "Hoạt động quản lý nhà nước trong các lĩnh vực y tế, giáo dục, văn hóa và các dịch vụ xã hội khác (trừ môi trường và bảo đảm xã hội bắt buộc)",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8413",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động quản lý nhà nước trong các lĩnh vực kinh tế chuyên ngành",
+   "name2025": "Hoạt động quản lý nhà nước trong lĩnh vực môi trường",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8423",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động an ninh, trật tự an toàn xã hội",
+   "name2025": "Hoạt động an ninh, trật tự an toàn xã hội",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8510",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Giáo dục mầm non",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "8511",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục nhà trẻ",
+   "name2025": "Giáo dục nhà trẻ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8512",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục mẫu giáo",
+   "name2025": "Giáo dục mẫu giáo",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8520",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "Giáo dục tiểu học",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "8521",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục tiểu học",
+   "name2025": "Giáo dục tiểu học",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8522",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục trung học cơ sở",
+   "name2025": "Giáo dục trung học cơ sở",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8523",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục trung học phổ thông",
+   "name2025": "Giáo dục trung học phổ thông",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8531",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đào tạo sơ cấp",
+   "name2025": "Đào tạo sơ cấp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8532",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục nghề nghiệp",
+   "name2025": "Đào tạo trung cấp",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8533",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đào tạo cao đẳng",
+   "name2025": "Đào tạo cao đẳng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8541",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đào tạo cao đẳng",
+   "name2025": "Đào tạo đại học",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8542",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đào tạo đại học và sau đại học",
+   "name2025": "Đào tạo thạc sỹ",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8543",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Đào tạo tiến sỹ",
+   "name2025": "Đào tạo tiến sỹ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8551",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục thể thao và giải trí",
+   "name2025": "Giáo dục thể thao và giải trí",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8552",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục văn hoá nghệ thuật",
+   "name2025": "Giáo dục văn hóa nghệ thuật",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8559",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Giáo dục khác chưa được phân vào đâu",
+   "name2025": "Giáo dục khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8560",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Dịch vụ hỗ trợ giáo dục",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8610",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các bệnh viện, trạm xá",
+   "name2025": "Hoạt động của các bệnh viện, trạm y tế",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8620",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các phòng khám đa khoa, chuyên khoa và nha khoa",
+   "name2025": "Hoạt động của các phòng khám đa khoa, chuyên khoa và nha khoa",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8672",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "việc cung cấp dịch vụ liên quan đến khảo sát địa hình, địa chất công trình, địa chất thủy văn, khảo sát môi trường, khảo sát kỹ thuật phục vụ quy hoạch phát triển đô thị - nông thôn, quy hoạch phát triển ngành phải được Chính phủ Việt Nam cho phép. Đối với các trường hợp phải cấp Giấy phép kinh doanh để thực hiện hoạt động mua bán hàng hóa và các hoạt động liên quan trực tiếp đến mua bán hàng hóa theo quy định tại Khoản 1 Điều 5 Nghị định số 09/2018/NĐ-CP ngày 15 tháng 01 năm 2018 của Chính phủ về việc quy định chi tiết Luật Thương mại và Luật Quản lý ngoại thương về hoạt động mua bán hàng hóa và các hoạt động liên quan trực tiếp đến mua bán hàng hóa của nhà đầu tư nước ngoài, tổ chức kinh tế có vốn đầu tư nước ngoài tại Việt Nam, tổ chức kinh tế thực hiện dự án đầu tư có trách nhiệm liên hệ Sở Công Thương để thực hiện thủ tục cấp Giấy phép kinh doanh, Giấy phép lập cơ sở bán lẻ (nếu có) theo đúng quy định (trừ các trường hợp không phải cấp Giấy phép kinh doanh quy định tại Điều 6 Nghị định số 09/2018/NĐ-CP). Đối với các trường hợp phải cấp Giấy phép kinh doanh để thực hiện hoạt động mua bán hàng hóa và các hoạt động liên quan trực tiếp đến mua bán hàng hóa theo quy định tại Nghị định số 09/2018/NĐ-CP ngày 15 tháng 01 năm 2018 của Chính phủ về việc quy định chi tiết Luật Thương mại và Luật Quản lý ngoại thương về hoạt động mua bán hàng hóa và các hoạt động liên quan trực tiếp đến mua bán hàng hóa của nhà đầu tư nước ngoài, tổ chức kinh tế có vốn đầu tư nước ngoài tại Việt Nam, Tổ chức kinh tế thực hiện dự án đầu tư có trách nhiệm liên hệ Sở Công Thương để thực hiện thủ tục cấp Giấy phép kinh doanh, Giấy phép lập cơ sở bán lẻ (nếu có) theo đúng quy định trước khi hoạt động kinh doanh (trừ các trường hợp không phải cấp Giấy phép kinh doanh quy định tại Điều 6, Điều 50 Nghị định số 09/2018/NĐ-CP)",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "86753",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "việc cung cấp các dịch vụ liên quan đến đánh giá trữ lượng, khảo sát, thăm dò và khai thác phải tuân thủ quy định và pháp luật hiện hành của Việt Nam. Đối với ngành nghề: \"Dịch vụ phân tích và kiểm định kỹ thuật \": ngoại trừ việc kiểm định và cấp giấy chứng nhận cho phương tiện vận tải./",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "8691",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động y tế dự phòng",
+   "name2025": "Hoạt động dịch vụ trung gian cho các dịch vụ y tế, nha khoa và dịch vụ y tế khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8692",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của hệ thống cơ sở chỉnh hình, phục hồi chức năng",
+   "name2025": "Hoạt động y tế dự phòng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8699",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động y tế khác chưa được phân vào đâu",
+   "name2025": "Hoạt động y tế khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8710",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các cơ sở nuôi dưỡng, điều dưỡng",
+   "name2025": "Hoạt động của các cơ sở nuôi dưỡng, điều dưỡng",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8720",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động chăm sóc sức khoẻ người bị thiểu năng, tâm thần và người nghiện",
+   "name2025": "Hoạt động chăm sóc sức khoẻ người khuyết tật trí tuệ, thần kinh, tâm thần và người nghiện",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8730",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động chăm sóc sức khoẻ người có công, người già và người khuyết tật không có khả năng tự chăm sóc",
+   "name2025": "Hoạt động chăm sóc sức khoẻ người có công, người già và người khuyết tật không có khả năng tự chăm sóc",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "8790",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động chăm sóc tập trung khác",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "8810",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động trợ giúp xã hội không tập trung đối với người có công, thương bệnh binh, người già và người tàn tật",
+   "name2025": "Hoạt động trợ giúp xã hội không tập trung đối với người có công, thương bệnh binh, người già và người khuyết tật",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "8890",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động trợ giúp xã hội không tập trung khác",
+   "name2025": "Hoạt động trợ giúp xã hội không tập trung khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9000",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động sáng tác, nghệ thuật và giải trí",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9101",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động thư viện và lưu trữ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9102",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động bảo tồn, bảo tàng",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9103",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động của các vườn bách thảo, bách thú và khu bảo tồn tự nhiên",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9200",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động xổ số, cá cược và đánh bạc",
+   "name2025": "Hoạt động xổ số, cá cược và đánh bạc",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9311",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các cơ sở thể thao",
+   "name2025": "Hoạt động của các cơ sở thể thao",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9312",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các câu lạc bộ thể thao",
+   "name2025": "Hoạt động của các câu lạc bộ thể thao",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9319",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động thể thao khác",
+   "name2025": "Hoạt động thể thao khác",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9321",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các công viên vui chơi và công viên theo chủ đề",
+   "name2025": "Hoạt động của các công viên vui chơi và công viên theo chủ đề",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9329",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động vui chơi giải trí khác chưa được phân vào đâu",
+   "name2025": "Hoạt động vui chơi giải trí khác",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9402",
+   "existsIn2018": "unverified",
+   "existsIn2025": false,
+   "name2018": "tổ chức kinh tế phải chấp hành các quy định của pháp luật hiện hành về bảo vệ môi trường . Vì lý do an ninh quốc gia, việc tiếp cận một số khu vực địa lý có thể bị hạn chế. Để bảo đảm phúc lợi công cộng, các công ty có vốn đầu tư nước ngoài không được thu gom rác trực tiếp từ các hộ gia đình. Tổ chức kinh tế chỉ được phép cung cấp dịch vụ tại các điểm thu gom rác thải do chính quyền địa phương cấp tỉnh và thành phố chỉ định Đối với các ngành nghề thuộc hoạt động “ Sửa chữa máy móc , thiết bị ” – CPC 633 : tổ chức kinh tế không được thực hiện hoạt động sửa chữa , bảo dưỡng tàu biển , máy bay , hoặc các phương tiện và thiết bị vận tải khác Đối với ngành nghề “ Hoạt động kiến trúc và tư vấn kỹ thuật có liên quan ” thuộc CPC 8671",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "unknown"
+  },
+  {
+   "code": "9411",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các hiệp hội kinh doanh và nghiệp chủ",
+   "name2025": "Hoạt động của các hiệp hội kinh doanh và nghiệp chủ",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9412",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các hội nghề nghiệp",
+   "name2025": "Hoạt động của các hội nghề nghiệp",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9499",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động của các tổ chức khác chưa được phân vào đâu",
+   "name2025": "Hoạt động của các tổ chức khác chưa được phân vào đâu",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9511",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sửa chữa máy vi tính và thiết bị ngoại vi",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "95110",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sửa chữa máy vi tính và thiết bị ngoại vi",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9512",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sửa chữa thiết bị liên lạc",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "95120",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Sửa chữa thiết bị liên lạc",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9521",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa thiết bị nghe nhìn điện tử gia dụng",
+   "name2025": "Sửa chữa, bảo dưỡng thiết bị nghe nhìn điện tử gia dụng",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9522",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa thiết bị, đồ dùng gia đình",
+   "name2025": "Sửa chữa, bảo dưỡng thiết bị, đồ dùng gia đình",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9523",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa giày, dép, hàng da và giả da",
+   "name2025": "Sửa chữa, bảo dưỡng giày, dép, hàng da và giả da",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9524",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa giường, tủ, bàn, ghế và đồ nội thất tương tự",
+   "name2025": "Sửa chữa, bảo dưỡng giường, tủ, bàn, ghế và đồ nội thất tương tự",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9529",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Sửa chữa xe đạp, đồng hồ, đồ dùng cá nhân và gia đình khác chưa được phân vào đâu",
+   "name2025": "Sửa chữa, bảo dưỡng xe đạp, đồng hồ, đồ dùng cá nhân và gia đình khác chưa được phân vào đâu",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9610",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ tắm hơi, massage và các dịch vụ tăng cường sức khoẻ tương tự (trừ hoạt động thể thao)",
+   "name2025": "Giặt là, làm sạch các sản phẩm dệt và lông thú",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "96100",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Dịch vụ tắm hơi, massage và các dịch vụ tăng cường sức khoẻ tương tự (trừ hoạt động thể thao)",
+   "name2025": "Giặt là, làm sạch các sản phẩm dệt và lông thú",
+   "sameMeaning": "unknown",
+   "status": "name-differs-in-2025"
+  },
+  {
+   "code": "9620",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Giặt là, làm sạch các sản phẩm dệt và lông thú",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9631",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Cắt tóc, làm đầu, gội đầu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9632",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động dịch vụ phục vụ tang lễ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9633",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động dịch vụ phục vụ hôn lễ",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9639",
+   "existsIn2018": true,
+   "existsIn2025": false,
+   "name2018": "Hoạt động dịch vụ phục vụ cá nhân khác còn lại chưa được phân vào đâu",
+   "name2025": null,
+   "sameMeaning": "unknown",
+   "status": "absent-in-2025"
+  },
+  {
+   "code": "9700",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động làm thuê công việc gia đình trong các hộ gia đình",
+   "name2025": "Hoạt động làm thuê công việc gia đình trong các hộ gia đình",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9810",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động sản xuất các sản phẩm vật chất tự tiêu dùng của hộ gia đình",
+   "name2025": "Hoạt động sản xuất các sản phẩm vật chất tự tiêu dùng của hộ gia đình",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  },
+  {
+   "code": "9820",
+   "existsIn2018": true,
+   "existsIn2025": true,
+   "name2018": "Hoạt động sản xuất các sản phẩm dịch vụ tự tiêu dùng của hộ gia đình",
+   "name2025": "Hoạt động sản xuất các sản phẩm dịch vụ tự tiêu dùng của hộ gia đình",
+   "sameMeaning": "name-equal (scope unverified)",
+   "status": "same-name-in-2025"
+  }
+ ]
+}

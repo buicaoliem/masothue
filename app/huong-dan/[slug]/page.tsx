@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { findGuide, GUIDES } from "@/lib/guides";
 import { articleJsonLd } from "@/lib/seo/jsonld";
 import { buildGuideMetadata } from "@/lib/seo/metadata";
+import { describeLegalSource, legalVerifiedAt } from "@/lib/legal/sources";
 import { guidePath } from "@/lib/seo/urls";
 import { REL_EXTERNAL_INFO } from "@/lib/relAttrs";
 import { Breadcrumb } from "../../components/Breadcrumb";
@@ -84,19 +85,37 @@ export default async function GuidePage({ params }: Props) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Nguồn tham khảo</h2>
           <ul>
-            {g.sources.map((src) => (
-              <li key={src.label}>
-                {!src.url ? (
-                  src.label
-                ) : src.url.startsWith("/") ? (
-                  <Link href={src.url}>{src.label}</Link>
-                ) : (
-                  <a href={src.url} target="_blank" rel={REL_EXTERNAL_INFO}>
-                    {src.label}
-                  </a>
-                )}
-              </li>
-            ))}
+            {g.sources.map((src) => {
+              if (src.legal) {
+                const v = describeLegalSource(src.legal);
+                return (
+                  <li key={src.legal}>
+                    <a href={v.url} target="_blank" rel={REL_EXTERNAL_INFO}>
+                      {v.label}
+                    </a>{" "}
+                    <span style={{ color: "var(--muted)" }}>
+                      ({v.issuer}; {v.meta})
+                    </span>
+                    {src.note ? <> — {src.note}.</> : null}{" "}
+                    <strong style={v.expired ? { color: "var(--danger, #b3261e)" } : undefined}>{v.statusLabel}.</strong>{" "}
+                    <span style={{ color: "var(--muted)" }}>Đối chiếu với văn bản chính thức ngày {legalVerifiedAt(src.legal)}.</span>
+                  </li>
+                );
+              }
+              return (
+                <li key={src.label}>
+                  {!src.url ? (
+                    src.label
+                  ) : src.url.startsWith("/") ? (
+                    <Link href={src.url}>{src.label}</Link>
+                  ) : (
+                    <a href={src.url} target="_blank" rel={REL_EXTERNAL_INFO}>
+                      {src.label}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}

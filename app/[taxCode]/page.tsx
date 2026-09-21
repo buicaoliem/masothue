@@ -409,6 +409,7 @@ export default async function CompanyPage({ params }: Props) {
                 <p className={dirStyles.note}>Và {otherIndustries.length - shownOtherIndustries.length} ngành khác theo đăng ký.</p>
               )}
               {!primaryIndustry && <p className={dirStyles.note}>Nguồn dữ liệu không cho biết ngành chính của doanh nghiệp này.</p>}
+              <p className={dirStyles.note}>Mã ngành theo Hệ thống ngành kinh tế 2018 như nguồn công bố; hệ hiện hành từ 15/11/2025 là Quyết định 36/2025/QĐ-TTg.</p>
             </section>
           )}
 

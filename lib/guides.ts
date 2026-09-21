@@ -4,10 +4,13 @@
 //
 // `published`/`modified` are real editorial dates. Bump `modified` only when the text actually changes.
 
+import type { LegalSourceKey } from "./legal/sources";
+
 export type GuideTable = { caption: string; head: string[]; rows: string[][] };
 /** A table cell that is a site path ("/trang-thai/tam-ngung") renders as an internal link. */
 export type GuideSection = { heading: string; paragraphs: string[]; table?: GuideTable };
-export type GuideSource = { label: string; /** external https URL, or a site path; omit for a citation without a link (e.g. a legal document) */ url?: string };
+/** A plain citation/link, or a legal document by key from lib/legal/sources.ts (never hardcode a legal citation in a guide). */
+export type GuideSource = { label: string; /** external https URL, or a site path */ url?: string; legal?: undefined } | { legal: LegalSourceKey; /** what this guide relies on it for, e.g. "Điều 8" */ note?: string; label?: undefined; url?: undefined };
 
 export type Guide = {
   slug: string;
@@ -32,7 +35,7 @@ export const GUIDES: readonly Guide[] = [
     description: "Mã số thuế (MST) là dãy số định danh người nộp thuế. Cách đọc MST 10 số, 13 số và cách tra cứu thông tin doanh nghiệp theo MST.",
     published: "2026-09-21",
     modified: "2026-09-21",
-    intro: "Mã số thuế (MST) là dãy số do cơ quan thuế cấp để định danh người nộp thuế và quản lý thuế. Với doanh nghiệp, đây cũng là mã số doanh nghiệp.",
+    intro: "Mã số thuế (MST) là dãy số dùng để định danh người nộp thuế và quản lý thuế. Với doanh nghiệp, mã số doanh nghiệp đồng thời là mã số thuế.",
     sections: [
       {
         heading: "Mã số thuế dùng để làm gì",
@@ -43,7 +46,7 @@ export const GUIDES: readonly Guide[] = [
       {
         heading: "Mã số thuế 10 số và 13 số",
         paragraphs: [
-          "MST 10 số cấp cho doanh nghiệp, tổ chức và cá nhân. MST 13 số (10 số, dấu gạch ngang, 3 số) cấp cho đơn vị phụ thuộc như chi nhánh, văn phòng đại diện hay địa điểm kinh doanh; 10 số đầu là mã số thuế của đơn vị chủ quản, 3 số cuối là số thứ tự của đơn vị phụ thuộc.",
+          "MST 10 số cấp cho doanh nghiệp, tổ chức và cá nhân. MST 13 số (10 số, dấu gạch ngang, 3 số) cấp cho đơn vị phụ thuộc như chi nhánh, văn phòng đại diện; 10 số đầu là mã số thuế của doanh nghiệp chủ quản, 3 số cuối là số thứ tự của đơn vị phụ thuộc. Địa điểm kinh doanh có mã số riêng gồm 5 chữ số và không phải mã số thuế.",
           "Chữ số thứ 10 là chữ số kiểm tra, tính từ 9 số đứng trước theo công thức quy định. Bạn có thể dùng công cụ kiểm tra bên dưới để biết một mã số thuế có đúng cấu trúc hay không.",
         ],
       },
@@ -53,6 +56,10 @@ export const GUIDES: readonly Guide[] = [
           "Nhập mã số thuế vào ô tìm kiếm ở trang chủ để mở hồ sơ doanh nghiệp: tên, địa chỉ, người đại diện, ngành nghề và tình trạng hoạt động. Dữ liệu trên masothuedn.com lấy từ nguồn công khai và có thể chậm hơn so với thay đổi mới nhất; khi cần số liệu chính thức, hãy đối chiếu với cổng thông tin của cơ quan thuế.",
         ],
       },
+    ],
+    sources: [
+      { legal: "businessRegistration2025", note: "Điều 8: mã số doanh nghiệp, mã số đơn vị phụ thuộc, mã số địa điểm kinh doanh" },
+      { label: "Tra cứu thông tin người nộp thuế, Tổng cục Thuế", url: "https://tracuunnt.gdt.gov.vn" },
     ],
     related: [
       { href: "/cong-cu/kiem-tra-ma-so-thue", label: "Công cụ kiểm tra mã số thuế" },
@@ -64,7 +71,7 @@ export const GUIDES: readonly Guide[] = [
   {
     slug: "mst-10-so-va-13-so",
     title: "Mã số thuế 10 số và 13 số khác nhau thế nào?",
-    description: "Phân biệt MST 10 số của doanh nghiệp và MST 13 số của chi nhánh, văn phòng đại diện, địa điểm kinh doanh; cách đọc và kiểm tra hợp lệ.",
+    description: "Phân biệt MST 10 số của doanh nghiệp và MST 13 số của chi nhánh, văn phòng đại diện; cách đọc và kiểm tra hợp lệ.",
     published: "2026-09-21",
     modified: "2026-09-21",
     intro: "Nhìn vào độ dài, có thể biết mã số thuế thuộc doanh nghiệp hay thuộc một đơn vị phụ thuộc của doanh nghiệp đó.",
@@ -78,7 +85,7 @@ export const GUIDES: readonly Guide[] = [
       {
         heading: "MST 13 số",
         paragraphs: [
-          "Có dạng XXXXXXXXXX-YYY. Phần XXXXXXXXXX là mã số thuế của đơn vị chủ quản, phần YYY là số thứ tự của đơn vị phụ thuộc như chi nhánh, văn phòng đại diện, địa điểm kinh doanh. Trên masothuedn.com, mã 13 số được tra cứu riêng bằng đúng mã đó.",
+          "Có dạng XXXXXXXXXX-YYY. Phần XXXXXXXXXX là mã số thuế của đơn vị chủ quản, phần YYY là số thứ tự của đơn vị phụ thuộc như chi nhánh, văn phòng đại diện. Địa điểm kinh doanh không có MST 13 số: theo Nghị định 168/2025/NĐ-CP, địa điểm kinh doanh có mã số riêng gồm 5 chữ số và đó không phải mã số thuế. Trên masothuedn.com, mã 13 số được tra cứu riêng bằng đúng mã đó.",
         ],
       },
       {
@@ -86,6 +93,7 @@ export const GUIDES: readonly Guide[] = [
         paragraphs: ["Công cụ kiểm tra mã số thuế xác thực độ dài và chữ số kiểm tra của phần 10 số đầu. Một mã đúng cấu trúc chưa chắc đã tồn tại: cần tra cứu để biết doanh nghiệp có trong dữ liệu hay không."],
       },
     ],
+    sources: [{ legal: "businessRegistration2025", note: "Điều 8: mã số đơn vị phụ thuộc, mã số địa điểm kinh doanh" }],
     related: [
       { href: "/cong-cu/kiem-tra-ma-so-thue", label: "Kiểm tra mã số thuế" },
       { href: "/huong-dan/ma-so-thue-la-gi", label: "Mã số thuế là gì" },
@@ -124,22 +132,22 @@ export const GUIDES: readonly Guide[] = [
   {
     slug: "ma-so-doanh-nghiep-co-phai-ma-so-thue",
     title: "Mã số doanh nghiệp có phải là mã số thuế không?",
-    description: "Có: với doanh nghiệp, mã số doanh nghiệp ghi trên giấy chứng nhận đăng ký doanh nghiệp cũng dùng làm mã số thuế. Chi nhánh và đơn vị phụ thuộc có mã 13 số riêng.",
+    description: "Có: với doanh nghiệp, mã số doanh nghiệp ghi trên giấy chứng nhận đăng ký doanh nghiệp cũng dùng làm mã số thuế. Chi nhánh, văn phòng đại diện có mã 13 số riêng.",
     published: "2026-09-21",
     modified: "2026-09-21",
-    answer: "Có. Doanh nghiệp được cấp một mã số duy nhất khi thành lập; mã đó là mã số doanh nghiệp và cũng được dùng để thực hiện nghĩa vụ thuế, nên tra cứu bằng mã số doanh nghiệp hay mã số thuế đều ra cùng một hồ sơ.",
+    answer: "Có. Theo Nghị định 168/2025/NĐ-CP, mỗi doanh nghiệp được cấp một mã số duy nhất gọi là mã số doanh nghiệp, đồng thời là mã số thuế của doanh nghiệp; vì vậy tra cứu bằng mã số doanh nghiệp hay mã số thuế đều ra cùng một hồ sơ.",
     intro: "Nhiều người thấy hai cụm từ trên giấy tờ và hóa đơn nên nghĩ đó là hai dãy số khác nhau. Với doanh nghiệp thì không phải vậy.",
     sections: [
       {
         heading: "Một dãy số, hai cách gọi",
         paragraphs: [
-          "Khi đăng ký thành lập, doanh nghiệp được cấp mã số doanh nghiệp ghi trên giấy chứng nhận đăng ký doanh nghiệp. Mã này tồn tại trong suốt quá trình hoạt động và không cấp lại cho tổ chức khác. Cơ quan thuế dùng chính mã đó làm mã số thuế của doanh nghiệp, vì vậy trên hóa đơn, tờ khai và hợp đồng bạn sẽ thấy hai tên gọi cho cùng một số.",
+          "Khi đăng ký thành lập, doanh nghiệp được cấp mã số doanh nghiệp ghi trên giấy chứng nhận đăng ký doanh nghiệp. Mã này tồn tại trong suốt quá trình hoạt động và không cấp lại cho tổ chức khác. Theo Điều 8 Nghị định 168/2025/NĐ-CP, mã số doanh nghiệp đồng thời là mã số thuế của doanh nghiệp, vì vậy trên hóa đơn, tờ khai và hợp đồng bạn sẽ thấy hai tên gọi cho cùng một số.",
         ],
       },
       {
         heading: "Khi nào có hơn một mã",
         paragraphs: [
-          "Chi nhánh, văn phòng đại diện và địa điểm kinh doanh là đơn vị phụ thuộc, có mã số thuế 13 số dạng XXXXXXXXXX-YYY: 10 số đầu là mã của doanh nghiệp chủ quản, 3 số cuối là số thứ tự của đơn vị phụ thuộc. Hộ kinh doanh và cá nhân có mã số thuế theo quy định riêng, không phải mã số doanh nghiệp.",
+          "Chi nhánh và văn phòng đại diện là đơn vị phụ thuộc, có mã số đơn vị phụ thuộc đồng thời là mã số thuế, dạng 13 số XXXXXXXXXX-YYY: 10 số đầu là mã của doanh nghiệp chủ quản, 3 số cuối là số thứ tự của đơn vị phụ thuộc. Địa điểm kinh doanh có mã số riêng gồm 5 chữ số, không phải mã số thuế. Hộ kinh doanh và cá nhân không phải doanh nghiệp nên không có mã số doanh nghiệp; mã số thuế của họ theo quy định về đăng ký thuế.",
         ],
       },
       {
@@ -150,8 +158,10 @@ export const GUIDES: readonly Guide[] = [
       },
     ],
     sources: [
-      { label: "Luật Doanh nghiệp số 59/2020/QH14 (quy định về mã số doanh nghiệp)" },
-      { label: "Nghị định 01/2021/NĐ-CP về đăng ký doanh nghiệp" },
+      { legal: "businessRegistration2025", note: "Điều 8: mã số doanh nghiệp là mã số thuế; mã số đơn vị phụ thuộc; mã số địa điểm kinh doanh" },
+      { legal: "enterpriseLaw2020", note: "khung pháp lý về doanh nghiệp; chi tiết mã số nằm ở nghị định về đăng ký doanh nghiệp" },
+      { legal: "enterpriseLawAmendment2025", note: "sửa đổi, bổ sung Luật Doanh nghiệp 2020" },
+      { legal: "businessRegistration2021", note: "chỉ nêu để phân biệt: không còn là căn cứ áp dụng" },
       { label: "Cổng thông tin đăng ký doanh nghiệp quốc gia", url: "https://dangkykinhdoanh.gov.vn" },
       { label: "Tra cứu thông tin người nộp thuế, Tổng cục Thuế", url: "https://tracuunnt.gdt.gov.vn" },
     ],
@@ -216,26 +226,32 @@ export const GUIDES: readonly Guide[] = [
   {
     slug: "ma-nganh-kinh-te-la-gi",
     title: "Mã ngành kinh tế (VSIC) là gì? Cấu trúc và cách đọc",
-    description: "Mã ngành kinh tế Việt Nam (VSIC 2018) gồm 5 cấp; doanh nghiệp đăng ký ngành nghề kinh doanh theo mã 4 số hoặc 5 số. Cách đọc mã ngành và tra doanh nghiệp theo mã ngành.",
+    description: "Hệ thống ngành kinh tế Việt Nam theo Quyết định 36/2025/QĐ-TTg gồm 5 cấp, 22 ngành cấp 1 (A đến V). Cách đọc mã ngành, điểm khác so với hệ 2018 và cách tra doanh nghiệp theo mã ngành.",
     published: "2026-09-21",
     modified: "2026-09-21",
-    answer: "Mã ngành kinh tế là dãy số phân loại hoạt động kinh tế theo Hệ thống ngành kinh tế Việt Nam (VSIC 2018). Doanh nghiệp đăng ký ngành nghề kinh doanh bằng các mã này, thường ở cấp 4 (4 số).",
-    intro: "Khi mở hồ sơ doanh nghiệp bạn sẽ gặp các mã như 4669 hay 6201 kèm tên ngành. Đó là mã trong hệ thống ngành kinh tế quốc gia.",
+    answer: "Mã ngành kinh tế là dãy số phân loại hoạt động kinh tế theo Hệ thống ngành kinh tế Việt Nam. Hệ thống hiện hành là Quyết định 36/2025/QĐ-TTg (hiệu lực từ 15/11/2025, thay Quyết định 27/2018/QĐ-TTg). Dữ liệu ngành trên masothuedn.com hiện vẫn theo mã của hệ 2018 như nguồn công bố, xem mục cuối bài.",
+    intro: "Khi mở hồ sơ doanh nghiệp bạn sẽ gặp các mã như 4669 hay 6201 kèm tên ngành. Đó là mã trong hệ thống ngành kinh tế quốc gia, nhưng cần biết mã đó thuộc phiên bản nào: hệ 2018 và hệ 2025 có nhiều mã khác nhau.",
     sections: [
       {
-        heading: "Cấu trúc năm cấp",
-        paragraphs: ["VSIC 2018 chia ngành thành năm cấp, càng xuống dưới càng chi tiết. Mã dài hơn luôn nằm trong mã ngắn hơn có cùng phần đầu."],
+        heading: "Cấu trúc năm cấp theo Quyết định 36/2025/QĐ-TTg",
+        paragraphs: ["Hệ thống hiện hành chia ngành thành năm cấp, càng xuống dưới càng chi tiết: 22 ngành cấp 1 (chữ cái A đến V), 87 ngành cấp 2, 259 ngành cấp 3, 495 ngành cấp 4 và 743 ngành cấp 5. Mã dài hơn nằm trong mã ngắn hơn có cùng phần đầu."],
         table: {
-          caption: "Các cấp của hệ thống ngành kinh tế Việt Nam",
+          caption: "Các cấp của hệ thống ngành kinh tế Việt Nam (Quyết định 36/2025/QĐ-TTg)",
           head: ["Cấp", "Cách ký hiệu", "Ví dụ"],
           rows: [
-            ["Cấp 1", "Một chữ cái (A đến U)", "J: Thông tin và truyền thông"],
-            ["Cấp 2", "2 chữ số", "62: Lập trình máy vi tính, tư vấn và các hoạt động khác liên quan đến máy vi tính"],
-            ["Cấp 3", "3 chữ số", "620"],
-            ["Cấp 4", "4 chữ số", "6201: Lập trình máy vi tính"],
-            ["Cấp 5", "5 chữ số", "Chi tiết hơn cấp 4 ở một số nhóm ngành"],
+            ["Cấp 1", "Một chữ cái (A đến V), 22 ngành", "K: Hoạt động viễn thông; lập trình máy tính, tư vấn, cơ sở hạ tầng máy tính và các dịch vụ thông tin khác"],
+            ["Cấp 2", "2 chữ số, 87 ngành", "62: Lập trình máy tính, dịch vụ tư vấn và các hoạt động liên quan"],
+            ["Cấp 3", "3 chữ số, 259 ngành", "621: Lập trình máy tính"],
+            ["Cấp 4", "4 chữ số, 495 ngành", "6219: Lập trình máy tính khác"],
+            ["Cấp 5", "5 chữ số, 743 ngành", "62190: Lập trình máy tính khác"],
           ],
         },
+      },
+      {
+        heading: "Khác gì so với hệ 2018",
+        paragraphs: [
+          "Quyết định 27/2018/QĐ-TTg (hệ 2018) có 21 ngành cấp 1 (A đến U), 88 ngành cấp 2, 242 ngành cấp 3, 486 ngành cấp 4 và 734 ngành cấp 5. Hệ 2025 thêm một ngành cấp 1, đổi tổ chức nhiều nhóm và không dùng lại một số mã cũ. Ví dụ mã 6201 (Lập trình máy vi tính) và 4669 (Bán buôn chuyên doanh khác chưa được phân vào đâu) của hệ 2018 không còn trong danh mục 2025. Có mã giữ nguyên số nhưng đổi tên hoặc đổi phạm vi, nên không thể chuyển đổi bằng cách so số mã.",
+        ],
       },
       {
         heading: "Cách đọc mã ngành trên hồ sơ doanh nghiệp",
@@ -244,13 +260,21 @@ export const GUIDES: readonly Guide[] = [
         ],
       },
       {
+        heading: "Mã ngành trong dữ liệu masothuedn.com theo hệ nào",
+        paragraphs: [
+          "Các nguồn dữ liệu mở mà chúng tôi dùng (TP. Hồ Chí Minh, Sơn La, Quảng Ngãi) không ghi rõ phiên bản hệ thống ngành. Đối chiếu nội dung cho thấy mã trong các nguồn này khớp hệ 2018: có mã chỉ tồn tại ở hệ 2018 và không thấy mã chỉ có ở hệ 2025. Vì vậy chúng tôi hiển thị mã và tên ngành đúng như nguồn công bố và không tự chuyển sang mã 2025. Khi cần đăng ký hoặc kê khai theo hệ hiện hành, hãy tra mã trong Quyết định 36/2025/QĐ-TTg.",
+        ],
+      },
+      {
         heading: "Tra doanh nghiệp theo mã ngành",
         paragraphs: ["Trang ngành nghề liệt kê các mã có nhiều doanh nghiệp trong dữ liệu; chọn một mã để xem doanh nghiệp đăng ký ngành đó và phân bố theo tỉnh, thành phố."],
       },
     ],
     sources: [
-      { label: "Quyết định 27/2018/QĐ-TTg về Hệ thống ngành kinh tế Việt Nam" },
+      { legal: "vsic2025", note: "Phụ lục I (danh mục) và Phụ lục II (nội dung ngành)" },
+      { legal: "vsic2018", note: "chỉ nêu để so sánh và để giải thích dữ liệu nguồn; không còn là hệ thống hiện hành" },
       { label: "Cổng thông tin đăng ký doanh nghiệp quốc gia", url: "https://dangkykinhdoanh.gov.vn" },
+      { label: "Nguồn dữ liệu của masothuedn.com", url: "/nguon-du-lieu" },
     ],
     related: [
       { href: "/nganh", label: "Tra cứu doanh nghiệp theo ngành nghề" },
@@ -268,6 +292,12 @@ export const GUIDES: readonly Guide[] = [
     answer: "Ngành nghề đăng ký là danh sách các ngành doanh nghiệp đã đăng ký kinh doanh, có thể rất dài. Ngành chính là một ngành trong danh sách đó mà nguồn dữ liệu nêu rõ; nếu nguồn không nêu, masothuedn.com ghi là chưa rõ thay vì đoán.",
     intro: "Hai khái niệm này hay bị nhầm khi xem hồ sơ doanh nghiệp hoặc trang thống kê theo ngành.",
     sections: [
+      {
+        heading: "Ba thuật ngữ hay bị lẫn",
+        paragraphs: [
+          "“Ngành, nghề kinh doanh” là cách gọi trong hồ sơ đăng ký doanh nghiệp: những ngành, nghề doanh nghiệp đăng ký, ghi bằng mã trong Hệ thống ngành kinh tế Việt Nam. “Ngành kinh tế” là mã và tên trong chính hệ thống đó (hiện hành là Quyết định 36/2025/QĐ-TTg). “Ngành chính” trên masothuedn.com chỉ là một trường của nguồn dữ liệu: khi nguồn đánh dấu một ngành là chính thì chúng tôi hiển thị, và chúng tôi không khẳng định đó là một loại ngành do pháp luật quy định riêng.",
+        ],
+      },
       {
         heading: "Khác biệt cơ bản",
         paragraphs: ["Đăng ký một ngành không có nghĩa doanh nghiệp đang hoạt động chính ở ngành đó. Nhiều doanh nghiệp đăng ký hàng chục mã ngành để có thể kinh doanh linh hoạt về sau."],
@@ -296,6 +326,7 @@ export const GUIDES: readonly Guide[] = [
       },
     ],
     sources: [
+      { legal: "vsic2025", note: "hệ thống ngành kinh tế hiện hành" },
       { label: "Nguồn dữ liệu của masothuedn.com", url: "/nguon-du-lieu" },
       { label: "Phương pháp dữ liệu", url: "/phuong-phap-du-lieu" },
     ],
@@ -330,11 +361,12 @@ export const GUIDES: readonly Guide[] = [
       {
         heading: "Lưu ý về độ đầy đủ",
         paragraphs: [
-          "Dữ liệu ngành phụ thuộc nguồn công khai của từng địa phương nên chưa phải mọi doanh nghiệp đều có. Hồ sơ nào chưa có dữ liệu ngành sẽ ghi “Chưa có dữ liệu”. Để có ngành nghề chính thức, hãy xem giấy chứng nhận đăng ký doanh nghiệp hoặc cổng đăng ký doanh nghiệp quốc gia.",
+          "Dữ liệu ngành phụ thuộc nguồn công khai của từng địa phương nên chưa phải mọi doanh nghiệp đều có. Hồ sơ nào chưa có dữ liệu ngành sẽ ghi “Chưa có dữ liệu”. Mã ngành hiển thị đúng như nguồn công bố, hiện theo hệ thống ngành 2018; hệ hiện hành từ 15/11/2025 là Quyết định 36/2025/QĐ-TTg và có mã khác. Để có ngành nghề chính thức, hãy xem giấy chứng nhận đăng ký doanh nghiệp hoặc cổng đăng ký doanh nghiệp quốc gia.",
         ],
       },
     ],
     sources: [
+      { legal: "vsic2025", note: "hệ thống ngành kinh tế hiện hành" },
       { label: "Cổng thông tin đăng ký doanh nghiệp quốc gia", url: "https://dangkykinhdoanh.gov.vn" },
       { label: "Nguồn dữ liệu của masothuedn.com", url: "/nguon-du-lieu" },
     ],

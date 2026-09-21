@@ -16,7 +16,7 @@ Trả lời nhanh; một dãy số hai cách gọi; khi nào có nhiều mã; ki
 Hồ sơ doanh nghiệp theo MST
 
 ## Sources required
-Luật Doanh nghiệp 59/2020/QH14; Nghị định 01/2021/NĐ-CP; dangkykinhdoanh.gov.vn; tracuunnt.gdt.gov.vn
+Luật Doanh nghiệp 59/2020/QH14 (sửa đổi bởi Luật 76/2025/QH15); Nghị định 168/2025/NĐ-CP Điều 8 (thay Nghị định 01/2021/NĐ-CP, đã hết hiệu lực từ 01/07/2025); dangkykinhdoanh.gov.vn; tracuunnt.gdt.gov.vn
 
 ## Potential cannibalization
 Không trùng: chỉ bài này trả lời trực tiếp câu hỏi so sánh hai tên gọi

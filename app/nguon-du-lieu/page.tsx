@@ -31,6 +31,12 @@ export default function DataSourcesPage() {
           ))}
         </ul>
         <p>Hồ sơ nào lấy từ tập dữ liệu mở đều ghi rõ nguồn và ngày dữ liệu ngay trên trang hồ sơ.</p>
+        <p>
+          <strong>Phiên bản mã ngành.</strong> Các tập dữ liệu mở này không ghi phiên bản hệ thống ngành. Đối chiếu nội dung, mã
+          ngành trong cả ba nguồn khớp Hệ thống ngành kinh tế 2018 (Quyết định 27/2018/QĐ-TTg): có mã chỉ tồn tại ở hệ 2018 và
+          không có mã chỉ tồn tại ở hệ 2025. Hệ thống hiện hành từ 15/11/2025 là Quyết định 36/2025/QĐ-TTg; chúng tôi giữ mã
+          đúng như nguồn công bố và chưa chuyển đổi sang hệ mới.
+        </p>
       </InfoSection>
       <InfoSection title="2. Hồ sơ do doanh nghiệp tự gửi (danh bạ)">
         <p>

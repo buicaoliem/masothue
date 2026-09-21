@@ -21,7 +21,7 @@ Consequences:
   the current row width) for ~189k companies. Not applied: storage budget and hub quality (catch-all codes such as
   4669 are held by most companies) need a decision first; see the report of this phase.
 - **Source of truth for industries** is `CompanyIndustry`; `Company.mainIndustry` is a display cache of the primary row
-  (`reconcileMainIndustry`). `IndustryCatalog` is derived from observed source data (no bundled VSIC file).
+  (`reconcileMainIndustry`). `IndustryCatalog` is derived from observed source data (no bundled VSIC file). Its codes follow VSIC 2018 as published by the sources (measured, not declared); see `docs/vsic-2025-audit.md`.
 - **Freshness**: `dataAsOf` = source dataset date, `lastEnrichedAt` = last sync, `dataUpdatedAt` = last real content
   change (set by importers only when they change a field). Sitemap `lastmod` = `dataUpdatedAt ?? dataAsOf ?? lastEnrichedAt`,
   omitted when none exists. Prisma `updatedAt` is not used for user-facing dates.
