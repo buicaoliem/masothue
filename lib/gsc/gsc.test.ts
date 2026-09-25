@@ -29,13 +29,13 @@ test("parseGscCsv: English and Vietnamese headers, kinds, unreadable rows counte
   assert.equal(en.rows.length, 1);
   assert.equal(en.skipped, 1);
   assert.deepEqual(en.rows[0], { query: "ma so thue", clicks: 10, impressions: 200, ctr: 0.05, position: 3.2 });
-  const vi = parseGscCsv("Trang hàng đầu,Số lần nhấp,Lượt hiển thị,CTR,Vị trí trung bình\nhttps://www.masothuedn.com/nganh/4102-x,5,100,5%,7\n");
+  const vi = parseGscCsv("Trang hàng đầu,Số lần nhấp,Lượt hiển thị,CTR,Vị trí trung bình\nhttps://masothuedn.com/nganh/4102-x,5,100,5%,7\n");
   assert.equal(vi.kind, "pages");
-  assert.equal(vi.rows[0].page, "https://www.masothuedn.com/nganh/4102-x");
+  assert.equal(vi.rows[0].page, "https://masothuedn.com/nganh/4102-x");
   const qp = parseGscCsv("Query,Page,Clicks,Impressions,CTR,Position\nq,https://x/a,1,10,10%,2\n");
   assert.equal(qp.kind, "query-page");
   assert.equal(parseGscCsv("foo,bar\n1,2\n").kind, "unknown");
-  assert.equal(pagePath("https://www.masothuedn.com/nganh/4102-x/?utm_source=a#b"), "/nganh/4102-x");
+  assert.equal(pagePath("https://masothuedn.com/nganh/4102-x/?utm_source=a#b"), "/nganh/4102-x");
   assert.equal(strip("Mã Số Thuế Đà Nẵng"), "ma so thue da nang");
 });
 
@@ -73,13 +73,13 @@ test("buckets, median and the site's own CTR baseline", () => {
 
 test("mineOpportunities finds striking distance, low CTR, zero-click pages, cannibalization and content gaps", () => {
   const rows = [
-    { query: "mã ngành 4102", page: "https://www.masothuedn.com/nganh/4102-x", clicks: 0, impressions: 300, ctr: 0, position: 8 },
-    { query: "tra cứu mst", page: "https://www.masothuedn.com/", clicks: 20, impressions: 400, ctr: 0.05, position: 2 },
-    { query: "tra cứu mst 2", page: "https://www.masothuedn.com/x", clicks: 40, impressions: 400, ctr: 0.1, position: 2 },
-    { query: "tra cứu mst 3", page: "https://www.masothuedn.com/y", clicks: 4, impressions: 400, ctr: 0.01, position: 2 },
-    { query: "mã số thuế công ty abc", page: "https://www.masothuedn.com/tinh/ha-noi", clicks: 0, impressions: 120, ctr: 0, position: 12 },
-    { query: "mã số thuế công ty abc", page: "https://www.masothuedn.com/0101248141", clicks: 0, impressions: 100, ctr: 0, position: 14 },
-    { query: "x", page: "https://www.masothuedn.com/z", clicks: 0, impressions: 5, ctr: 0, position: 1 },
+    { query: "mã ngành 4102", page: "https://masothuedn.com/nganh/4102-x", clicks: 0, impressions: 300, ctr: 0, position: 8 },
+    { query: "tra cứu mst", page: "https://masothuedn.com/", clicks: 20, impressions: 400, ctr: 0.05, position: 2 },
+    { query: "tra cứu mst 2", page: "https://masothuedn.com/x", clicks: 40, impressions: 400, ctr: 0.1, position: 2 },
+    { query: "tra cứu mst 3", page: "https://masothuedn.com/y", clicks: 4, impressions: 400, ctr: 0.01, position: 2 },
+    { query: "mã số thuế công ty abc", page: "https://masothuedn.com/tinh/ha-noi", clicks: 0, impressions: 120, ctr: 0, position: 12 },
+    { query: "mã số thuế công ty abc", page: "https://masothuedn.com/0101248141", clicks: 0, impressions: 100, ctr: 0, position: 14 },
+    { query: "x", page: "https://masothuedn.com/z", clicks: 0, impressions: 5, ctr: 0, position: 1 },
   ];
   const { opportunities, baseline } = mineOpportunities(rows);
   const kinds = new Set(opportunities.map((o) => o.kind));

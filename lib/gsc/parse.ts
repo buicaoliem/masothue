@@ -125,7 +125,7 @@ export function parseGscCsv(text: string): ParseResult {
   return { rows, skipped, kind };
 }
 
-/** "https://www.masothuedn.com/nganh/4102-x?utm=1" -> "/nganh/4102-x" (path only, no query/fragment). */
+/** "https://masothuedn.com/nganh/4102-x?utm=1" -> "/nganh/4102-x" (path only, no query/fragment). */
 export function pagePath(url: string): string {
   try {
     return new URL(url).pathname.replace(/\/+$/, "") || "/";

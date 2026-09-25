@@ -6,12 +6,12 @@ export {};
 // RUNS warm requests -> min / median / p90-ish / max for TTFB (headers) and total (body). Sitemaps are used to
 // pick real company / industry / province x industry URLs; override with PERF_COMPANIES="0313602877,4300340491" (leading slash optional).
 
-const BASE = (process.env.BASE_URL ?? "https://www.masothuedn.com").replace(/\/+$/, "");
+const BASE = (process.env.BASE_URL ?? "https://masothuedn.com").replace(/\/+$/, "");
 const RUNS = Number(process.env.RUNS ?? 7);
 
 async function locs(sitemap: string): Promise<string[]> {
   const r = await fetch(`${BASE}/sitemaps/${sitemap}`);
-  return [...(await r.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace("https://www.masothuedn.com", ""));
+  return [...(await r.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace("https://masothuedn.com", ""));
 }
 
 type Sample = { ttfb: number; total: number; status: number; region: string };

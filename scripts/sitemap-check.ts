@@ -4,12 +4,12 @@ export {};
 // and (sampled, deterministic) HTTP status + noindex on the listed URLs.
 //
 //   BASE_URL=http://localhost:3000 npx tsx scripts/sitemap-check.ts
-//   SAMPLE=20 BASE_URL=https://www.masothuedn.com npx tsx scripts/sitemap-check.ts
+//   SAMPLE=20 BASE_URL=https://masothuedn.com npx tsx scripts/sitemap-check.ts
 //
 // BASE_URL is where requests go; URLs inside the sitemaps must still be on the canonical host.
 
 const BASE = (process.env.BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
-const CANONICAL_HOST = "https://www.masothuedn.com";
+const CANONICAL_HOST = "https://masothuedn.com";
 const MAX_URLS = 50_000;
 const SAMPLE = Number(process.env.SAMPLE ?? 10); // URLs fetched per child sitemap
 

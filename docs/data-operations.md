@@ -20,8 +20,8 @@ to roll back the application, redeploy the previous commit, do not drop `Company
 Post-deploy checks against a live host (scripts take `BASE_URL`):
 
 ```bash
-BASE_URL=https://www.masothuedn.com npm run seo:smoke
-BASE_URL=https://www.masothuedn.com npm run seo:sitemap-check
+BASE_URL=https://masothuedn.com npm run seo:smoke
+BASE_URL=https://masothuedn.com npm run seo:sitemap-check
 ```
 
 See also `docs/data-sources.md` (what each source provides) and `docs/seo-industry-quality.md` (the quality model).

@@ -8,7 +8,7 @@ import { loadWindows, NO_DATA_HELP, summarize, writeCsv } from "./gsc-lib";
 
 const pct = (r: number) => `${(r * 100).toFixed(2)}%`;
 const CHECK_SITEMAP = process.argv.includes("--check-sitemap");
-const BASE = process.env.BASE_URL ?? "https://www.masothuedn.com";
+const BASE = process.env.BASE_URL ?? "https://masothuedn.com";
 
 async function sitemapPaths(section: string): Promise<Set<string>> {
   const res = await fetch(`${BASE}/sitemaps/${section}`);

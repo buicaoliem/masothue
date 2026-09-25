@@ -3,13 +3,13 @@ export {};
 // status, title, description, canonical, robots, H1, internal links, JSON-LD and metadata duplication.
 //
 //   BASE_URL=http://localhost:3000 npx tsx scripts/seo-smoke.ts
-//   BASE_URL=https://www.masothuedn.com npx tsx scripts/seo-smoke.ts
+//   BASE_URL=https://masothuedn.com npx tsx scripts/seo-smoke.ts
 //
 // Sample entities (company, industry, legal form...) are discovered from the sitemaps; override with
 // SMOKE_COMPANY, SMOKE_INDUSTRY, SMOKE_LEGAL_FORM, SMOKE_PROVINCE, SMOKE_GUIDE.
 
 const BASE = (process.env.BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
-const CANONICAL_HOST = "https://www.masothuedn.com";
+const CANONICAL_HOST = "https://masothuedn.com";
 
 type Route = {
   label: string;

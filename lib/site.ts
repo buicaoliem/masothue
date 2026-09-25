@@ -6,9 +6,9 @@ export function normalizeSiteUrl(url: string): string {
 }
 
 // Canonical origin for absolute URLs (canonical, sitemap, structured data).
-// Must match the host production actually serves (masothuedn.com redirects
-// here with a 308, so sitemap/canonical URLs have to point at www directly).
-export const SITE_URL = normalizeSiteUrl("https://www.masothuedn.com");
+// Must match the host production actually serves (www redirects to the apex
+// with a 308, so sitemap/canonical URLs point at the apex directly).
+export const SITE_URL = normalizeSiteUrl("https://masothuedn.com");
 export const SITE_NAME = "masothuedn.com";
 
 // Shown on legal pages. Falls back to a generic name/contact when unset.
