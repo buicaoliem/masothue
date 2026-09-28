@@ -19,6 +19,12 @@
  * Exit code is always 0 unless the script itself is misconfigured (no key
  * file found, no URLs to submit while --urls was malformed, etc). A failure
  * or timeout from the IndexNow API is logged but never fails the run.
+ *
+ * URLs are submitted in sequential batches of at most MAX_URLS_PER_SUBMIT
+ * (the IndexNow API's per-request cap) — nothing is silently truncated.
+ * HTTP 429 is retried with backoff (up to 3 attempts/batch); other batch
+ * failures (non-2xx, network error) are logged and skipped so the run
+ * continues to the remaining batches.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -140,6 +146,66 @@ async function submit({ key, keyLocation, urls }) {
   return { status: res.status, ok: res.ok, body: text };
 }
 
+function chunk(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Submits urls in sequential batches of at most MAX_URLS_PER_SUBMIT (the IndexNow
+ * API's per-request limit). No URL is silently dropped: every batch is sent, HTTP
+ * 429 responses are retried with backoff, and network errors on one batch don't
+ * abort the rest of the run.
+ */
+async function submitBatched({ key, keyLocation, urls }) {
+  const batches = chunk(urls, MAX_URLS_PER_SUBMIT);
+  let succeeded = 0;
+  let failedBatches = 0;
+
+  for (let i = 0; i < batches.length; i++) {
+    const batchNum = i + 1;
+    const batch = batches[i];
+    let attempt = 0;
+    let done = false;
+
+    while (!done) {
+      attempt++;
+      try {
+        const result = await submit({ key, keyLocation, urls: batch });
+        const accepted = result.status === 200 || result.status === 202;
+
+        if (result.status === 429 && attempt <= 3) {
+          const waitMs = 3000 * attempt;
+          console.log(`Batch ${batchNum}/${batches.length} (${batch.length} URL): HTTP 429, thử lại sau ${waitMs}ms (lần ${attempt}/3).`);
+          await sleep(waitMs);
+          continue;
+        }
+
+        if (accepted) {
+          console.log(`Batch ${batchNum}/${batches.length}: ${batch.length} URL → HTTP ${result.status}${result.body ? ` — ${result.body}` : ""} (OK)`);
+          succeeded += batch.length;
+        } else {
+          console.error(`Batch ${batchNum}/${batches.length}: ${batch.length} URL → HTTP ${result.status}${result.body ? ` — ${result.body}` : ""} (KHÔNG OK, bỏ qua batch này)`);
+          failedBatches++;
+        }
+        done = true;
+      } catch (e) {
+        console.error(`Batch ${batchNum}/${batches.length}: ${batch.length} URL → lỗi mạng: ${e.message}. Bỏ qua batch này, tiếp tục.`);
+        failedBatches++;
+        done = true;
+      }
+    }
+
+    if (batchNum < batches.length) await sleep(400); // avoid hammering the API between batches
+  }
+
+  console.log(`Hoàn tất: ${batches.length} batch, ${succeeded}/${urls.length} URL submit thành công${failedBatches ? `, ${failedBatches} batch lỗi` : ""}.`);
+  return { totalBatches: batches.length, attempted: urls.length, succeeded, failedBatches };
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const { key, keyLocation } = findKeyFile();
@@ -158,22 +224,19 @@ async function main() {
     console.log(`Sitemap: ${sitemapEntries.length} URL. mới: ${added.length}, cập nhật: ${changed.length}, đã gỡ: ${removed.length}.`);
   }
 
-  if (urlsToSubmit.length > MAX_URLS_PER_SUBMIT) {
-    console.log(`Danh sách ${urlsToSubmit.length} URL vượt giới hạn ${MAX_URLS_PER_SUBMIT}/lần của IndexNow. Chỉ gửi ${MAX_URLS_PER_SUBMIT} URL đầu tiên.`);
-    urlsToSubmit = urlsToSubmit.slice(0, MAX_URLS_PER_SUBMIT);
-  }
-
-  console.log(`Chuẩn bị submit ${urlsToSubmit.length} URL tới IndexNow.`);
+  const batchCount = Math.ceil(urlsToSubmit.length / MAX_URLS_PER_SUBMIT);
+  console.log(`Chuẩn bị submit ${urlsToSubmit.length} URL tới IndexNow${batchCount > 1 ? ` trong ${batchCount} batch (tối đa ${MAX_URLS_PER_SUBMIT} URL/batch)` : ""}.`);
   if (urlsToSubmit.length === 0) { console.log("Không có gì để submit."); if (nextState) saveState(nextState); return; }
-  for (const u of urlsToSubmit) console.log(`  · ${u}`);
+
+  const PREVIEW_LIMIT = 50;
+  for (const u of urlsToSubmit.slice(0, PREVIEW_LIMIT)) console.log(`  · ${u}`);
+  if (urlsToSubmit.length > PREVIEW_LIMIT) console.log(`  · ... và ${urlsToSubmit.length - PREVIEW_LIMIT} URL khác.`);
 
   if (args.dryRun) { console.log("(--dry-run) Không gọi IndexNow API, không lưu state."); return; }
 
   try {
-    const result = await submit({ key, keyLocation, urls: urlsToSubmit });
-    console.log(`IndexNow response: HTTP ${result.status}${result.body ? ` — ${result.body}` : ""}`);
-    if (!result.ok) console.error(`IndexNow trả lỗi (HTTP ${result.status}). Không làm fail deployment.`);
-    else if (nextState) saveState(nextState);
+    const { succeeded } = await submitBatched({ key, keyLocation, urls: urlsToSubmit });
+    if (succeeded > 0 && nextState) saveState(nextState);
   } catch (e) {
     console.error(`Gọi IndexNow API thất bại: ${e.message}. Không làm fail deployment.`);
   }
