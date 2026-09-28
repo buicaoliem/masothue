@@ -3,6 +3,12 @@ import { Be_Vietnam_Pro } from "next/font/google";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { SiteHeader } from "./components/SiteHeader";
 import { SiteFooter } from "./components/SiteFooter";
+import {
+  GoogleAnalytics,
+  GoogleTagManagerNoscript,
+  GoogleTagManagerScript,
+  MicrosoftClarity,
+} from "./components/Analytics";
 import "./globals.css";
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -19,7 +25,13 @@ export const viewport: Viewport = { themeColor: "#1B4DB1" };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" className={beVietnamPro.variable}>
+      <head>
+        <GoogleTagManagerScript />
+        <GoogleAnalytics />
+        <MicrosoftClarity />
+      </head>
       <body>
+        <GoogleTagManagerNoscript />
         <SiteHeader />
         {children}
         <SiteFooter />
