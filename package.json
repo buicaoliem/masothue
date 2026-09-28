@@ -8,6 +8,7 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "indexnow": "node scripts/indexnow.mjs",
     "lint": "eslint .",
     "test": "tsx --test \"lib/**/*.test.ts\" \"pipeline/**/*.test.ts\" \"app/**/*.test.ts\"",
     "perf:production": "tsx scripts/perf-production.ts",
