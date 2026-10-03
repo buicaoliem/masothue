@@ -2,6 +2,7 @@ import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/pipeline/db";
+import { CACHE_TAGS, cachedQuery, REVALIDATE_S } from "@/lib/cache";
 import { ensureEnriched } from "@/lib/enrich";
 
 // Only public business fields leave this module. No phone/email/personal IDs.
@@ -45,10 +46,12 @@ const loadApprovedRemovalTaxCodes = async (): Promise<string[]> => {
   return rows.map((r) => r.taxCode);
 };
 
-// List pages, sitemaps and counts exclude these; the list is tiny and read on nearly every request, so it is
-// cached briefly (60 s, and dropped at once by revalidateTag("removals") when an admin approves a request).
-// The company page itself never uses this cache: isApprovedRemoval() below is always a live query.
-const approvedRemovalTaxCodes = unstable_cache(loadApprovedRemovalTaxCodes, ["approved-removals"], { revalidate: 60, tags: ["removals"] });
+// List pages, sitemaps and counts exclude these; the list is tiny and tagged "removals" so an admin
+// approval drops it at once. The company page itself never uses this cache: isApprovedRemoval() is live.
+const approvedRemovalTaxCodes = unstable_cache(loadApprovedRemovalTaxCodes, ["approved-removals"], {
+  revalidate: REVALIDATE_S.list,
+  tags: [CACHE_TAGS.removals],
+});
 
 /** True when this exact tax code has an APPROVED removal request. */
 async function isApprovedRemoval(taxCode: string): Promise<boolean> {
@@ -122,8 +125,8 @@ export async function findCompanyForLookup(taxCode: string): Promise<MstLookupIn
 /**
  * Read a company by tax code; null means "render 404".
  * An APPROVED removal request hides it the same as isHidden (PENDING does not, to prevent abuse).
- * PENDING enrichment rows are enriched once (see lib/enrich.ts); the middleware normally does this
- * first and answers 503 when enrichment is unavailable. If it still fails here, EnrichUnavailableError is thrown.
+ * PENDING enrichment rows are enriched once (see lib/enrich.ts). If enrichment is unavailable,
+ * EnrichUnavailableError is thrown so the page can fail closed instead of rendering a half-filled row.
  */
 export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany | null> => {
   if (!TAX_CODE_RE.test(taxCode)) return null;
@@ -141,8 +144,8 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
 });
 
 /**
- * Like getCompany, but never throws — null on unavailable enrichment or a non-showable row.
- * For pages that have a fallback (an approved directory profile) when the registry has nothing.
+ * Like getCompany, but never throws — null on unavailable enrichment, a DB failure, or a non-showable row.
+ * For interactive forms (prefill) only. ISR pages must use getCompany so a DB error becomes 5xx, not a cached 404.
  */
 export async function getCompanySafe(taxCode: string): Promise<ShowableCompany | null> {
   try {
@@ -152,15 +155,22 @@ export async function getCompanySafe(taxCode: string): Promise<ShowableCompany |
   }
 }
 
-/** Up to `limit` other enriched companies in the same province, for the "nearby" block. One query (removal exclusion in SQL). */
-export async function getNearbyCompanies(provinceSlug: string | null, excludeTaxCode: string, limit = 5) {
-  if (!provinceSlug) return [];
-  return prisma.$queryRaw<ListedCompany[]>`
+const loadNearbyCompanies = cachedQuery(
+  "nearby-companies",
+  async (provinceSlug: string, excludeTaxCode: string, limit: number) =>
+    prisma.$queryRaw<ListedCompany[]>`
     SELECT c."taxCode", c.name, c.address FROM "Company" c
     WHERE c."provinceSlug" = ${provinceSlug} AND c."taxCode" <> ${excludeTaxCode}
       AND c."isHidden" = false AND c."enrichStatus" = 'OK' AND c.name IS NOT NULL AND c.address IS NOT NULL
       AND NOT EXISTS (SELECT 1 FROM "RemovalRequest" r WHERE r."taxCode" = c."taxCode" AND r.status = 'APPROVED')
-    ORDER BY c."updatedAt" DESC LIMIT ${limit}`;
+    ORDER BY c."updatedAt" DESC LIMIT ${limit}`,
+  { revalidate: REVALIDATE_S.detail, tags: [CACHE_TAGS.companies, CACHE_TAGS.removals] },
+);
+
+/** Up to `limit` other enriched companies in the same province, for the "nearby" block. One query (removal exclusion in SQL). */
+export async function getNearbyCompanies(provinceSlug: string | null, excludeTaxCode: string, limit = 5) {
+  if (!provinceSlug) return [];
+  return loadNearbyCompanies(provinceSlug, excludeTaxCode, limit);
 }
 
 export const PROVINCE_PAGE_SIZE = 50;

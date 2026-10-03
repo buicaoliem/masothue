@@ -20,6 +20,9 @@ import { LinkChips } from "../../components/LinkChips";
 import { TaxonomyList } from "../../components/TaxonomyList";
 import styles from "../../components/site.module.css";
 
+export const revalidate = 86400;
+export const dynamicParams = true;
+
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ trang?: string | string[] }> };
 
 const n = (v: number) => v.toLocaleString("vi-VN");

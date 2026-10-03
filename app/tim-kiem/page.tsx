@@ -7,6 +7,8 @@ import { CompanyList } from "../components/CompanyList";
 import { SearchForm } from "../components/SearchForm";
 import styles from "../components/site.module.css";
 
+export const dynamic = "force-dynamic";
+
 type Props = { searchParams: Promise<{ q?: string | string[] }> };
 
 // Result pages are query-driven: keep them out of the index.

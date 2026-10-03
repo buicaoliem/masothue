@@ -8,7 +8,7 @@ import { newCompaniesPath, parsePage } from "@/lib/seo/urls";
 import { getNewCompanies } from "@/lib/taxonomy-data";
 import { NewCompaniesView } from "../../components/NewCompaniesView";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 type Props = { params: Promise<{ province: string }>; searchParams: Promise<{ trang?: string | string[] }> };
 
 const find = (slug: string) => PROVINCES.find((p) => p.slug === slug);

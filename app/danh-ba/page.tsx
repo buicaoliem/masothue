@@ -7,7 +7,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { GroupsGrid } from "./GroupsGrid";
 import siteStyles from "../components/site.module.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
   const counts = await getGroupCountsNationwide();

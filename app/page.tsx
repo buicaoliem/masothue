@@ -26,20 +26,17 @@ export const metadata: Metadata = buildPageMetadata({
   index: true,
 });
 
-// The homepage reads live counts; a database hiccup must not take the page down.
-const orEmpty = <T,>(p: Promise<T>, empty: T) => p.catch(() => empty);
-
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 const fmtDate = (d: Date) =>
   `${String(d.getUTCDate()).padStart(2, "0")}/${String(d.getUTCMonth() + 1).padStart(2, "0")}/${d.getUTCFullYear()}`;
 
 export default async function Home() {
   const [fresh, industries, legalForms, dataAsOf] = await Promise.all([
-    orEmpty(getNewCompanies({ limit: SEO_CONFIG.homeNewCompanies, withTotal: false }), { total: 0, rows: [] }),
-    orEmpty(topIndexableIndustries(12), []),
-    orEmpty(listLegalForms(SEO_CONFIG.taxonomyMinCompanies), []),
-    orEmpty(getDataAsOf(), null),
+    getNewCompanies({ limit: SEO_CONFIG.homeNewCompanies, withTotal: false }),
+    topIndexableIndustries(12),
+    listLegalForms(SEO_CONFIG.taxonomyMinCompanies),
+    getDataAsOf(),
   ]);
 
   return (

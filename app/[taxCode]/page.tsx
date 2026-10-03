@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Fragment, type ReactNode } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getCompanySafe, getNearbyCompanies, TAX_CODE_RE } from "@/lib/company";
+import { getCompany, getNearbyCompanies, TAX_CODE_RE } from "@/lib/company";
+import { getNewCompanies } from "@/lib/taxonomy-data";
 import { getCompanyIndustries } from "@/lib/industry/service";
 import { isCompanyProfileIndexable } from "@/lib/seo/indexability";
 import { buildCompanyMetadata, buildPageMetadata } from "@/lib/seo/metadata";
@@ -25,8 +26,19 @@ import styles from "./company.module.css";
 import dirStyles from "../components/directory.module.css";
 import siteStyles from "../components/site.module.css";
 
+export const revalidate = 2592000;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  try {
+    const { rows } = await getNewCompanies({ limit: 3, withTotal: false });
+    return rows.map((r) => ({ taxCode: r.taxCode }));
+  } catch {
+    return [];
+  }
+}
+
 type Props = { params: Promise<{ taxCode: string }> };
-type Company = NonNullable<Awaited<ReturnType<typeof getCompanySafe>>>;
+type Company = NonNullable<Awaited<ReturnType<typeof getCompany>>>;
 
 function formatDate(d: Date): string {
   const dd = String(d.getUTCDate()).padStart(2, "0");
@@ -77,7 +89,7 @@ function resolveDisplay(company: Company | null, profile: PublicProfile | null) 
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { taxCode } = await params;
-  const [company, profile] = await Promise.all([getCompanySafe(taxCode), getProfileOnce(taxCode)]);
+  const [company, profile] = await Promise.all([getCompany(taxCode), getProfileOnce(taxCode)]);
   if (!company && !profile) return {};
   if (company) return buildCompanyMetadata({ taxCode: company.taxCode, name: company.name }, isCompanyProfileIndexable(company));
   // Directory-only page (no registry row): indexable only when the approved profile passes the directory rule.
@@ -158,12 +170,7 @@ function displayStatus(c: Company): string | null {
 export default async function CompanyPage({ params }: Props) {
   const { taxCode } = await params;
   // The industries query needs only the tax code, so it starts now and overlaps the company/profile reads.
-  const industriesPromise = TAX_CODE_RE.test(taxCode)
-    ? getCompanyIndustries(taxCode).catch((err) => {
-        console.error("industries lookup failed", err instanceof Error ? err.message : err);
-        return null;
-      })
-    : Promise.resolve(null);
+  const industriesPromise = TAX_CODE_RE.test(taxCode) ? getCompanyIndustries(taxCode) : Promise.resolve(null);
   const data = await loadCompanyPageData(taxCode);
   if (data.notFound) notFound();
   const { company, profile, isPaid } = data;

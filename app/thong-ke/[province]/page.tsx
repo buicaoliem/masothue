@@ -9,7 +9,12 @@ import { SITE_NAME } from "@/lib/site";
 import { getDataAsOf, getNewCompanies, getStatusBreakdown, listProvinceLegalForms } from "@/lib/taxonomy-data";
 import { StatsView } from "../../components/StatsView";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
+export const dynamicParams = true;
+export function generateStaticParams() {
+  return PROVINCES.map((p) => ({ province: p.slug }));
+}
+
 type Props = { params: Promise<{ province: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

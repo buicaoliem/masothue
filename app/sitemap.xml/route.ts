@@ -10,8 +10,7 @@ import {
 } from "@/lib/sitemap";
 import { listIndexableProvinceIndustries } from "@/lib/industry/seo";
 
-// Read the store on every request; never query the DB at build time.
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 
 /** Sitemap index: one child per section, then one child per 50,000 listable companies. */

@@ -10,10 +10,28 @@ const SECURITY_HEADERS = [
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
 ];
 
+const CDN_LIST = "public, s-maxage=86400, stale-while-revalidate=604800";
+const CDN_SEARCH = "public, s-maxage=60, stale-while-revalidate=600";
+const CDN = (value: string) => [
+  { key: "CDN-Cache-Control", value },
+  { key: "Vercel-CDN-Cache-Control", value },
+];
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/:path*", headers: SECURITY_HEADERS }];
+    return [
+      { source: "/:path*", headers: SECURITY_HEADERS },
+      { source: "/tim-kiem", headers: CDN(CDN_SEARCH) },
+      { source: "/tinh/:slug", headers: CDN(CDN_LIST) },
+      { source: "/tinh/:slug/nganh/:industry", headers: CDN(CDN_LIST) },
+      { source: "/nganh/:slug", headers: CDN(CDN_LIST) },
+      { source: "/loai-hinh/:slug", headers: CDN(CDN_LIST) },
+      { source: "/trang-thai/:slug", headers: CDN(CDN_LIST) },
+      { source: "/doanh-nghiep-moi", headers: CDN(CDN_LIST) },
+      { source: "/doanh-nghiep-moi/:province", headers: CDN(CDN_LIST) },
+      { source: "/danh-ba/:group/:province", headers: CDN(CDN_LIST) },
+    ];
   },
   async redirects() {
     return [

@@ -6,6 +6,9 @@ import { legalFormPath, parsePage } from "@/lib/seo/urls";
 import { countCompanies, legalTypesForSlug, listCompanies, LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
 import { TaxonomyList } from "../../components/TaxonomyList";
 
+export const revalidate = 86400;
+export const dynamicParams = true;
+
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ trang?: string | string[] }> };
 
 async function resolve(slug: string) {

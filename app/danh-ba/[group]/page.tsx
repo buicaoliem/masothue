@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DIRECTORY_GROUPS } from "@/lib/directory";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { loadGroupPageData } from "./data";
 import siteStyles from "../../components/site.module.css";
 import dirStyles from "../../components/directory.module.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
+export const dynamicParams = true;
+export function generateStaticParams() {
+  return DIRECTORY_GROUPS.map((g) => ({ group: g.slug }));
+}
 
 type Props = { params: Promise<{ group: string }> };
 

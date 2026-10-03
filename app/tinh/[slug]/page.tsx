@@ -13,6 +13,12 @@ import { LinkChips } from "../../components/LinkChips";
 import { TaxonomyList } from "../../components/TaxonomyList";
 import styles from "../../components/site.module.css";
 
+export const revalidate = 86400;
+export const dynamicParams = true;
+export function generateStaticParams() {
+  return PROVINCES.slice(0, 8).map((p) => ({ slug: p.slug }));
+}
+
 type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ trang?: string | string[] }>;

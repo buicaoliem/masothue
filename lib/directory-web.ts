@@ -1,4 +1,5 @@
 import { prisma } from "@/pipeline/db";
+import { CACHE_TAGS, cachedQuery } from "@/lib/cache";
 import { INDEXABLE_MIN_PROFILES, type PublicProfile } from "@/lib/directory";
 import { prismaSql, type Sql } from "@/lib/directory/sql";
 import { ACTIVE_STATUS_SUBSTRING } from "@/lib/company-status";
@@ -154,15 +155,35 @@ export function createDirectoryWeb(sql: Sql) {
 
 export const directoryWeb = createDirectoryWeb(prismaSql(prisma));
 
-export const {
-  listProfilesFiltered,
-  countProfilesFiltered,
-  getGroupCountsNationwide,
-  getProvinceSlugsWithAnyProfile,
-  getGroupSlugsForProvince,
-  getGroupCountsForProvince,
-  getProvinceSlugsForGroup,
-  getProvinceCountsForGroup,
-  getSameGroupProfiles,
-  getIndexableDirectoryPaths,
-} = directoryWeb;
+const dirTags = { tags: [CACHE_TAGS.directory, CACHE_TAGS.removals] };
+
+function cachedMap<A extends unknown[]>(
+  key: string,
+  fn: (...args: A) => Promise<Map<string, number>>,
+): (...args: A) => Promise<Map<string, number>> {
+  const inner = cachedQuery(key, async (...args: A) => [...(await fn(...args))], dirTags);
+  return async (...args: A) => new Map(await inner(...args));
+}
+
+export const listProfilesFiltered = cachedQuery(
+  "dir:list-filtered",
+  directoryWeb.listProfilesFiltered,
+  dirTags,
+);
+export const countProfilesFiltered = cachedQuery(
+  "dir:count-filtered",
+  directoryWeb.countProfilesFiltered,
+  dirTags,
+);
+export const getGroupCountsNationwide = cachedMap("dir:group-counts-nationwide", () => directoryWeb.getGroupCountsNationwide());
+export const getProvinceSlugsWithAnyProfile = cachedQuery(
+  "dir:province-slugs-any",
+  directoryWeb.getProvinceSlugsWithAnyProfile,
+  dirTags,
+);
+export const getGroupSlugsForProvince = cachedQuery("dir:group-slugs-for-province", directoryWeb.getGroupSlugsForProvince, dirTags);
+export const getGroupCountsForProvince = cachedMap("dir:group-counts-for-province", directoryWeb.getGroupCountsForProvince);
+export const getProvinceSlugsForGroup = cachedQuery("dir:province-slugs-for-group", directoryWeb.getProvinceSlugsForGroup, dirTags);
+export const getProvinceCountsForGroup = cachedMap("dir:province-counts-for-group", directoryWeb.getProvinceCountsForGroup);
+export const getSameGroupProfiles = cachedQuery("dir:same-group", directoryWeb.getSameGroupProfiles, dirTags);
+export const getIndexableDirectoryPaths = cachedQuery("dir:indexable-paths", directoryWeb.getIndexableDirectoryPaths, dirTags);
