@@ -144,8 +144,8 @@ export const getCompany = cache(async (taxCode: string): Promise<ShowableCompany
 });
 
 /**
- * Like getCompany, but never throws — null on unavailable enrichment or a non-showable row.
- * For pages that have a fallback (an approved directory profile) when the registry has nothing.
+ * Like getCompany, but never throws — null on unavailable enrichment, a DB failure, or a non-showable row.
+ * For interactive forms (prefill) only. ISR pages must use getCompany so a DB error becomes 5xx, not a cached 404.
  */
 export async function getCompanySafe(taxCode: string): Promise<ShowableCompany | null> {
   try {

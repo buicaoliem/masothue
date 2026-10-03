@@ -12,7 +12,7 @@ export const CACHE_TAGS = {
 
 export const REVALIDATE_S = {
   /** Company detail pages. */
-  detail: 60 * 60 * 24 * 7,
+  detail: 60 * 60 * 24 * 30,
   /** List, category, home, sitemaps. */
   list: 60 * 60 * 24,
 } as const;

@@ -1,8 +1,8 @@
 import { cache } from "react";
-import { getCompanySafe } from "@/lib/company";
+import { getCompany } from "@/lib/company";
 import { getActivePlacements, getProfile, type ActivePlacement, type PublicProfile } from "@/lib/directory";
 
-export type CompanyPageCompany = NonNullable<Awaited<ReturnType<typeof getCompanySafe>>>;
+export type CompanyPageCompany = NonNullable<Awaited<ReturnType<typeof getCompany>>>;
 type Company = CompanyPageCompany;
 
 export type CompanyPageData =
@@ -18,12 +18,13 @@ type Deps = {
 /** Request-scoped: generateMetadata() and the page both need the profile; it is queried once per request. */
 export const getProfileOnce = cache((taxCode: string) => getProfile(taxCode));
 
-const DEFAULT_DEPS: Deps = { getCompanySafe, getProfile: getProfileOnce, getActivePlacements };
+const DEFAULT_DEPS: Deps = { getCompanySafe: getCompany, getProfile: getProfileOnce, getActivePlacements };
 
 /**
  * Loads the data for /[taxCode]. Hidden companies and companies with a pending/approved removal
- * request are excluded because getProfile and getCompanySafe already filter them out at the data
- * layer — if both come back empty, the page 404s. isPaid drives the "Đứng đầu ngành" layout and
+ * request are excluded because getProfile and getCompany already filter them out at the data
+ * layer — if both come back empty after a successful read, the page 404s. A DB/timeout error
+ * must throw so ISR does not cache a 404. isPaid drives the "Đứng đầu ngành" layout and
  * naturally falls back to the free layout once the active placement's ends_at passes.
  */
 export async function loadCompanyPageData(taxCode: string, deps: Deps = DEFAULT_DEPS): Promise<CompanyPageData> {
