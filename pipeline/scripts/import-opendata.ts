@@ -8,6 +8,7 @@ import { prismaSql } from "@/lib/directory/sql";
 import { prisma } from "../db";
 import { openSourceRows as openRows } from "../files";
 import { SOURCES, runImport, type ImportStats, type SourceKey } from "../opendata";
+import { purgePublicPageCache } from "../purge-page-cache";
 
 function parseArgs(argv: string[]) {
   const get = (name: string) => {
@@ -69,6 +70,7 @@ async function main() {
       2,
     ),
   );
+  if (args.apply) await purgePublicPageCache();
 }
 
 main()

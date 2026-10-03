@@ -3,7 +3,7 @@ import { provinceFromAddress } from "@/pipeline/province";
 import { VietqrSource } from "@/pipeline/sources/vietqr";
 import { SourceTransportError } from "@/pipeline/sources/types";
 
-// On-demand enrichment of PENDING rows, shared by the middleware and the detail page.
+// On-demand enrichment of PENDING rows, used by the detail page at generate time.
 // Calls to vietqr are paced across all server instances through one IngestCheckpoint row:
 //   updatedAt = time of the last granted call slot, cursor = ISO time until which vietqr is on cooldown (after a 429).
 

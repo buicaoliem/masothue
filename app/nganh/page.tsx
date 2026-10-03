@@ -6,7 +6,7 @@ import { industryPath } from "@/lib/seo/urls";
 import { Breadcrumb } from "../components/Breadcrumb";
 import styles from "../components/site.module.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export const metadata = buildStaticMetadata({
   title: "Tra cứu doanh nghiệp theo ngành nghề",

@@ -53,7 +53,10 @@ export async function approveRemovalAction(id: string): Promise<Result> {
   revalidatePath("/admin");
   if (r.ok && r.taxCode) {
     revalidatePath(`/${r.taxCode}`);
-    revalidateTag("removals"); // lists/sitemaps drop the company immediately, not after the 60 s cache
+    revalidateTag("removals");
+    revalidateTag("taxonomy");
+    revalidateTag("sitemaps");
+    revalidateTag("companies");
   }
   return r;
 }

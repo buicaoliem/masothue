@@ -1,5 +1,6 @@
 import { prisma } from "@/pipeline/db";
 import { SITE_URL } from "@/lib/site";
+import { asDate, CACHE_TAGS, cachedQuery, REVALIDATE_S } from "@/lib/cache";
 import { listableWhere } from "@/lib/company";
 import { SEO_CONFIG } from "@/lib/seo/config";
 
@@ -14,19 +15,36 @@ export const sectionSitemapUrl = (section: SitemapSection) => `${SITE_URL}/sitem
 export const provinceIndustrySitemapUrl = (shard: number) => `${SITE_URL}/sitemaps/province-industries-${shard}.xml`;
 export const companySitemapUrl = (page: number) => `${SITE_URL}/sitemaps/companies-${page}.xml`;
 
-export async function countSitemapPages(): Promise<number> {
-  const total = await prisma.company.count({ where: await listableWhere() });
-  return Math.max(1, Math.ceil(total / SITEMAP_PAGE_SIZE));
-}
+export const countSitemapPages = cachedQuery(
+  "sitemap-page-count",
+  async (): Promise<number> => {
+    const total = await prisma.company.count({ where: await listableWhere() });
+    return Math.max(1, Math.ceil(total / SITEMAP_PAGE_SIZE));
+  },
+  { tags: [CACHE_TAGS.sitemaps, CACHE_TAGS.removals] },
+);
+
+const loadSitemapPage = cachedQuery(
+  "sitemap-page",
+  async (page: number) =>
+    prisma.company.findMany({
+      where: await listableWhere(),
+      select: { taxCode: true, dataUpdatedAt: true, dataAsOf: true, lastEnrichedAt: true },
+      orderBy: { taxCode: "asc" },
+      skip: page * SITEMAP_PAGE_SIZE,
+      take: SITEMAP_PAGE_SIZE,
+    }),
+  { tags: [CACHE_TAGS.sitemaps, CACHE_TAGS.removals] },
+);
 
 export async function getSitemapPage(page: number) {
-  return prisma.company.findMany({
-    where: await listableWhere(),
-    select: { taxCode: true, dataUpdatedAt: true, dataAsOf: true, lastEnrichedAt: true },
-    orderBy: { taxCode: "asc" },
-    skip: page * SITEMAP_PAGE_SIZE,
-    take: SITEMAP_PAGE_SIZE,
-  });
+  const rows = await loadSitemapPage(page);
+  return rows.map((r) => ({
+    taxCode: r.taxCode,
+    dataUpdatedAt: asDate(r.dataUpdatedAt),
+    dataAsOf: asDate(r.dataAsOf),
+    lastEnrichedAt: asDate(r.lastEnrichedAt),
+  }));
 }
 
 type Freshness = { dataUpdatedAt: Date | null; dataAsOf: Date | null; lastEnrichedAt: Date | null };
@@ -37,7 +55,7 @@ type Freshness = { dataUpdatedAt: Date | null; dataAsOf: Date | null; lastEnrich
  * writes move it). null = omit <lastmod> rather than guess.
  */
 export function companyLastmod(c: Freshness): string | undefined {
-  return (c.dataUpdatedAt ?? c.dataAsOf ?? c.lastEnrichedAt)?.toISOString();
+  return (asDate(c.dataUpdatedAt) ?? asDate(c.dataAsOf) ?? asDate(c.lastEnrichedAt))?.toISOString();
 }
 
 const XML_ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" };
@@ -71,6 +89,9 @@ export function buildSitemapIndex(locs: string[]): string {
 
 export function xmlResponse(body: string): Response {
   return new Response(`<?xml version="1.0" encoding="UTF-8"?>\n${body}`, {
-    headers: { "Content-Type": "application/xml; charset=utf-8" },
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": `public, s-maxage=${REVALIDATE_S.list}, stale-while-revalidate=${REVALIDATE_S.list}`,
+    },
   });
 }

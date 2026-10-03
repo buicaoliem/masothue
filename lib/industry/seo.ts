@@ -1,3 +1,4 @@
+import { CACHE_TAGS, cachedQuery } from "@/lib/cache";
 import { evaluateIndustrySeoQuality, evaluateProvinceIndustrySeoQuality } from "@/lib/seo/industry-quality";
 import {
   getIndustryContext,
@@ -11,10 +12,14 @@ import {
 // quality evaluator (lib/seo/industry-quality.ts); nothing here compares raw counts.
 
 /** Indexable industry hubs, deterministic order (code). */
-export async function listIndexableIndustries(): Promise<IndustryStatRow[]> {
-  const [all, ctx] = await Promise.all([listIndustryStats(), getIndustryContext()]);
-  return all.filter((s) => evaluateIndustrySeoQuality(s, ctx).indexable).sort((a, b) => a.code.localeCompare(b.code));
-}
+export const listIndexableIndustries = cachedQuery(
+  "indexable-industries",
+  async (): Promise<IndustryStatRow[]> => {
+    const [all, ctx] = await Promise.all([listIndustryStats(), getIndustryContext()]);
+    return all.filter((s) => evaluateIndustrySeoQuality(s, ctx).indexable).sort((a, b) => a.code.localeCompare(b.code));
+  },
+  { tags: [CACHE_TAGS.industries, CACHE_TAGS.taxonomy] },
+);
 
 /** Same list ordered for display: largest first. */
 export async function topIndexableIndustries(limit: number): Promise<IndustryStatRow[]> {
@@ -23,9 +28,13 @@ export async function topIndexableIndustries(limit: number): Promise<IndustrySta
 }
 
 /** Indexable province x industry landing pages, deterministic order (province, code). */
-export async function listIndexableProvinceIndustries(provinceSlug?: string): Promise<ProvinceIndustryStatRow[]> {
-  const all = await listProvinceIndustryStats(provinceSlug);
-  return all
-    .filter((s) => evaluateProvinceIndustrySeoQuality(s).indexable)
-    .sort((a, b) => a.provinceSlug.localeCompare(b.provinceSlug) || a.code.localeCompare(b.code));
-}
+export const listIndexableProvinceIndustries = cachedQuery(
+  "indexable-province-industries",
+  async (provinceSlug?: string): Promise<ProvinceIndustryStatRow[]> => {
+    const all = await listProvinceIndustryStats(provinceSlug);
+    return all
+      .filter((s) => evaluateProvinceIndustrySeoQuality(s).indexable)
+      .sort((a, b) => a.provinceSlug.localeCompare(b.provinceSlug) || a.code.localeCompare(b.code));
+  },
+  { tags: [CACHE_TAGS.industries, CACHE_TAGS.taxonomy] },
+);

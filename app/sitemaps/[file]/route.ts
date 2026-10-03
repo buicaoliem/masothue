@@ -27,7 +27,8 @@ import { TAX_STATUS_DETAIL_PAGES, taxStatusPath } from "@/lib/tax-status/catalog
 import { VSIC_2025_ROOT, vsic2025Path } from "@/lib/vsic/catalog";
 import { listIndexableVsic2025 } from "@/lib/vsic/content";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
+export const dynamicParams = true;
 
 type Props = { params: Promise<{ file: string }> };
 

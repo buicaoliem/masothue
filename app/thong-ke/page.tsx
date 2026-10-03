@@ -13,7 +13,7 @@ export const metadata = buildStaticMetadata({
   path: "/thong-ke",
 });
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export default async function StatsIndex() {
   const listed = new Set((await listProvinceCounts()).map((p) => p.provinceSlug));

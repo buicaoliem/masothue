@@ -4,7 +4,7 @@ import { getDataAsOf, getNewCompanies, getStatusBreakdown, listLegalForms } from
 import { newCompaniesPath } from "@/lib/seo/urls";
 import { StatsView } from "../../components/StatsView";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export const metadata = buildStaticMetadata({
   title: "Thống kê doanh nghiệp Việt Nam",

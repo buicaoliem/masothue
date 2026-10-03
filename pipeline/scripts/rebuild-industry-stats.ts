@@ -4,12 +4,14 @@
 import { prismaSql } from "@/lib/directory/sql";
 import { rebuildIndustryStats } from "@/lib/industry/stats";
 import { prisma } from "../db";
+import { purgePublicPageCache } from "../purge-page-cache";
 
 async function main() {
   const apply = !process.argv.includes("--dry-run");
   const t0 = Date.now();
   const r = await rebuildIndustryStats(prismaSql(prisma), { apply });
   console.log(JSON.stringify({ mode: apply ? "APPLY" : "DRY RUN (nothing written)", seconds: +((Date.now() - t0) / 1000).toFixed(1), ...r }, null, 2));
+  if (apply) await purgePublicPageCache();
 }
 
 main()

@@ -3,6 +3,7 @@ import { Fragment, type ReactNode } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCompanySafe, getNearbyCompanies, TAX_CODE_RE } from "@/lib/company";
+import { getNewCompanies } from "@/lib/taxonomy-data";
 import { getCompanyIndustries } from "@/lib/industry/service";
 import { isCompanyProfileIndexable } from "@/lib/seo/indexability";
 import { buildCompanyMetadata, buildPageMetadata } from "@/lib/seo/metadata";
@@ -24,6 +25,17 @@ import { getProfileOnce, loadCompanyPageData } from "./data";
 import styles from "./company.module.css";
 import dirStyles from "../components/directory.module.css";
 import siteStyles from "../components/site.module.css";
+
+export const revalidate = 604800;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  try {
+    const { rows } = await getNewCompanies({ limit: 3, withTotal: false });
+    return rows.map((r) => ({ taxCode: r.taxCode }));
+  } catch {
+    return [];
+  }
+}
 
 type Props = { params: Promise<{ taxCode: string }> };
 type Company = NonNullable<Awaited<ReturnType<typeof getCompanySafe>>>;

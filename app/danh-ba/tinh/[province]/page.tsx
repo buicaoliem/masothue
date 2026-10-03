@@ -8,7 +8,11 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import siteStyles from "../../../components/site.module.css";
 import dirStyles from "../../../components/directory.module.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
+export const dynamicParams = true;
+export function generateStaticParams() {
+  return PROVINCES.map((p) => ({ province: p.slug }));
+}
 
 type Props = { params: Promise<{ province: string }> };
 

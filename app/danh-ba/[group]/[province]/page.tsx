@@ -17,7 +17,7 @@ import { LogoTile } from "../../../components/LogoTile";
 import siteStyles from "../../../components/site.module.css";
 import dirStyles from "../../../components/directory.module.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 type Props = {
   params: Promise<{ group: string; province: string }>;

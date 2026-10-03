@@ -9,7 +9,7 @@ import { Breadcrumb } from "../components/Breadcrumb";
 import styles from "../components/site.module.css";
 import v from "../ma-nganh-2025/vsic.module.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export const metadata = buildStaticMetadata({
   title: "Trạng thái mã số thuế và tình trạng hoạt động doanh nghiệp",

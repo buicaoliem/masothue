@@ -1,6 +1,6 @@
-import { unstable_cache } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/pipeline/db";
+import { asDate, CACHE_TAGS, cachedQuery } from "@/lib/cache";
 import { listableWhere } from "@/lib/company";
 import { legalFormSlug, STATUS_PAGES } from "@/lib/seo/taxonomy";
 
@@ -11,10 +11,8 @@ import { legalFormSlug, STATUS_PAGES } from "@/lib/seo/taxonomy";
 
 export const LIST_PAGE_SIZE = 50;
 
-/** Hourly cache for whole-table aggregates (homepage, hubs, sitemaps): counts need not be real-time. */
-const AGG_REVALIDATE_S = 3600;
 function cached<A extends unknown[], R>(key: string, fn: (...args: A) => Promise<R>): (...args: A) => Promise<R> {
-  return unstable_cache(fn, [`taxonomy:${key}`], { revalidate: AGG_REVALIDATE_S });
+  return cachedQuery(`taxonomy:${key}`, fn, { tags: [CACHE_TAGS.taxonomy, CACHE_TAGS.removals] });
 }
 
 // Raw-SQL twin of listableWhere() for aggregates Prisma's groupBy cannot express.
@@ -24,7 +22,7 @@ const LISTABLE_SQL = Prisma.sql`c."isHidden" = false AND c."enrichStatus" = 'OK'
 export type ListedRow = { taxCode: string; name: string; address: string };
 const LIST_SELECT = { taxCode: true, name: true, address: true } as const;
 
-export async function listCompanies(extra: Prisma.CompanyWhereInput, page: number) {
+export const listCompanies = cached("list", async (extra: Prisma.CompanyWhereInput, page: number) => {
   const where = await listableWhere(extra);
   const [total, rows] = await Promise.all([
     prisma.company.count({ where }),
@@ -37,10 +35,11 @@ export async function listCompanies(extra: Prisma.CompanyWhereInput, page: numbe
     }) as Promise<ListedRow[]>,
   ]);
   return { total, rows };
-}
+});
 
-export const countCompanies = async (extra: Prisma.CompanyWhereInput = {}) =>
-  prisma.company.count({ where: await listableWhere(extra) });
+export const countCompanies = cached("count", async (extra: Prisma.CompanyWhereInput = {}) =>
+  prisma.company.count({ where: await listableWhere(extra) }),
+);
 
 // ---- legal form -------------------------------------------------------------------------
 
@@ -65,32 +64,59 @@ export const listLegalForms = cached("legal-forms", async (min: number = 1): Pro
 });
 
 /** All raw legalType strings that slug to `slug` (spellings may differ in case or spacing). */
-export async function legalTypesForSlug(slug: string): Promise<string[]> {
+export const legalTypesForSlug = cached("legal-types-for-slug", async (slug: string): Promise<string[]> => {
   const groups = await prisma.company.groupBy({ by: ["legalType"], where: { legalType: { not: null } } });
   return groups.map((g) => g.legalType!).filter((t) => legalFormSlug(t) === slug);
-}
+});
 
 // ---- new companies ----------------------------------------------------------------------
 
+type NewCompanyRow = ListedRow & { activeDate: Date | null; provinceSlug: string | null };
+
+const loadNewCompanies = cached(
+  "new-companies",
+  async (opts: { provinceSlug?: string; limit: number; page?: number; withTotal?: boolean }) => {
+    const where = await listableWhere({
+      activeDate: { not: null, lte: new Date() },
+      ...(opts.provinceSlug ? { provinceSlug: opts.provinceSlug } : {}),
+    });
+    const page = opts.page ?? 1;
+    // Homepage / hub modules only need the rows; the COUNT over ~200k rows (~250 ms) is skipped unless asked for.
+    const [total, rows] = await Promise.all([
+      opts.withTotal === false ? Promise.resolve(0) : prisma.company.count({ where }),
+      prisma.company.findMany({
+        where,
+        select: { ...LIST_SELECT, activeDate: true, provinceSlug: true },
+        orderBy: [{ activeDate: "desc" }, { taxCode: "desc" }],
+        skip: (page - 1) * opts.limit,
+        take: opts.limit,
+      }),
+    ]);
+    return {
+      total,
+      rows: rows.map((r) => ({
+        taxCode: r.taxCode,
+        name: r.name as string,
+        address: r.address as string,
+        provinceSlug: r.provinceSlug,
+        activeDate: r.activeDate,
+      })),
+    };
+  },
+);
+
 /** Newest registrations, ordered by the real registration date (activeDate), never by import or update time. */
-export async function getNewCompanies(opts: { provinceSlug?: string; limit: number; page?: number; withTotal?: boolean }) {
-  const where = await listableWhere({
-    activeDate: { not: null, lte: new Date() },
-    ...(opts.provinceSlug ? { provinceSlug: opts.provinceSlug } : {}),
-  });
-  const page = opts.page ?? 1;
-  // Homepage / hub modules only need the rows; the COUNT over ~200k rows (~250 ms) is skipped unless asked for.
-  const [total, rows] = await Promise.all([
-    opts.withTotal === false ? Promise.resolve(0) : prisma.company.count({ where }),
-    prisma.company.findMany({
-      where,
-      select: { ...LIST_SELECT, activeDate: true, provinceSlug: true },
-      orderBy: [{ activeDate: "desc" }, { taxCode: "desc" }],
-      skip: (page - 1) * opts.limit,
-      take: opts.limit,
-    }),
-  ]);
-  return { total, rows: rows as (ListedRow & { activeDate: Date | null; provinceSlug: string | null })[] };
+export async function getNewCompanies(opts: {
+  provinceSlug?: string;
+  limit: number;
+  page?: number;
+  withTotal?: boolean;
+}): Promise<{ total: number; rows: NewCompanyRow[] }> {
+  const r = await loadNewCompanies(opts);
+  return {
+    total: r.total,
+    rows: r.rows.map((row) => ({ ...row, activeDate: asDate(row.activeDate) })),
+  };
 }
 
 // ---- statistics -------------------------------------------------------------------------
@@ -134,7 +160,7 @@ export async function getProvinceListableTotal(provinceSlug: string): Promise<nu
 }
 
 /** One page of a province hub: the total is the cached count, so only the rows are queried. */
-export async function listProvinceCompanies(provinceSlug: string, page: number) {
+export const listProvinceCompanies = cached("province-companies", async (provinceSlug: string, page: number) => {
   const [total, rows] = await Promise.all([
     getProvinceListableTotal(provinceSlug),
     prisma.company.findMany({
@@ -146,10 +172,11 @@ export async function listProvinceCompanies(provinceSlug: string, page: number) 
     }) as Promise<ListedRow[]>,
   ]);
   return { total, rows };
-}
+});
 
 /** Legal forms inside one province (top by company count), same slugging as the national list. */
-export async function listProvinceLegalForms(provinceSlug: string, limit = 6): Promise<LegalFormCount[]> {
+export const listProvinceLegalForms = cached("province-legal-forms", async (provinceSlug: string, limit?: number): Promise<LegalFormCount[]> => {
+  const take = limit ?? 6;
   const groups = await prisma.company.groupBy({
     by: ["legalType"],
     where: await listableWhere({ provinceSlug, legalType: { not: null } }),
@@ -162,5 +189,5 @@ export async function listProvinceLegalForms(provinceSlug: string, limit = 6): P
     const prev = bySlug.get(slug);
     bySlug.set(slug, { slug, label: prev?.label ?? g.legalType!, total: (prev?.total ?? 0) + g._count._all });
   }
-  return [...bySlug.values()].sort((a, b) => b.total - a.total).slice(0, limit);
-}
+  return [...bySlug.values()].sort((a, b) => b.total - a.total).slice(0, take);
+});

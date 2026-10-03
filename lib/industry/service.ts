@@ -1,7 +1,7 @@
 import { cache } from "react";
-import { unstable_cache } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/pipeline/db";
+import { CACHE_TAGS, cachedQuery, REVALIDATE_S } from "@/lib/cache";
 import { LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
 
 // The ONE place UI and SEO code read industries from. Storage is an implementation detail:
@@ -43,8 +43,10 @@ export function unionIndustries(
 }
 
 /** All industries of one company: one round trip across both storages. */
-export async function getCompanyIndustries(taxCode: string): Promise<CompanyIndustries> {
-  const rows = await prisma.$queryRaw<{ code: string; name: string; isPrimary: boolean; source: string | null }[]>(Prisma.sql`
+export const getCompanyIndustries = cachedQuery(
+  "company-industries",
+  async (taxCode: string): Promise<CompanyIndustries> => {
+    const rows = await prisma.$queryRaw<{ code: string; name: string; isPrimary: boolean; source: string | null }[]>(Prisma.sql`
     WITH c AS (SELECT id FROM "Company" WHERE "taxCode" = ${taxCode}),
     m AS (
       SELECT ci.code, ci.name, ci."isPrimary", ci.source FROM "CompanyIndustry" ci JOIN c ON c.id = ci."companyId"
@@ -54,8 +56,10 @@ export async function getCompanyIndustries(taxCode: string): Promise<CompanyIndu
     )
     SELECT m.code, COALESCE(k.name, m.name) AS name, m."isPrimary", m.source
     FROM m LEFT JOIN "IndustryCatalog" k ON k.code = m.code`);
-  return unionIndustries(rows);
-}
+    return unionIndustries(rows);
+  },
+  { revalidate: REVALIDATE_S.detail, tags: [CACHE_TAGS.companies, CACHE_TAGS.industries] },
+);
 
 /** Prisma filter: the company holds `code` in ANY storage (primary, row, or compact set). */
 export const industryWhere = (code: string): Prisma.CompanyWhereInput => ({
@@ -76,7 +80,8 @@ export const INDUSTRY_LIST_MAX_PAGES = 50;
 // Raw SQL on purpose: Prisma renders the two-storage OR as `id IN (subquery) OR id IN (subquery)`, which cannot use the
 // GIN / (code, companyId) indexes (measured 2.1 s for HCM + a rare code). EXISTS branches plan as index lookups
 // (1-25 ms), and the removal exclusion lives in the same statement instead of a separate round trip.
-const industryPage = unstable_cache(
+const industryPage = cachedQuery(
+  "industry-page-v2",
   async (code: string, provinceSlug: string | null, page: number) => {
     const province = provinceSlug ? Prisma.sql`AND c."provinceSlug" = ${provinceSlug}` : Prisma.empty;
     return prisma.$queryRaw<{ taxCode: string; name: string; address: string }[]>(Prisma.sql`
@@ -87,8 +92,7 @@ const industryPage = unstable_cache(
              OR EXISTS (SELECT 1 FROM "CompanyIndustrySet" s WHERE s."companyId" = c.id AND s.codes @> ARRAY[${code}]::text[]))
       ORDER BY c."taxCode" LIMIT ${LIST_PAGE_SIZE} OFFSET ${(page - 1) * LIST_PAGE_SIZE}`);
   },
-  ["industry-page-v2"],
-  { revalidate: 3600 }, // hub lists change only when a data import runs
+  { tags: [CACHE_TAGS.industries, CACHE_TAGS.taxonomy, CACHE_TAGS.removals] },
 );
 
 export async function getCompaniesByIndustry(code: string, opts: { provinceSlug?: string; page: number }) {
@@ -124,71 +128,108 @@ export type ProvinceIndustryStatRow = {
   sourceCount: number;
 };
 
-// React cache(): generateMetadata() and the page ask for the same stat in one request; it is queried once.
-export const getIndustryStat = cache(async (code: string): Promise<IndustryStatRow | null> => {
-  const rows = await prisma.$queryRaw<IndustryStatRow[]>(Prisma.sql`
+const loadIndustryStat = cachedQuery(
+  "industry-stat",
+  async (code: string): Promise<IndustryStatRow | null> => {
+    const rows = await prisma.$queryRaw<IndustryStatRow[]>(Prisma.sql`
     SELECT s.code, k.name, s."companyCount", s."primaryCount", s."registeredCount", s."provinceCount", s."sourceCount"
     FROM "IndustryStat" s JOIN "IndustryCatalog" k ON k.code = s.code WHERE s.code = ${code}`);
-  return rows[0] ?? null;
-});
+    return rows[0] ?? null;
+  },
+  { tags: [CACHE_TAGS.industries] },
+);
 
-export async function listIndustryStats(): Promise<IndustryStatRow[]> {
-  return prisma.$queryRaw<IndustryStatRow[]>(Prisma.sql`
+// React cache(): generateMetadata() and the page ask for the same stat in one request; it is queried once.
+export const getIndustryStat = cache((code: string) => loadIndustryStat(code));
+
+export const listIndustryStats = cachedQuery(
+  "industry-stats",
+  async (): Promise<IndustryStatRow[]> =>
+    prisma.$queryRaw<IndustryStatRow[]>(Prisma.sql`
     SELECT s.code, k.name, s."companyCount", s."primaryCount", s."registeredCount", s."provinceCount", s."sourceCount"
     FROM "IndustryStat" s JOIN "IndustryCatalog" k ON k.code = s.code
-    ORDER BY s."companyCount" DESC, s.code`);
-}
+    ORDER BY s."companyCount" DESC, s.code`),
+  { tags: [CACHE_TAGS.industries] },
+);
 
 const PROVINCE_STAT_SELECT = Prisma.sql`
   SELECT p."provinceSlug", p.code, k.name, p."companyCount", p."primaryCount", p."registeredCount", p."provinceCompanyCount",
          p."provinceIndustryCompanyCount", p."saturationRatio", p."sourceCount"
   FROM "ProvinceIndustryStat" p JOIN "IndustryCatalog" k ON k.code = p.code`;
 
-export const getProvinceIndustryStat = cache(async (provinceSlug: string, code: string): Promise<ProvinceIndustryStatRow | null> => {
-  const rows = await prisma.$queryRaw<ProvinceIndustryStatRow[]>(
-    Prisma.sql`${PROVINCE_STAT_SELECT} WHERE p."provinceSlug" = ${provinceSlug} AND p.code = ${code}`,
-  );
-  return rows[0] ?? null;
-});
+const loadProvinceIndustryStat = cachedQuery(
+  "province-industry-stat",
+  async (provinceSlug: string, code: string): Promise<ProvinceIndustryStatRow | null> => {
+    const rows = await prisma.$queryRaw<ProvinceIndustryStatRow[]>(
+      Prisma.sql`${PROVINCE_STAT_SELECT} WHERE p."provinceSlug" = ${provinceSlug} AND p.code = ${code}`,
+    );
+    return rows[0] ?? null;
+  },
+  { tags: [CACHE_TAGS.industries] },
+);
+
+export const getProvinceIndustryStat = cache((provinceSlug: string, code: string) => loadProvinceIndustryStat(provinceSlug, code));
 
 /** Stat rows of one industry across provinces (largest first): one query instead of one per province. */
-export async function listProvinceStatsForIndustry(code: string, limit = 12): Promise<ProvinceIndustryStatRow[]> {
-  return prisma.$queryRaw<ProvinceIndustryStatRow[]>(
-    Prisma.sql`${PROVINCE_STAT_SELECT} WHERE p.code = ${code} ORDER BY p."companyCount" DESC, p."provinceSlug" LIMIT ${limit}`,
-  );
-}
+export const listProvinceStatsForIndustry = cachedQuery(
+  "province-stats-for-industry",
+  async (code: string, limit = 12): Promise<ProvinceIndustryStatRow[]> =>
+    prisma.$queryRaw<ProvinceIndustryStatRow[]>(
+      Prisma.sql`${PROVINCE_STAT_SELECT} WHERE p.code = ${code} ORDER BY p."companyCount" DESC, p."provinceSlug" LIMIT ${limit}`,
+    ),
+  { tags: [CACHE_TAGS.industries] },
+);
 
 /** Every province x industry stat row (24k at most): sitemap and reports evaluate them with the SEO quality rule. */
-export async function listProvinceIndustryStats(provinceSlug?: string): Promise<ProvinceIndustryStatRow[]> {
-  return prisma.$queryRaw<ProvinceIndustryStatRow[]>(
-    provinceSlug
-      ? Prisma.sql`${PROVINCE_STAT_SELECT} WHERE p."provinceSlug" = ${provinceSlug} ORDER BY p."companyCount" DESC, p.code`
-      : Prisma.sql`${PROVINCE_STAT_SELECT} ORDER BY p."provinceSlug", p.code`,
-  );
-}
+export const listProvinceIndustryStats = cachedQuery(
+  "province-industry-stats",
+  async (provinceSlug?: string): Promise<ProvinceIndustryStatRow[]> =>
+    prisma.$queryRaw<ProvinceIndustryStatRow[]>(
+      provinceSlug
+        ? Prisma.sql`${PROVINCE_STAT_SELECT} WHERE p."provinceSlug" = ${provinceSlug} ORDER BY p."companyCount" DESC, p.code`
+        : Prisma.sql`${PROVINCE_STAT_SELECT} ORDER BY p."provinceSlug", p.code`,
+    ),
+  { tags: [CACHE_TAGS.industries] },
+);
 
 /** Where an industry's companies are, by province. */
-export async function getIndustryProvinceDistribution(code: string, limit = 12) {
-  const rows = await prisma.$queryRaw<{ provinceSlug: string; companyCount: number }[]>(Prisma.sql`
+export const getIndustryProvinceDistribution = cachedQuery(
+  "industry-province-distribution",
+  async (code: string, limit = 12) =>
+    prisma.$queryRaw<{ provinceSlug: string; companyCount: number }[]>(Prisma.sql`
     SELECT "provinceSlug", "companyCount" FROM "ProvinceIndustryStat" WHERE code = ${code}
-    ORDER BY "companyCount" DESC, "provinceSlug" LIMIT ${limit}`);
-  return rows;
-}
+    ORDER BY "companyCount" DESC, "provinceSlug" LIMIT ${limit}`),
+  { tags: [CACHE_TAGS.industries] },
+);
 
-/** Sibling industries sharing the first three digits (same VSIC group): a real hierarchy relation. */
-export async function getRelatedIndustries(code: string, limit = 8): Promise<IndustryStatRow[]> {
-  if (code.length < 4) return [];
-  const prefix = `${code.slice(0, 3)}%`;
-  return prisma.$queryRaw<IndustryStatRow[]>(Prisma.sql`
+const loadRelatedIndustries = cachedQuery(
+  "related-industries",
+  async (code: string, limit: number): Promise<IndustryStatRow[]> => {
+    const prefix = `${code.slice(0, 3)}%`;
+    return prisma.$queryRaw<IndustryStatRow[]>(Prisma.sql`
     SELECT s.code, k.name, s."companyCount", s."primaryCount", s."registeredCount", s."provinceCount", s."sourceCount"
     FROM "IndustryStat" s JOIN "IndustryCatalog" k ON k.code = s.code
     WHERE s.code LIKE ${prefix} AND s.code <> ${code}
     ORDER BY s."companyCount" DESC LIMIT ${limit}`);
+  },
+  { tags: [CACHE_TAGS.industries] },
+);
+
+/** Sibling industries sharing the first three digits (same VSIC group): a real hierarchy relation. */
+export async function getRelatedIndustries(code: string, limit = 8): Promise<IndustryStatRow[]> {
+  if (code.length < 4) return [];
+  return loadRelatedIndustries(code, limit);
 }
 
-/** Companies with any industry data, nationally: the denominator of national saturation. */
-export const getIndustryContext = cache(async (): Promise<{ companiesWithIndustry: number }> => {
-  const rows = await prisma.$queryRaw<{ n: bigint | null }[]>(Prisma.sql`
+const loadIndustryContext = cachedQuery(
+  "industry-context",
+  async (): Promise<{ companiesWithIndustry: number }> => {
+    const rows = await prisma.$queryRaw<{ n: bigint | null }[]>(Prisma.sql`
     SELECT sum(v) AS n FROM (SELECT DISTINCT ON ("provinceSlug") "provinceIndustryCompanyCount" AS v FROM "ProvinceIndustryStat" ORDER BY "provinceSlug") t`);
-  return { companiesWithIndustry: Number(rows[0]?.n ?? 0) };
-});
+    return { companiesWithIndustry: Number(rows[0]?.n ?? 0) };
+  },
+  { tags: [CACHE_TAGS.industries] },
+);
+
+/** Companies with any industry data, nationally: the denominator of national saturation. */
+export const getIndustryContext = cache(() => loadIndustryContext());
