@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { headers } from "next/headers";
+import { clientIpFrom } from "@/lib/client-ip";
 
 // Anti-spam helpers shared by the directory forms.
 
@@ -10,23 +11,21 @@ let warnedSalt = false;
 let warnedTurnstile = false;
 
 /**
- * The real client IP behind Vercel's edge network, in `headers()` trust order:
- * x-vercel-forwarded-for (set by Vercel itself, not attacker-controlled), then x-real-ip, then
- * the LAST entry of x-forwarded-for (the value the nearest proxy appended; earlier entries are
- * whatever the client sent and can be spoofed by the request itself).
+ * Client IP from a header getter (Railway / Cloudflare rule: see lib/client-ip.ts).
+ * `x-vercel-forwarded-for` (set by Vercel itself, not attacker-controlled there) wins only when running ON Vercel
+ * (`VERCEL` env var, dual-run period): on Railway any client can send that header, so it is ignored there.
  */
+export function resolveClientIp(get: (name: string) => string | null | undefined, onVercel: boolean): string | null {
+  if (onVercel) {
+    const vercelForwarded = get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+    if (vercelForwarded) return vercelForwarded;
+  }
+  return clientIpFrom(get);
+}
+
 export async function clientIp(): Promise<string | null> {
   const h = await headers();
-  const vercelForwarded = h.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
-  if (vercelForwarded) return vercelForwarded;
-  const realIp = h.get("x-real-ip")?.trim();
-  if (realIp) return realIp;
-  const forwarded = h.get("x-forwarded-for");
-  if (forwarded) {
-    const parts = forwarded.split(",").map((p) => p.trim()).filter(Boolean);
-    if (parts.length > 0) return parts[parts.length - 1];
-  }
-  return null;
+  return resolveClientIp((n) => h.get(n), Boolean(process.env.VERCEL));
 }
 
 /** Salted SHA-256 of the client IP; the raw IP is never stored. */
