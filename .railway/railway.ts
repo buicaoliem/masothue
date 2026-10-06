@@ -6,7 +6,7 @@ export const partial = "masothue";
 
 export default defineRailway(() => {
   const web = service("masothue", {
-    replicas: { iad: 1 }, // single replica on purpose: ISR / unstable_cache live on the container filesystem
+    replicas: { sin: 1 }, // single replica on purpose: ISR / unstable_cache live on the container filesystem
     healthcheck: "/api/health",
     healthcheckTimeout: 120,
     deploy: {
