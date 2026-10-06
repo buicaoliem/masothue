@@ -12,6 +12,46 @@ const SECURITY_HEADERS = [
 
 const CDN_LIST = "public, s-maxage=86400, stale-while-revalidate=604800";
 const CDN_SEARCH = "public, s-maxage=60, stale-while-revalidate=600";
+// Cloudflare sits in front of Railway. The container is built in compile mode (no database at build time), so no page is
+// prerendered and Next would answer every page "private, no-store". Cache-Control gives Cloudflare the same lifetime live
+// gets from Vercel ISR (revalidate 86400); max-age=0 keeps browsers revalidating, like live. Not listed on purpose (live also
+// serves them uncached): /tim-kiem (CDN header only), /cap-nhat-ho-so, /yeu-cau-go-thong-tin, /vi-tri-noi-bat, /admin, /api.
+const CACHE_LIST = "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800";
+const CACHE = [{ key: "Cache-Control", value: CACHE_LIST }];
+const CACHED_PATHS = [
+  "/",
+  "/:taxCode(\\d{10}(?:-\\d{3})?)",
+  "/danh-ba",
+  "/danh-ba/:group",
+  "/danh-ba/tinh/:province",
+  "/danh-ba/:group/:province",
+  "/doanh-nghiep-moi",
+  "/doanh-nghiep-moi/:province",
+  "/loai-hinh",
+  "/loai-hinh/:slug",
+  "/nganh",
+  "/nganh/:slug",
+  "/thong-ke",
+  "/thong-ke/:province",
+  "/tinh/:slug",
+  "/tinh/:slug/nganh/:industry",
+  "/trang-thai",
+  "/trang-thai/:slug",
+  "/trang-thai/mst/:slug",
+  "/ma-nganh-2025",
+  "/ma-nganh-2025/:slug",
+  "/huong-dan",
+  "/huong-dan/:slug",
+  "/cong-cu",
+  "/cong-cu/:slug",
+  "/gioi-thieu",
+  "/lien-he",
+  "/nguon-du-lieu",
+  "/phuong-phap-du-lieu",
+  "/chinh-sach-bao-mat",
+  "/chinh-sach-bien-tap",
+  "/dieu-khoan",
+];
 const CDN = (value: string) => [
   { key: "CDN-Cache-Control", value },
   { key: "Vercel-CDN-Cache-Control", value },
@@ -22,6 +62,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: SECURITY_HEADERS },
+      ...CACHED_PATHS.map((source) => ({ source, headers: CACHE })),
       { source: "/tim-kiem", headers: CDN(CDN_SEARCH) },
       { source: "/tinh/:slug", headers: CDN(CDN_LIST) },
       { source: "/tinh/:slug/nganh/:industry", headers: CDN(CDN_LIST) },
