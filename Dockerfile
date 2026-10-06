@@ -21,7 +21,7 @@ COPY prisma ./prisma
 RUN npm ci --no-audit --no-fund
 COPY . .
 # Compile only: static generation would query the database at build time (unreachable from the Railway build
-# network, and an empty/failed prerender must not be baked in). Pages render on first request and are then ISR-cached.
+# network, and an empty/failed prerender must not be baked in). Pages render on first request; Cloudflare caches them.
 RUN npx next build --experimental-build-mode compile
 
 FROM node:22-bookworm-slim AS run
@@ -32,7 +32,6 @@ ENV NODE_ENV=production \
     NODE_OPTIONS=--max-old-space-size=1536
 COPY --from=build /app ./
 EXPOSE 3000
-# Start: (1) "generate" prerenders the static/ISR pages against the real database (the build above is compile-only and
-# had no database); a failure is logged and the server still starts, serving pages on demand. (2) railway-guard.cjs
-# runs `next start` internally and adds noindex on *.up.railway.app.
-CMD ["sh", "-c", "node node_modules/next/dist/bin/next build --experimental-build-mode generate || echo 'WARN: next generate failed; serving on demand'; exec node railway-guard.cjs"]
+# railway-guard.cjs runs `next start` internally and adds noindex on *.up.railway.app.
+# No start-time page generation: pages render on first request and Cloudflare caches them (Cache-Control in next.config.ts).
+CMD ["node", "railway-guard.cjs"]

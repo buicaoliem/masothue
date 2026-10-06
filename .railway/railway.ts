@@ -8,7 +8,7 @@ export default defineRailway(() => {
   const web = service("masothue", {
     replicas: { iad: 1 }, // single replica on purpose: ISR / unstable_cache live on the container filesystem
     healthcheck: "/api/health",
-    healthcheckTimeout: 300, // pages are generated at container start against the real DB (see Dockerfile / railway-guard)
+    healthcheckTimeout: 120,
     deploy: {
       restartPolicyMaxRetries: 5,
       // Heavy ISR + Prisma + bot traffic: 2 GB / 2 vCPU. Node heap is capped at 1.5 GB (Dockerfile NODE_OPTIONS).
