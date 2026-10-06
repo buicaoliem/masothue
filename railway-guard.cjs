@@ -14,6 +14,11 @@ const { spawn } = require("child_process");
 
 const PUBLIC_PORT = Number(process.env.PORT) || 3000;
 const INNER_PORT = PUBLIC_PORT + 1;
+// 404s must not sit in a CDN as long as the page group they belong to (a company added tomorrow would stay "not found"):
+// any s-maxage / stale-while-revalidate above this is cut down on 404 responses.
+const NOT_FOUND_TTL = 600;
+const CACHE_HEADERS = ["cache-control", "cdn-cache-control", "vercel-cdn-cache-control"];
+const capTtl = (value) => value.replace(/(s-maxage|stale-while-revalidate)=(\d+)/g, (_, k, n) => `${k}=${Math.min(Number(n), NOT_FOUND_TTL)}`);
 const TEMP_SUFFIX = ".up.railway.app";
 const HOP = ["connection", "keep-alive", "proxy-connection", "transfer-encoding", "upgrade", "te", "trailer"];
 
@@ -45,6 +50,7 @@ const server = http.createServer((req, res) => {
     (up) => {
       const headers = { ...up.headers };
       for (const h of HOP) delete headers[h];
+      if (up.statusCode === 404) for (const h of CACHE_HEADERS) if (typeof headers[h] === "string") headers[h] = capTtl(headers[h]);
       if (temp) headers["x-robots-tag"] = "noindex, nofollow";
       res.writeHead(up.statusCode, up.statusMessage, headers);
       up.pipe(res);
