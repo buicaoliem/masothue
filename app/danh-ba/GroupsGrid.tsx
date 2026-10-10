@@ -28,7 +28,7 @@ export function GroupsGrid({ groups }: { groups: GroupCount[] }) {
         ))}
       </ul>
       {!showAll && empty.length > 0 && (
-        <div className={siteStyles.moreRow} style={{ justifyContent: "center", marginTop: 16 }}>
+        <div className={siteStyles.moreRow} style={{ justifyContent: "center", marginTop: 16, marginBottom: 36 }}>
           <button type="button" className={`${styles.btn} ${styles.btnGhost}`} onClick={() => setShowAll(true)}>
             Xem tất cả ngành
           </button>
