@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PROVINCES } from "@/pipeline/province";
 import { listProvinceIndustryStats } from "@/lib/industry/service";
-import { isTaxonomyPageIndexable } from "@/lib/seo/indexability";
+import { isStatsPageIndexable, isTaxonomyPageIndexable } from "@/lib/seo/indexability";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { newCompaniesPath, provincePath, statsPath } from "@/lib/seo/urls";
 import { SITE_NAME } from "@/lib/site";
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `Thống kê doanh nghiệp tại ${province.displayName} | ${SITE_NAME}`,
     description: `Thống kê doanh nghiệp tại ${province.displayName} trong dữ liệu masothuedn.com: số lượng theo tình trạng và ngành phổ biến.`,
     path: statsPath(province.slug),
-    index: isTaxonomyPageIndexable({ kind: "province", total }),
+    index: isStatsPageIndexable() && isTaxonomyPageIndexable({ kind: "province", total }),
   });
 }
 

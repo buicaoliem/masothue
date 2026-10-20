@@ -37,6 +37,16 @@ export const SEO_CONFIG = {
     /** Saturation is meaningless with a tiny denominator; below this a pair is judged on counts only. */
     minDenominator: 100,
   },
+  /**
+   * Company-page richness gate (lib/seo/indexability.ts). A listable company page is indexed only when it carries
+   * at least `minSignals` of: main industry, tax status, legal representative, charter capital, founding date.
+   * Measured 2026-10-20 over 204,624 listable pages: 14,171 have >= 3 (rich), 190,453 have 2 (thin: only status + date).
+   * Set `enabled: false` to index every listable page again; lower/raise `minSignals` to move the threshold.
+   * Charter capital is imported nowhere yet (0 rows), so it currently never counts.
+   */
+  companyRichness: { enabled: true, minSignals: 3 },
+  /** /thong-ke/* pages are ~67% duplicate of the hubs: keep them reachable but out of the index and sitemap. */
+  indexStatsPages: false,
   /** Max URLs per sitemap file (protocol limit is 50,000). */
   sitemapMaxUrls: 50_000,
 } as const;

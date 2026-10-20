@@ -4,7 +4,7 @@ import { GUIDES } from "@/lib/guides";
 import { SITE_URL } from "@/lib/site";
 import robots from "@/app/robots";
 import { SEO_CONFIG } from "./config";
-import { isCompanyProfileIndexable, isTaxonomyPageIndexable, minCompaniesFor } from "./indexability";
+import { companyRichness, isCompanyProfileIndexable, isCompanyRich, isStatsPageIndexable, isTaxonomyPageIndexable, minCompaniesFor, richCompanyWhere } from "./indexability";
 import { articleJsonLd, breadcrumbJsonLd, organizationJsonLd, serializeJsonLd, websiteJsonLd, withHome } from "./jsonld";
 import {
   buildCompanyMetadata,
@@ -19,7 +19,13 @@ import { slugify } from "./slug";
 import { classifyStatus, legalFormSlug, STATUS_PAGES } from "./taxonomy";
 import { industryPath, parseIndustrySlug, parsePage, provinceIndustryPath } from "./urls";
 
-const company = { name: "CÔNG TY CỔ PHẦN FPT", address: "Hà Nội", taxCode: "0101248141", isHidden: false, enrichStatus: "OK" as const };
+// Rich: status + founding date + main industry + representative (4 of 5 signals).
+const company = {
+  name: "CÔNG TY CỔ PHẦN FPT", address: "Hà Nội", taxCode: "0101248141", isHidden: false, enrichStatus: "OK" as const,
+  status: "NNT đang hoạt động", activeDate: new Date("2000-01-01"), mainIndustry: "Lập trình máy vi tính", representativeName: "NGUYEN VAN A",
+};
+// Thin: only name + address + status + date (what ~93% of imported rows look like).
+const thin = { ...company, mainIndustry: null, representativeName: null };
 
 test("legal form slugs use the searched abbreviation", () => {
   assert.equal(legalFormSlug("Công ty trách nhiệm hữu hạn một thành viên"), "cong-ty-tnhh-mot-thanh-vien");
@@ -152,4 +158,47 @@ test("robots.txt declares the sitemap index and does not block search or assets"
   const rules = Array.isArray(r.rules) ? r.rules : [r.rules];
   const disallow = rules.flatMap((x) => (Array.isArray(x.disallow) ? x.disallow : x.disallow ? [x.disallow] : []));
   assert.ok(!disallow.some((d) => /tim-kiem|search|_next/.test(d)), "noindex routes must stay crawlable");
+});
+
+test("index policy: rich company page is indexed, thin one is noindex", () => {
+  assert.equal(companyRichness(company), 4);
+  assert.equal(isCompanyRich(company), true);
+  assert.equal(isCompanyProfileIndexable(company), true);
+  assert.equal(companyRichness(thin), 2);
+  assert.equal(isCompanyProfileIndexable(thin), false);
+  assert.deepEqual(buildCompanyMetadata(thin, isCompanyProfileIndexable(thin)).robots, { index: false, follow: true });
+});
+
+test("index policy: threshold is exactly minSignals, and an approved business profile always wins", () => {
+  assert.equal(isCompanyProfileIndexable({ ...thin, mainIndustry: "x" }), true); // 3 signals
+  assert.equal(isCompanyProfileIndexable({ ...thin, mainIndustry: "" }), false); // empty string is not a signal
+  assert.equal(isCompanyProfileIndexable(thin, { hasApprovedProfile: true }), true);
+  assert.equal(isCompanyProfileIndexable({ ...thin, isHidden: true }, { hasApprovedProfile: true }), false);
+});
+
+test("index policy: /thong-ke/* is noindex, hubs and tools stay indexable", () => {
+  assert.equal(isStatsPageIndexable(), false);
+  assert.equal(isTaxonomyPageIndexable({ kind: "province", total: 5000 }), true);
+  assert.equal(isTaxonomyPageIndexable({ kind: "province", total: 5000, page: 2 }), false);
+});
+
+test("index policy: the sitemap filter selects exactly the pages the meta rule indexes", () => {
+  type W = Record<string, unknown>;
+  const row = (c: typeof company & { capital?: number }) => c as unknown as Record<string, unknown>;
+  const matches = (w: W, c: Record<string, unknown>): boolean => {
+    if (Array.isArray(w.AND)) return (w.AND as W[]).every((x) => matches(x, c));
+    if (Array.isArray(w.OR)) return (w.OR as W[]).some((x) => matches(x, c));
+    return Object.entries(w).every(([k, f]) => {
+      const v = c[k] ?? null;
+      const flt = f as { not?: null; notIn?: string[]; gt?: number };
+      if (flt.not === null && v === null) return false;
+      if (flt.notIn?.includes(v as string)) return false;
+      if (flt.gt !== undefined && !(typeof v === "number" && v > flt.gt)) return false;
+      return true;
+    });
+  };
+  const where = richCompanyWhere() as W;
+  const variants = [company, thin, { ...thin, mainIndustry: "x" }, { ...thin, representativeName: "" }, { ...thin, status: null, activeDate: null },
+    { ...thin, capital: 5, mainIndustry: "x", status: null }, { ...company, capital: 0 }];
+  for (const v of variants) assert.equal(matches(where, row(v as never)), isCompanyRich(v), JSON.stringify(v));
 });

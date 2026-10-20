@@ -91,7 +91,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { taxCode } = await params;
   const [company, profile] = await Promise.all([getCompany(taxCode), getProfileOnce(taxCode)]);
   if (!company && !profile) return {};
-  if (company) return buildCompanyMetadata({ taxCode: company.taxCode, name: company.name }, isCompanyProfileIndexable(company));
+  if (company) return buildCompanyMetadata({ taxCode: company.taxCode, name: company.name }, isCompanyProfileIndexable(company, { hasApprovedProfile: !!profile }));
   // Directory-only page (no registry row): indexable only when the approved profile passes the directory rule.
   const { name } = resolveDisplay(company, profile);
   return buildPageMetadata({
