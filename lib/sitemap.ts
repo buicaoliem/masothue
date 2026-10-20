@@ -3,6 +3,7 @@ import { SITE_URL } from "@/lib/site";
 import { asDate, CACHE_TAGS, cachedQuery, REVALIDATE_S } from "@/lib/cache";
 import { listableWhere } from "@/lib/company";
 import { SEO_CONFIG } from "@/lib/seo/config";
+import { richCompanyWhere } from "@/lib/seo/indexability";
 
 // Protocol limit is 50,000 URLs per sitemap file.
 export const SITEMAP_PAGE_SIZE = SEO_CONFIG.sitemapMaxUrls;
@@ -15,10 +16,21 @@ export const sectionSitemapUrl = (section: SitemapSection) => `${SITE_URL}/sitem
 export const provinceIndustrySitemapUrl = (shard: number) => `${SITE_URL}/sitemaps/province-industries-${shard}.xml`;
 export const companySitemapUrl = (page: number) => `${SITE_URL}/sitemaps/companies-${page}.xml`;
 
+/**
+ * Company pages that may appear in the sitemap: listable AND (rich enough OR holding an approved business profile).
+ * Same rule as isCompanyProfileIndexable, which sets the page's robots meta.
+ */
+async function indexableCompanyWhere() {
+  const rich = richCompanyWhere();
+  if (Object.keys(rich).length === 0) return listableWhere();
+  const profiles = await prisma.businessProfile.findMany({ select: { mst: true } });
+  return listableWhere({ OR: [rich, { taxCode: { in: profiles.map((p) => p.mst) } }] });
+}
+
 export const countSitemapPages = cachedQuery(
   "sitemap-page-count",
   async (): Promise<number> => {
-    const total = await prisma.company.count({ where: await listableWhere() });
+    const total = await prisma.company.count({ where: await indexableCompanyWhere() });
     return Math.max(1, Math.ceil(total / SITEMAP_PAGE_SIZE));
   },
   { tags: [CACHE_TAGS.sitemaps, CACHE_TAGS.removals] },
@@ -28,7 +40,7 @@ const loadSitemapPage = cachedQuery(
   "sitemap-page",
   async (page: number) =>
     prisma.company.findMany({
-      where: await listableWhere(),
+      where: await indexableCompanyWhere(),
       select: { taxCode: true, dataUpdatedAt: true, dataAsOf: true, lastEnrichedAt: true },
       orderBy: { taxCode: "asc" },
       skip: page * SITEMAP_PAGE_SIZE,

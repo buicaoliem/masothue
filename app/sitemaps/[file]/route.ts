@@ -2,7 +2,7 @@ import { INDEXABLE_MIN_PROFILES } from "@/lib/directory";
 import { listIndexableIndustries, listIndexableProvinceIndustries } from "@/lib/industry/seo";
 import { getGroupCountsNationwide, getIndexableDirectoryPaths, getProvinceSlugsWithAnyProfile } from "@/lib/directory-web";
 import { GUIDES } from "@/lib/guides";
-import { isTaxonomyPageIndexable } from "@/lib/seo/indexability";
+import { isStatsPageIndexable, isTaxonomyPageIndexable } from "@/lib/seo/indexability";
 import { SEO_CONFIG } from "@/lib/seo/config";
 import { STATUS_PAGES } from "@/lib/seo/taxonomy";
 import { guidePath, industryPath, legalFormPath, newCompaniesPath, provinceIndustryPath, provincePath, statsPath, statusPath } from "@/lib/seo/urls";
@@ -39,7 +39,8 @@ async function pathsFor(section: SitemapSection): Promise<string[]> {
     case "static":
       return [
         "/", "/gioi-thieu", "/lien-he", "/nguon-du-lieu", "/phuong-phap-du-lieu", "/chinh-sach-bien-tap",
-        "/dieu-khoan", "/chinh-sach-bao-mat", "/huong-dan", "/thong-ke", "/thong-ke/doanh-nghiep-viet-nam",
+        "/dieu-khoan", "/chinh-sach-bao-mat", "/huong-dan",
+        ...(isStatsPageIndexable() ? ["/thong-ke", "/thong-ke/doanh-nghiep-viet-nam"] : []),
         "/nganh", "/loai-hinh", "/trang-thai",
       ];
     case "tools":
@@ -54,7 +55,8 @@ async function pathsFor(section: SitemapSection): Promise<string[]> {
       const paths: string[] = [];
       for (const { provinceSlug, total } of counts.sort((a, b) => a.provinceSlug.localeCompare(b.provinceSlug))) {
         if (!isTaxonomyPageIndexable({ kind: "province", total })) continue;
-        paths.push(provincePath(provinceSlug), statsPath(provinceSlug));
+        paths.push(provincePath(provinceSlug));
+        if (isStatsPageIndexable()) paths.push(statsPath(provinceSlug));
         const fresh = await getNewCompanies({ provinceSlug, limit: 1 });
         if (isTaxonomyPageIndexable({ kind: "new-companies", total: fresh.total })) paths.push(newCompaniesPath(provinceSlug));
       }

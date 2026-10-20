@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { PROVINCES } from "@/pipeline/province";
-import { buildStaticMetadata } from "@/lib/seo/metadata";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME } from "@/lib/site";
+import { isStatsPageIndexable } from "@/lib/seo/indexability";
 import { statsPath } from "@/lib/seo/urls";
 import { listProvinceCounts } from "@/lib/taxonomy-data";
 import { LinkChips } from "../components/LinkChips";
 import { Breadcrumb } from "../components/Breadcrumb";
 import styles from "../components/site.module.css";
 
-export const metadata = buildStaticMetadata({
-  title: "Thống kê doanh nghiệp",
+export const metadata = buildPageMetadata({
+  title: `Thống kê doanh nghiệp | ${SITE_NAME}`,
   description: "Thống kê doanh nghiệp toàn quốc và theo tỉnh, thành phố dựa trên dữ liệu công khai có trong masothuedn.com.",
   path: "/thong-ke",
+  index: isStatsPageIndexable(),
 });
 
 export const revalidate = 86400;

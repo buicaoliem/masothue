@@ -1,15 +1,18 @@
 import { listIndustryStats } from "@/lib/industry/service";
-import { buildStaticMetadata } from "@/lib/seo/metadata";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+import { SITE_NAME } from "@/lib/site";
+import { isStatsPageIndexable } from "@/lib/seo/indexability";
 import { getDataAsOf, getNewCompanies, getStatusBreakdown, listLegalForms } from "@/lib/taxonomy-data";
 import { newCompaniesPath } from "@/lib/seo/urls";
 import { StatsView } from "../../components/StatsView";
 
 export const revalidate = 86400;
 
-export const metadata = buildStaticMetadata({
-  title: "Thống kê doanh nghiệp Việt Nam",
+export const metadata = buildPageMetadata({
+  title: `Thống kê doanh nghiệp Việt Nam | ${SITE_NAME}`,
   description: "Thống kê doanh nghiệp trong dữ liệu masothuedn.com: số lượng theo tình trạng hoạt động và ngành nghề phổ biến.",
   path: "/thong-ke/doanh-nghiep-viet-nam",
+  index: isStatsPageIndexable(),
 });
 
 export default async function NationalStats() {
