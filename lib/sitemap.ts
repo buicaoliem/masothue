@@ -9,7 +9,7 @@ import { richCompanyWhere } from "@/lib/seo/indexability";
 export const SITEMAP_PAGE_SIZE = SEO_CONFIG.sitemapMaxUrls;
 
 // Child sitemaps, one per section, so Search Console reports coverage per page type.
-export const SITEMAP_SECTIONS = ["static", "tools", "guides", "provinces", "industries", "taxonomy", "directory", "vsic-2025"] as const;
+export const SITEMAP_SECTIONS = ["static", "tools", "guides", "provinces", "areas", "industries", "taxonomy", "directory", "vsic-2025"] as const;
 export type SitemapSection = (typeof SITEMAP_SECTIONS)[number];
 
 export const sectionSitemapUrl = (section: SitemapSection) => `${SITE_URL}/sitemaps/${section}.xml`;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CONTACT_EMAIL, OPERATOR_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
 import siteStyles from "../components/site.module.css";
+import { ContactEmail } from "../components/ContactEmail";
 
 export const metadata: Metadata = {
   title: `Điều khoản sử dụng | ${SITE_NAME}`,
@@ -82,7 +83,7 @@ export default function TermsPage() {
           {CONTACT_EMAIL ? (
             <>
               {" "}
-              hoặc email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              hoặc email <ContactEmail />
             </>
           ) : null}
           . {OPERATOR_NAME}.

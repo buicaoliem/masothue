@@ -8,6 +8,9 @@ export const absoluteUrl = (path: string) => `${SITE_URL}${path}`;
 
 export const companyPath = (taxCode: string) => `/${taxCode}`;
 export const provincePath = (slug: string, page = 1) => (page > 1 ? `/tinh/${slug}?trang=${page}` : `/tinh/${slug}`);
+/** District hub, or ward hub when `wardSlug` is given. Area slugs come from lib/seo/area.ts (slug of the prefixed name, e.g. "huyen-binh-son"). */
+export const areaPath = (provinceSlug: string, districtSlug: string, wardSlug?: string, page = 1) =>
+  `/tinh/${provinceSlug}/${districtSlug}${wardSlug ? `/${wardSlug}` : ""}${page > 1 ? `?trang=${page}` : ""}`;
 export const industrySlug = (code: string, name: string) => `${code}-${slugify(name)}`;
 export const industryPath = (code: string, name: string) => `/nganh/${industrySlug(code, name)}`;
 export const legalFormPath = (slug: string) => `/loai-hinh/${slug}`;

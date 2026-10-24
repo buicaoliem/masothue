@@ -5,7 +5,8 @@ import { PROVINCES } from "@/pipeline/province";
 import { isTaxonomyPageIndexable } from "@/lib/seo/indexability";
 import { buildProvinceMetadata } from "@/lib/seo/metadata";
 import { STATUS_PAGES } from "@/lib/seo/taxonomy";
-import { industryPath, newCompaniesPath, parsePage, provinceIndustryPath, provincePath, statusPath } from "@/lib/seo/urls";
+import { areaPath, industryPath, newCompaniesPath, parsePage, provinceIndustryPath, provincePath, statusPath } from "@/lib/seo/urls";
+import { getProvinceAreaIndex, linkableDistricts } from "@/lib/area-index";
 import { listIndexableProvinceIndustries } from "@/lib/industry/seo";
 import { getNewCompanies, getProvinceListableTotal, getStatusBreakdown, listProvinceCompanies, LIST_PAGE_SIZE } from "@/lib/taxonomy-data";
 import { CompanyList } from "../../components/CompanyList";
@@ -45,13 +46,14 @@ export default async function ProvinceHub({ params, searchParams }: Props) {
   if (page > Math.max(1, Math.ceil(total / LIST_PAGE_SIZE))) notFound();
 
   const first = page === 1;
-  const [breakdown, industries, fresh] = first
+  const [breakdown, industries, fresh, districts] = first
     ? await Promise.all([
         getStatusBreakdown(slug),
         listIndexableProvinceIndustries(slug).then((l) => l.sort((a, b) => b.companyCount - a.companyCount).slice(0, 12)),
         getNewCompanies({ provinceSlug: slug, limit: 6, withTotal: false }),
+        getProvinceAreaIndex(slug).then(linkableDistricts),
       ])
-    : [null, [], { total: 0, rows: [] }];
+    : [null, [], { total: 0, rows: [] }, []];
 
   return (
     <TaxonomyList
@@ -78,6 +80,14 @@ export default async function ProvinceHub({ params, searchParams }: Props) {
               .join(" · ")}
           </p>
           <LinkChips items={STATUS_PAGES.map((s) => ({ href: statusPath(s.slug), label: s.label }))} />
+        </section>
+      )}
+      {districts.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Doanh nghiệp theo quận, huyện (địa giới trước 01/07/2025)</h2>
+          <LinkChips
+            items={districts.map((d) => ({ href: areaPath(slug, d.unit.slug), label: `${d.unit.name} (${d.companies.length.toLocaleString("vi-VN")})` }))}
+          />
         </section>
       )}
       {fresh.rows.length > 0 && (

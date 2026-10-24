@@ -194,3 +194,6 @@
 @media (min-width: 640px) {
   .services { grid-template-columns: repeat(3, 1fr); }
 }
+
+.kvHint { display: block; margin-top: 4px; font-size: 0.85rem; color: #6b7280; }
+.blockNote { margin: 10px 0 0; font-size: 0.9rem; color: #4b5563; }

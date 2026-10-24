@@ -6,10 +6,11 @@ import { SEO_CONFIG } from "@/lib/seo/config";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { STATUS_PAGES } from "@/lib/seo/taxonomy";
-import { guidePath, industryPath, legalFormPath, statusPath } from "@/lib/seo/urls";
+import { areaPath, guidePath, industryPath, legalFormPath, statusPath } from "@/lib/seo/urls";
+import { topDistrictHubs } from "@/lib/area-index";
 import { SITE_NAME } from "@/lib/site";
 import { topIndexableIndustries } from "@/lib/industry/seo";
-import { getDataAsOf, getNewCompanies, listLegalForms } from "@/lib/taxonomy-data";
+import { getDataAsOf, getNewCompanies, listLegalForms, listProvinceCounts } from "@/lib/taxonomy-data";
 import { ENABLED_TOOLS } from "@/lib/tools/registry";
 import { CompanyList } from "./components/CompanyList";
 import { JsonLd } from "./components/JsonLd";
@@ -32,11 +33,12 @@ const fmtDate = (d: Date) =>
   `${String(d.getUTCDate()).padStart(2, "0")}/${String(d.getUTCMonth() + 1).padStart(2, "0")}/${d.getUTCFullYear()}`;
 
 export default async function Home() {
-  const [fresh, industries, legalForms, dataAsOf] = await Promise.all([
+  const [fresh, industries, legalForms, dataAsOf, districts] = await Promise.all([
     getNewCompanies({ limit: SEO_CONFIG.homeNewCompanies, withTotal: false }),
     topIndexableIndustries(12),
     listLegalForms(SEO_CONFIG.taxonomyMinCompanies),
     getDataAsOf(),
+    listProvinceCounts().then((counts) => topDistrictHubs(counts.map((c) => c.provinceSlug), 16)),
   ]);
 
   return (
@@ -91,6 +93,20 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {districts.length > 0 && (
+        <section className={styles.section} style={{ borderTop: "1px solid var(--line)" }}>
+          <div className={styles.wrap}>
+            <h2 className={styles.sectionTitle}>Tra cứu theo quận, huyện</h2>
+            <LinkChips
+              items={districts.map((d) => ({
+                href: areaPath(d.provinceSlug, d.district.slug),
+                label: `${d.district.name}, ${PROVINCES.find((p) => p.slug === d.provinceSlug)?.displayName ?? ""} (${d.count.toLocaleString("vi-VN")})`,
+              }))}
+            />
+          </div>
+        </section>
+      )}
 
       {industries.length > 0 && (
         <section className={styles.section} style={{ borderTop: "1px solid var(--line)" }}>

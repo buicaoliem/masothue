@@ -167,15 +167,17 @@ export function createDirectory(deps: DirectoryDeps) {
     turnstileToken: string | null | undefined,
   ): Promise<Result<{ id: string | null }>> {
     const ipHash = hashIp(ip);
-    const gate = await antiSpam("profile_submission", { ip, turnstileToken, honeypot: input.honeypot }, ipHash);
     // Bots get a success answer and nothing is stored.
-    if (gate === "drop") return { ok: true, id: null };
-    if (gate) return gate;
-
+    if (input.honeypot?.trim()) return { ok: true, id: null };
+    // Field validation runs BEFORE Turnstile: a Turnstile token is single-use, and spending it on a form that is then
+    // rejected for a typo left the visitor stuck with "không xác minh được" on every retry.
     const parsed = profileSubmissionSchema.safeParse(input);
     if (!parsed.success) {
       return { ok: false, message: "Vui lòng kiểm tra lại các ô được đánh dấu.", errors: fieldErrors(parsed.error) };
     }
+    const gate = await antiSpam("profile_submission", { ip, turnstileToken, honeypot: input.honeypot }, ipHash);
+    if (gate === "drop") return { ok: true, id: null };
+    if (gate) return gate;
     const v = parsed.data;
     if (await isBlocked(v.mst)) return { ok: false, message: BLOCKED_MESSAGE, errors: { mst: BLOCKED_MESSAGE } };
 
@@ -211,14 +213,15 @@ export function createDirectory(deps: DirectoryDeps) {
     turnstileToken: string | null | undefined,
   ): Promise<Result<{ id: string | null }>> {
     const ipHash = hashIp(ip);
-    const gate = await antiSpam("sponsor_lead", { ip, turnstileToken, honeypot: input.honeypot }, ipHash);
-    if (gate === "drop") return { ok: true, id: null };
-    if (gate) return gate;
-
+    if (input.honeypot?.trim()) return { ok: true, id: null };
+    // Validate before spending the single-use Turnstile token (see submitProfile).
     const parsed = sponsorLeadSchema.safeParse(input);
     if (!parsed.success) {
       return { ok: false, message: "Vui lòng kiểm tra lại các ô được đánh dấu.", errors: fieldErrors(parsed.error) };
     }
+    const gate = await antiSpam("sponsor_lead", { ip, turnstileToken, honeypot: input.honeypot }, ipHash);
+    if (gate === "drop") return { ok: true, id: null };
+    if (gate) return gate;
     const v = parsed.data;
     const id = randomUUID();
     await sql.query(
