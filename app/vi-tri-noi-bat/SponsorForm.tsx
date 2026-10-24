@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Script from "next/script";
 import { useActionState, useState } from "react";
 import { DIRECTORY_GROUPS } from "@/lib/directory/groups";
 import { PROVINCES } from "@/pipeline/province";
+import { TurnstileField } from "../components/TurnstileField";
 import dirStyles from "../components/directory.module.css";
 import styles from "../components/directoryForm.module.css";
 import { submitSponsorLeadAction } from "./actions";
@@ -24,6 +24,7 @@ export function SponsorForm({ initialGroupSlug, initialProvinceSlug, initialMst,
   const [provinceSlug, setProvinceSlug] = useState(initialProvinceSlug);
   const [mst, setMst] = useState(initialMst);
   const [message, setMessage] = useState("");
+  const [captcha, setCaptcha] = useState("");
 
   const err = (key: string) => state.errors[key] && <p className={styles.error}>{state.errors[key]}</p>;
 
@@ -44,12 +45,7 @@ export function SponsorForm({ initialGroupSlug, initialProvinceSlug, initialMst,
 
   return (
     <form action={action} className={styles.formwrap} noValidate>
-      {TURNSTILE_SITE_KEY && (
-        <>
-          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-          <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} />
-        </>
-      )}
+      {TURNSTILE_SITE_KEY && <TurnstileField siteKey={TURNSTILE_SITE_KEY} resetKey={state} onToken={setCaptcha} />}
       <div className={styles.fs}>
         <h2>Nhận báo giá</h2>
         <div className={styles.grid2}>
@@ -125,7 +121,7 @@ export function SponsorForm({ initialGroupSlug, initialProvinceSlug, initialMst,
               Nhắn Zalo
             </a>
           )}
-          <button type="submit" className={dirStyles.btnGold + " " + dirStyles.btn} disabled={pending}>
+          <button type="submit" className={dirStyles.btnGold + " " + dirStyles.btn} disabled={pending || (!!TURNSTILE_SITE_KEY && !captcha)}>
             {pending ? "Đang gửi…" : "Gửi yêu cầu"}
           </button>
         </div>

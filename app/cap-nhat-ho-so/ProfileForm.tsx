@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Script from "next/script";
 import { useActionState, useMemo, useState } from "react";
 import { DIRECTORY_GROUPS } from "@/lib/directory/groups";
 import { PROVINCES } from "@/pipeline/province";
 import { mstHint } from "../components/mstHint";
+import { TurnstileField } from "../components/TurnstileField";
 import { MstDigitBoxes, mstMessage } from "../components/MstDigitBoxes";
 import siteStyles from "../components/site.module.css";
 import dirStyles from "../components/directory.module.css";
@@ -39,6 +39,7 @@ export function ProfileForm({ initialMst, initialCompanyName, initialAddress }: 
   const [submitterRole, setSubmitterRole] = useState("");
   const [submitterPhone, setSubmitterPhone] = useState("");
   const [confirmAuthority, setConfirmAuthority] = useState(false);
+  const [captcha, setCaptcha] = useState("");
 
   const hint = useMemo(() => mstHint(mst), [mst]);
   const msg = mstMessage(hint, "tool");
@@ -56,6 +57,7 @@ export function ProfileForm({ initialMst, initialCompanyName, initialAddress }: 
   if (!submitterPhone.trim()) missing.push("số điện thoại người gửi");
   if (!confirmAuthority) missing.push("xác nhận có quyền đăng thông tin");
   if (hasContact && !consentPublish) missing.push("đồng ý công khai thông tin liên hệ");
+  if (TURNSTILE_SITE_KEY && !captcha) missing.push("bước xác minh chống máy tự động (ô Cloudflare phía trên, vài giây)");
   const valid = missing.length === 0;
 
   const err = (key: string) => state.errors[key] && <p className={styles.error}>{state.errors[key]}</p>;
@@ -88,12 +90,7 @@ export function ProfileForm({ initialMst, initialCompanyName, initialAddress }: 
 
   return (
     <form action={action} className={styles.formwrap} noValidate>
-      {TURNSTILE_SITE_KEY && (
-        <>
-          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-          <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} />
-        </>
-      )}
+      {TURNSTILE_SITE_KEY && <TurnstileField siteKey={TURNSTILE_SITE_KEY} resetKey={state} onToken={setCaptcha} />}
 
       <div className={styles.fs}>
         <h2>Doanh nghiệp</h2>

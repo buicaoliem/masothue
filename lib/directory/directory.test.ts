@@ -183,6 +183,15 @@ test("Turnstile sai thì từ chối", async () => {
   assert.equal(r.ok, false);
 });
 
+test("lỗi nhập liệu được báo trước khi dùng token Turnstile (token chỉ dùng được một lần)", async () => {
+  let checks = 0;
+  const counting = createDirectory({ sql, enrich: async () => {}, verifyTurnstile: async () => (checks++, true), now: () => clock });
+  const bad = await counting.submitProfile(validInput({ submitterPhone: "" }), "1.1.1.1", "tok");
+  assert.equal(bad.ok, false);
+  assert.ok(!bad.ok && bad.errors && Object.keys(bad.errors).length > 0);
+  assert.equal(checks, 0, "token must not be consumed by a form that fails validation");
+});
+
 test("MST đang ẩn hoặc có yêu cầu gỡ bị từ chối và không xuất hiện ở mọi chỗ công khai", async () => {
   // Profiles approved while visible
   await seedCompany(MST_A, { name: "Công ty A", address: "HCM" });

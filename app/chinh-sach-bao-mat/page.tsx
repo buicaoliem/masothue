@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CONTACT_EMAIL, OPERATOR_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
 import { REL_EXTERNAL_INFO } from "@/lib/relAttrs";
 import siteStyles from "../components/site.module.css";
+import { ContactEmail } from "../components/ContactEmail";
 
 export const metadata: Metadata = {
   title: `Chính sách bảo mật | ${SITE_NAME}`,
@@ -100,7 +101,7 @@ export default function PrivacyPolicyPage() {
           {CONTACT_EMAIL ? (
             <>
               {" "}
-              hoặc email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              hoặc email <ContactEmail />
             </>
           ) : null}
           . {OPERATOR_NAME} sẽ xem xét và phản hồi từng yêu cầu.

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { CONTACT_EMAIL } from "@/lib/site";
 import styles from "./site.module.css";
+import { ContactEmail } from "./ContactEmail";
 
 const LINKS = [
   { label: "Giới thiệu", href: "/gioi-thieu" },
@@ -33,7 +33,7 @@ export function SiteFooter() {
           ))}
         </nav>
         <span className={styles.footerContact}>
-          Email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          Email: <ContactEmail />
         </span>
       </div>
     </footer>

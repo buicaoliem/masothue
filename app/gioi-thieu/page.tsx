@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CONTACT_EMAIL, OPERATOR_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
+import { OPERATOR_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
 import siteStyles from "../components/site.module.css";
+import { ContactEmail } from "../components/ContactEmail";
 
 export const metadata: Metadata = {
   title: `Giới thiệu | ${SITE_NAME}`,
@@ -40,7 +41,7 @@ export default function AboutPage() {
       <section className={siteStyles.section}>
         <h2 className={siteStyles.sectionTitle}>Liên hệ</h2>
         <p>
-          {OPERATOR_NAME}. Email liên hệ: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+          {OPERATOR_NAME}. Email liên hệ: <ContactEmail />.
         </p>
       </section>
     </main>
