@@ -7,7 +7,10 @@ import { getNewCompanies } from "@/lib/taxonomy-data";
 import { getCompanyIndustries } from "@/lib/industry/service";
 import { isCompanyProfileIndexable } from "@/lib/seo/indexability";
 import { buildCompanyMetadata, buildPageMetadata } from "@/lib/seo/metadata";
-import { industryPath, legalFormPath, provincePath, statusPath } from "@/lib/seo/urls";
+import { areaPath, industryPath, legalFormPath, provincePath, statusPath } from "@/lib/seo/urls";
+import { parseAddressArea } from "@/lib/seo/area";
+import { getProvinceAreaIndex, isAreaHubLinkable, sameAreaCompanies, sameIndustryCompanies, type AreaCompany } from "@/lib/area-index";
+import { phapluatIndustryLink } from "@/lib/vsic/phapluat";
 import { classifyStatus, legalFormSlug } from "@/lib/seo/taxonomy";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { serializeJsonLd } from "@/lib/seo/jsonld";
@@ -16,7 +19,7 @@ import { getSameGroupProfiles } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { OPENDATA_PUBLISHERS } from "@/lib/opendata-sources";
-import { statusTone } from "@/lib/company-status";
+import { companyAge, explainStatus, statusTone } from "@/lib/company-status";
 import { AFFILIATE_LINKS, type ServiceKey } from "@/lib/config";
 import { REL_EXTERNAL_SPONSORED, REL_EXTERNAL_UGC } from "@/lib/relAttrs";
 import { LogoTile } from "../components/LogoTile";
@@ -129,6 +132,23 @@ const SERVICES: { key: ServiceKey; title: string; desc: string }[] = [
   { key: "website", title: "Thiết kế website", desc: "Website giới thiệu doanh nghiệp chuẩn di động." },
 ];
 
+/** Cards for the same-area / same-industry blocks (indexable company pages only). */
+function CompanyCards({ items }: { items: AreaCompany[] }) {
+  return (
+    <ul className={styles.nearby}>
+      {items.map((n) => (
+        <li key={n.taxCode}>
+          <Link href={`/${n.taxCode}`} className={styles.nearbyCard}>
+            <span className={styles.nearbyName}>{n.name}</span>
+            <span className={styles.nearbyMeta}>MST {n.taxCode}</span>
+            <span className={styles.nearbyMeta}>{n.address}</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Missing() {
   return <span className={dirStyles.missing}>Chưa có dữ liệu</span>;
 }
@@ -176,11 +196,14 @@ export default async function CompanyPage({ params }: Props) {
   const { company, profile, isPaid } = data;
 
   const group = profile ? findDirectoryGroup(profile.groupSlug) : null;
-  // Everything left is independent given the company row: one round trip, not three.
-  const [sameGroup, industriesRaw, nearby] = await Promise.all([
+  const indexable = company ? isCompanyProfileIndexable(company, { hasApprovedProfile: !!profile }) : false;
+  // Everything left is independent given the company row: one round trip, not four.
+  // The area index (same ward / same industry blocks, district/ward hub links) is only used on indexable pages.
+  const [sameGroup, industriesRaw, nearby, areaIndex] = await Promise.all([
     profile ? getSameGroupProfiles(profile.groupSlug, profile.provinceSlug, taxCode, 6) : Promise.resolve([]),
     industriesPromise,
     company?.provinceSlug ? getNearbyCompanies(company.provinceSlug, company.taxCode) : Promise.resolve([]),
+    indexable && company?.provinceSlug ? getProvinceAreaIndex(company.provinceSlug) : Promise.resolve(null),
   ]);
 
   const { name, address, province } = resolveDisplay(company, profile);
@@ -195,6 +218,21 @@ export default async function CompanyPage({ params }: Props) {
   const statusPage = company?.status ? classifyStatus(company.status) : undefined;
   const provinceSlug = company?.provinceSlug ?? profile?.provinceSlug ?? null;
 
+  // Area from the registered address (pre-07/2025 boundaries); hub links only where the hub is indexable.
+  const area = company ? parseAddressArea(company.address) : null;
+  const districtNode = areaIndex && area?.district ? areaIndex.districts.get(area.district.slug) ?? null : null;
+  const wardNode = districtNode && area?.ward ? districtNode.wards.get(area.ward.slug) ?? null : null;
+  const districtHref = provinceSlug && districtNode && isAreaHubLinkable(districtNode.companies.length) ? areaPath(provinceSlug, districtNode.unit.slug) : null;
+  const wardHref =
+    provinceSlug && districtNode && wardNode && isAreaHubLinkable(wardNode.companies.length) ? areaPath(provinceSlug, districtNode.unit.slug, wardNode.unit.slug) : null;
+  const sameArea = areaIndex && area && company ? sameAreaCompanies(areaIndex, { taxCode: company.taxCode, ...area }, 6) : null;
+  const sameIndustry =
+    areaIndex && area && company && primaryIndustry ? sameIndustryCompanies(areaIndex, { taxCode: company.taxCode, district: area.district }, primaryIndustry.code, 6) : null;
+  const phapluat = primaryIndustry ? phapluatIndustryLink(primaryIndustry.code) : null;
+  const statusExplanation = explainStatus(company?.status);
+  const age = companyAge(company?.activeDate, new Date());
+  const areaLabel = (u: { name: string } | null, href: string | null) => (u ? (href ? <Link href={href}>{u.name}</Link> : u.name) : null);
+
   // Optional rows appear only when the source provided the field; nothing is inferred.
   const kvRows: [string, ReactNode][] = [
     ["Mã số thuế", displayTaxCode],
@@ -203,12 +241,25 @@ export default async function CompanyPage({ params }: Props) {
     [
       "Tình trạng",
       company?.status ? (
-        statusPage ? <Link href={statusPath(statusPage.slug)}>{displayStatus(company)}</Link> : displayStatus(company)
+        <>
+          {statusPage ? <Link href={statusPath(statusPage.slug)}>{displayStatus(company)}</Link> : displayStatus(company)}
+          {statusExplanation && <span className={styles.kvHint}>{statusExplanation}</span>}
+        </>
       ) : (
         <Missing />
       ),
     ],
-    ["Ngày thành lập", company?.activeDate ? formatDate(company.activeDate) : <Missing />],
+    [
+      "Ngày thành lập",
+      company?.activeDate ? (
+        <>
+          {formatDate(company.activeDate)}
+          {age && <span className={styles.kvHint}>Đã thành lập {age} (tính đến tháng {formatDate(new Date()).slice(3)})</span>}
+        </>
+      ) : (
+        <Missing />
+      ),
+    ],
     [
       "Địa chỉ trụ sở",
       address ? (
@@ -225,6 +276,27 @@ export default async function CompanyPage({ params }: Props) {
         <Missing />
       ),
     ],
+    ...(area && (area.district || area.ward) && province
+      ? ([
+          [
+            "Khu vực",
+            <>
+              {[areaLabel(area.ward, wardHref), areaLabel(area.district, districtHref)].filter(Boolean).map((el, i) => (
+                <Fragment key={i}>
+                  {i > 0 && ", "}
+                  {el}
+                </Fragment>
+              ))}
+              {/* A district in the address means pre-07/2025 wording; post-merger addresses (ward + province) need no note. */}
+              {area.district && (
+                <span className={styles.kvHint}>
+                  Theo địa giới trước 01/07/2025{area.formerProvince ? ` (${area.formerProvince})` : ""}; nay thuộc {province}.
+                </span>
+              )}
+            </>,
+          ],
+        ] as [string, ReactNode][])
+      : []),
     ["Người đại diện", company?.representativeName ?? <Missing />],
     ...(primaryIndustry || company?.mainIndustry || otherIndustries.length === 0
       ? ([
@@ -268,6 +340,8 @@ export default async function CompanyPage({ params }: Props) {
       <Breadcrumb
         items={[
           ...(provinceSlug && province ? [{ name: province, path: provincePath(provinceSlug) }] : []),
+          ...(districtHref && districtNode ? [{ name: districtNode.unit.name, path: districtHref }] : []),
+          ...(wardHref && wardNode ? [{ name: wardNode.unit.name, path: wardHref }] : []),
           ...(profile && group ? [{ name: group.label, path: `/danh-ba/${profile.groupSlug}/${profile.provinceSlug}` }] : []),
           { name, path: `/${displayTaxCode}` },
         ]}
@@ -478,7 +552,55 @@ export default async function CompanyPage({ params }: Props) {
             </section>
           )}
 
-          {nearby.length > 0 && (
+          {sameArea && sameArea.companies.length > 0 && area && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                Doanh nghiệp khác tại{" "}
+                {sameArea.scope === "district" ? area.district?.name : sameArea.scope === "ward" ? area.ward?.name : `${area.ward?.name} và ${area.district?.name}`}
+              </h2>
+              <CompanyCards items={sameArea.companies} />
+              {(wardHref || districtHref) && (
+                <div className={`${styles.actions} ${styles.hubLink}`}>
+                  {wardHref && wardNode && (
+                    <Link href={wardHref} className={styles.moreLink}>
+                      Tất cả {wardNode.companies.length.toLocaleString("vi-VN")} doanh nghiệp tại {wardNode.unit.name} →
+                    </Link>
+                  )}
+                  {districtHref && districtNode && (
+                    <Link href={districtHref} className={styles.moreLink}>
+                      Tất cả {districtNode.companies.length.toLocaleString("vi-VN")} doanh nghiệp tại {districtNode.unit.name} →
+                    </Link>
+                  )}
+                </div>
+              )}
+            </section>
+          )}
+
+          {primaryIndustry && ((sameIndustry && sameIndustry.companies.length > 0) || phapluat) && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>
+                Cùng ngành {primaryIndustry.code} - {primaryIndustry.name}
+                {sameIndustry && sameIndustry.companies.length > 0 && company?.province ? ` tại ${company.province}` : ""}
+              </h2>
+              {sameIndustry && sameIndustry.companies.length > 0 && (
+                <>
+                  <CompanyCards items={sameIndustry.companies} />
+                  <p className={styles.blockNote}>
+                    {sameIndustry.total.toLocaleString("vi-VN")} doanh nghiệp khác{company?.province ? ` tại ${company.province}` : ""} có cùng ngành nghề chính trong dữ
+                    liệu. <Link href={industryPath(primaryIndustry.code, primaryIndustry.name)}>Xem doanh nghiệp ngành này trên toàn quốc</Link>.
+                  </p>
+                </>
+              )}
+              {phapluat && (
+                <p className={styles.blockNote}>
+                  Mã {primaryIndustry.code} (hệ thống ngành 2018) tương ứng mã {phapluat.code} - {phapluat.name} trong hệ thống ngành kinh tế 2025. Xem nội
+                  dung mã ngành này trên <a href={phapluat.url}>Cẩm nang pháp luật</a>.
+                </p>
+              )}
+            </section>
+          )}
+
+          {!(sameArea && sameArea.companies.length > 0) && nearby.length > 0 && (
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Doanh nghiệp lân cận{company?.province ? ` tại ${company.province}` : ""}</h2>
               <ul className={styles.nearby}>
