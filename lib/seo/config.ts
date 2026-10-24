@@ -6,6 +6,8 @@ export const SEO_CONFIG = {
   taxonomyMinCompanies: 10,
   /** Province × industry landing pages are far more numerous, so they need more substance. */
   provinceIndustryMinCompanies: 30,
+  /** District / ward hubs (/tinh/<province>/<district>[/<ward>]) list indexable companies only; below this they are noindex and unlinked. */
+  areaMinCompanies: 5,
   /** Pages of "new companies" are only indexed when the list is not trivially short. */
   newCompaniesMin: 10,
   /** How many companies appear on the homepage / new-companies hub. */

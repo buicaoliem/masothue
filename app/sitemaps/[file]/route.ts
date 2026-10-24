@@ -5,7 +5,8 @@ import { GUIDES } from "@/lib/guides";
 import { isStatsPageIndexable, isTaxonomyPageIndexable } from "@/lib/seo/indexability";
 import { SEO_CONFIG } from "@/lib/seo/config";
 import { STATUS_PAGES } from "@/lib/seo/taxonomy";
-import { guidePath, industryPath, legalFormPath, newCompaniesPath, provinceIndustryPath, provincePath, statsPath, statusPath } from "@/lib/seo/urls";
+import { getProvinceAreaIndex, linkableDistricts, linkableWards } from "@/lib/area-index";
+import { areaPath, guidePath, industryPath, legalFormPath, newCompaniesPath, provinceIndustryPath, provincePath, statsPath, statusPath } from "@/lib/seo/urls";
 import {
   buildUrlset,
   companyLastmod,
@@ -59,6 +60,18 @@ async function pathsFor(section: SitemapSection): Promise<string[]> {
         if (isStatsPageIndexable()) paths.push(statsPath(provinceSlug));
         const fresh = await getNewCompanies({ provinceSlug, limit: 1 });
         if (isTaxonomyPageIndexable({ kind: "new-companies", total: fresh.total })) paths.push(newCompaniesPath(provinceSlug));
+      }
+      return paths;
+    }
+    case "areas": {
+      // District / ward hubs: same isAreaHubLinkable threshold as the page robots meta (isTaxonomyPageIndexable "area").
+      const counts = await listProvinceCounts();
+      const paths: string[] = [];
+      for (const { provinceSlug } of counts.sort((a, b) => a.provinceSlug.localeCompare(b.provinceSlug))) {
+        for (const d of linkableDistricts(await getProvinceAreaIndex(provinceSlug))) {
+          paths.push(areaPath(provinceSlug, d.unit.slug));
+          for (const w of linkableWards(d)) paths.push(areaPath(provinceSlug, d.unit.slug, w.unit.slug));
+        }
       }
       return paths;
     }

@@ -3,6 +3,9 @@ import Link from "next/link";
 import { DIRECTORY_GROUPS } from "@/lib/directory";
 import { getGroupCountsNationwide, getProvinceSlugsWithAnyProfile } from "@/lib/directory-web";
 import { PROVINCES } from "@/pipeline/province";
+import { topDistrictHubs } from "@/lib/area-index";
+import { areaPath } from "@/lib/seo/urls";
+import { listProvinceCounts } from "@/lib/taxonomy-data";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { GroupsGrid } from "./GroupsGrid";
 import siteStyles from "../components/site.module.css";
@@ -21,7 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DirectoryHomePage() {
-  const [counts, provinceSlugs] = await Promise.all([getGroupCountsNationwide(), getProvinceSlugsWithAnyProfile()]);
+  const [counts, provinceSlugs, districts] = await Promise.all([
+    getGroupCountsNationwide(),
+    getProvinceSlugsWithAnyProfile(),
+    listProvinceCounts().then((c) => topDistrictHubs(c.map((p) => p.provinceSlug), 24)),
+  ]);
 
   const groups = DIRECTORY_GROUPS.map((g) => ({ slug: g.slug, label: g.label, count: counts.get(g.slug) ?? 0 }));
   const provinceSet = new Set(provinceSlugs);
@@ -47,6 +54,19 @@ export default async function DirectoryHomePage() {
         </section>
       ) : (
         <p className={siteStyles.empty}>Danh bạ chưa có doanh nghiệp nào. Doanh nghiệp có thể tự thêm hồ sơ miễn phí.</p>
+      )}
+
+      {districts.length > 0 && (
+        <section className={siteStyles.section}>
+          <h2 className={siteStyles.sectionTitle}>Tra cứu mã số thuế theo quận, huyện</h2>
+          <div className={siteStyles.chips}>
+            {districts.map((d) => (
+              <Link key={`${d.provinceSlug}/${d.district.slug}`} href={areaPath(d.provinceSlug, d.district.slug)} className={siteStyles.chip}>
+                {d.district.name}, {PROVINCES.find((p) => p.slug === d.provinceSlug)?.displayName} ({d.count.toLocaleString("vi-VN")})
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
     </main>
   );

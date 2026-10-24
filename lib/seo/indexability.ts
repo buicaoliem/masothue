@@ -65,7 +65,7 @@ export function isCompanyProfileIndexable(c: CompanyLike, opts: { hasApprovedPro
 /** /thong-ke/* statistics pages. Province stats additionally need the usual taxonomy substance. */
 export const isStatsPageIndexable = () => SEO_CONFIG.indexStatsPages;
 
-export type TaxonomyKind = "province" | "industry" | "legal-form" | "status" | "province-industry" | "new-companies";
+export type TaxonomyKind = "province" | "industry" | "legal-form" | "status" | "province-industry" | "new-companies" | "area";
 
 const MIN: Record<TaxonomyKind, number> = {
   province: SEO_CONFIG.taxonomyMinCompanies,
@@ -74,6 +74,7 @@ const MIN: Record<TaxonomyKind, number> = {
   status: SEO_CONFIG.taxonomyMinCompanies,
   "province-industry": SEO_CONFIG.provinceIndustryMinCompanies,
   "new-companies": SEO_CONFIG.newCompaniesMin,
+  area: SEO_CONFIG.areaMinCompanies,
 };
 
 export type TaxonomyPageData = { kind: TaxonomyKind; total: number; page?: number };
