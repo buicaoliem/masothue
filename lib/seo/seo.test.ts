@@ -158,6 +158,8 @@ test("robots.txt declares the sitemap index and does not block search or assets"
   const rules = Array.isArray(r.rules) ? r.rules : [r.rules];
   const disallow = rules.flatMap((x) => (Array.isArray(x.disallow) ? x.disallow : x.disallow ? [x.disallow] : []));
   assert.ok(!disallow.some((d) => /tim-kiem|search|_next/.test(d)), "noindex routes must stay crawlable");
+  assert.ok(disallow.includes("/*?_rsc=") && disallow.includes("/*&_rsc="), "RSC payload fetches must not spend crawl budget");
+  assert.ok(!disallow.some((d) => /^\/(\d|tinh|nganh|cong-cu)/.test(d) || d === "/"), "pages must stay crawlable");
 });
 
 test("index policy: rich company page is indexed, thin one is noindex", () => {

@@ -35,6 +35,8 @@ const CACHED_PATHS = [
   "/thong-ke/:province",
   "/tinh/:slug",
   "/tinh/:slug/nganh/:industry",
+  "/tinh/:slug/:area",
+  "/tinh/:slug/:area/:ward",
   "/trang-thai",
   "/trang-thai/:slug",
   "/trang-thai/mst/:slug",
@@ -72,6 +74,16 @@ const nextConfig: NextConfig = {
       { source: "/doanh-nghiep-moi", headers: CDN(CDN_LIST) },
       { source: "/doanh-nghiep-moi/:province", headers: CDN(CDN_LIST) },
       { source: "/danh-ba/:group/:province", headers: CDN(CDN_LIST) },
+      // RSC payloads (client navigation / prefetch, sent with the `RSC: 1` header) are not pages. Cloudflare ignores
+      // `Vary: RSC`, so a payload requested WITHOUT Next's `_rsc` cache-buster would be cached under the page URL and then
+      // served to Googlebot and visitors as the page itself: never cache those. Last in the list so it wins.
+      { source: "/:path*", has: [{ type: "header", key: "rsc" }], headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+      {
+        source: "/:path*",
+        has: [{ type: "header", key: "rsc" }],
+        missing: [{ type: "query", key: "_rsc" }],
+        headers: [{ key: "Cache-Control", value: "private, no-store" }, ...CDN("no-store")],
+      },
     ];
   },
   async redirects() {
